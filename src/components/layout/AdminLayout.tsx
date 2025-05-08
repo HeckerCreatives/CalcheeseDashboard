@@ -114,8 +114,12 @@ export default function Adminlayout({
   return (
     <div className=' w-full flex flex-col items-center h-screen'>
 
-      <div className=' relative z-40 w-full flex items-center justify-center bg-[#fcf7eb] border-b-2 border-orange-100'>
-        <nav className=' px-4 w-full max-w-[1740px] h-[70px] md:h-[100px] flex items-center justify-between bg-[#fcf7eb] relative'>
+      <div className=' relative z-40 w-full flex items-center justify-center  border-b-2 border-orange-100'
+      >
+        <nav className=' px-4 w-full max-w-[1920px] h-[70px] md:h-[100px] flex items-center justify-between bg-[#fcf7eb] relative'
+        
+      style={{backgroundImage: "url(/navbg.png)", backgroundSize:'cover', backgroundRepeat:'no-repeat'}}
+      >
             <div>
                 <h2 className=' text-lg font-bold'>
                  <img src="/logo.png" alt="" width={90} className='md:w-[90px] w-[70px]' />
@@ -125,11 +129,11 @@ export default function Adminlayout({
 
             <div className=' hidden  lg:flex items-center rounded-md shadow-sm p-1 bg-orange-100'>
                 {admin.map((item, index) => (
-                  <>
+                  <div key={index}>
                   {item.subpath.length === 0 ? (
                     <a key={index} href={item.path} className={` flex items-center gap-1 px-4 py-3 text-[.8rem] rounded-md font-medium ${path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'}`}>{item.icon}{item.name}</a>
                   ) : (
-                    <NavigationMenu className=' w-full'>
+                    <NavigationMenu key={index} className=' w-full'>
                     <NavigationMenuList className=' w-fit'>
                       <NavigationMenuItem>
                         <NavigationMenuTrigger className={` text-[.8rem] flex gap-2 cursor-pointer ${path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'}`}>{item.icon}{item.name}</NavigationMenuTrigger>
@@ -144,7 +148,7 @@ export default function Adminlayout({
                     </NavigationMenuList>
                   </NavigationMenu>
                   )}
-                  </>
+                  </div>
                 ))}
 
                
@@ -195,12 +199,12 @@ export default function Adminlayout({
                   {item.subpath.length === 0 ? (
                     <a key={index} href={item.path} className={` flex items-center gap-1 px-4 py-3 text-[.8rem] rounded-md font-medium ${path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'}`}>{item.icon}{item.name}</a>
                   ) : (
-                    <Accordion type="single" collapsible>
+                    <Accordion key={index} type="single" collapsible>
                     <AccordionItem value="item-1">
                       <AccordionTrigger className={` px-4 text-[.8rem] flex gap-2 cursor-pointer ${path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'}`}><p className=' flex items-center gap-2'>{item.icon}{item.name}</p></AccordionTrigger>
                       <AccordionContent className=' px-6 py-2 flex flex-col gap-4'>
                         {item.subpath.map((sub, index) => (
-                          <Link className={`text-xs flex items-center  ${path.includes(sub.path) ? 'text-orange-500' : 'text-black hover:bg-zinc-100 gap-2'}`} href={sub.path}>
+                          <Link key={index} className={`text-xs flex items-center  ${path.includes(sub.path) ? 'text-orange-500' : 'text-black hover:bg-zinc-100 gap-2'}`} href={sub.path}>
                             <p className=' '>{sub.icon}</p>
                             {sub.name}</Link>
                           ))}
@@ -221,18 +225,16 @@ export default function Adminlayout({
             </div>
 
         </nav>
-      </div>
-        
+      </div>        
 
         <div className=" w-full relative h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden"
-         style={{backgroundImage: "url(/hero2.png)", backgroundSize:'cover', backgroundRepeat:'no-repeat'}}
         >
 
           <div className=' w-full h-screen bg-[#faf5e8] fixed top-0 '>
 
           </div>
         
-          <main className=" px-4 w-full max-w-[1740px]  relative flex flex-1 flex-col items-center gap-4  p-6">
+          <main className=" px-4 w-full max-w-[1920px]  relative flex flex-1 flex-col items-center gap-4  p-6">
               {children}
           </main>
         </div>

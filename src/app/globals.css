@@ -44,6 +44,7 @@
 }
 
 :root {
+  --font-spenbeb: 'Spenbeb';
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -76,6 +77,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+}
+
+@layer utilities {
+  .font-spenbeb {
+    font-family: var(--font-spenbeb), sans-serif;
+  }
 }
 
 .dark {
@@ -131,7 +138,7 @@
 }
 
 .primary-btn{
-  @apply bg-gradient-to-r from-orange-500 to-orange-400 px-4 py-2 text-xs text-white rounded-md
+  @apply bg-gradient-to-r from-blue-600 to-blue-400 px-4 py-2 text-xs text-white rounded-md
 }
 
 .ghost-btn{
@@ -141,3 +148,54 @@
 .danger-btn{
   @apply bg-red-600 px-4 py-2 text-xs text-white rounded-md
 }
+
+.outlined-text {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgb(224, 0, 0);
+}
+
+.item1 {
+  animation: float 5s infinite ease-in-out;
+}
+
+.item2 {
+ 
+  animation: float 3s infinite ease-in-out;
+}
+
+.item3 {
+ 
+  animation: float 4s infinite ease-in-out;
+}
+
+.item4 {
+ 
+  animation: float 2s infinite ease-in-out;
+}
+
+.item5 {
+ 
+  animation: float 6s infinite ease-in-out;
+}
+
+.item6 {
+ 
+  animation: float 7s infinite ease-in-out;
+}
+
+
+/* Keyframes for the bounce effect */
+@keyframes float {
+  0% {
+      transform: translateY(0);
+  }
+
+  50% {
+      transform: translateY(-20px);
+  }
+
+  100% {
+      transform: translateY(0);
+  }
+}
+

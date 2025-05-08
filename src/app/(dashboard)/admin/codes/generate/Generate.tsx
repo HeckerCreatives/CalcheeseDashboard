@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import {
     Table,
@@ -10,102 +11,56 @@ import {
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
 import { Scan, Search } from 'lucide-react'
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/dialog"
-  import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
+import { useGetChests } from '@/apis/codes'
+import Loader from '@/components/common/Loader'
+
   
   
   
 export default function Generate() {
+    const {data, isLoading} = useGetChests()
+
+    console.log(data)
   return (
-    <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
+    <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-4'>
         <div className=' flex items-center gap-4'>
-            <div className=' relative w-fit flex items-center justify-center'>
+            {/* <div className=' relative w-fit flex items-center justify-center'>
                 <Search size={15} className=' absolute left-2'/>
                 <Input placeholder='Search' className=' w-fit pl-7'/>
 
-            </div>
+            </div> */}
 
-            <Dialog>
-            <DialogTrigger className=' cursor-pointer px-4 py-2 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm'><Scan size={15}/>Generate</DialogTrigger>
-            <DialogContent className=' w-[95%] md:max-w-[500px] bg-yellow-50'>
-                <DialogHeader>
-                <DialogTitle className=' flex items-center gap-2'>Generate
-                    <span className="text-orange-500">
-                       Codes
-                    </span>
-                </DialogTitle>
-                <DialogDescription>
-                   
-                </DialogDescription>
-                </DialogHeader>
-                <form action="" className=' flex flex-col gap-4'>
-
-                    <div className=' w-full flex flex-col gap-1'>
-                        <label htmlFor="" className=' text-xs text-zinc-400'>Chest Type</label>
-                        <Select>
-                        <SelectTrigger className=" w-full">
-                            <SelectValue placeholder="Chest Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="light">Type</SelectItem>
-                            
-                        </SelectContent>
-                        </Select>
-                    </div>
-
-                    <div className=' w-full flex flex-col gap-1'>
-                        <label htmlFor="" className=' text-xs text-zinc-400'>Quantity</label>
-                        <Input placeholder='Quantity' type='number'/>
-                    </div>
-
-                    <div className=' w-full flex flex-col gap-1'>
-                        <label htmlFor="" className=' text-xs text-zinc-400'>Expiration</label>
-                        <Input placeholder='Expiration' type='date'/>
-                    </div>
-
-                    <div className=' w-full flex items-end justify-end gap-2'>
-                        <button className='primary-btn'>Save</button>
-                        <button className='ghost-btn'>Cancel</button>
-                    </div>
-                  
-
-
-                </form>
-            </DialogContent>
-            </Dialog>
+          <GenerateCodesForm/>
 
         </div>
        
         <Table className=' text-sm mt-8'>
-        <TableCaption>No data</TableCaption>
+            {data?.data.length === 0 && (
+                <TableCaption>No data</TableCaption>
+            )}
+
+            {isLoading && (
+                <TableCaption><Loader type={'loader-secondary'}/></TableCaption>
+            ) }
         <TableHeader>
         <TableRow>
-            <TableHead className="">Category</TableHead>
-            <TableHead>Ticket Type</TableHead>
-            <TableHead>Ticket Name</TableHead>
-            <TableHead className="">Action</TableHead>
+            <TableHead className="">Chest Name</TableHead>
+            <TableHead>Chest Type</TableHead>
+            <TableHead>Total Codes</TableHead>
+            <TableHead className="">Created at</TableHead>
         </TableRow>
         </TableHeader>
         <TableBody>
-        <TableRow>
-            {/* <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell> */}
-        </TableRow>
+            {data?.data.map((item, index) => (
+                <TableRow key={index} className=' text-xs'>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell className=' uppercase'>{item.type}</TableCell>
+                    <TableCell className=' uppercase'>{item.totalCodes.toLocaleString()}</TableCell>
+                    <TableCell className="">{new Date(item.createdAt).toDateString()}</TableCell>
+                </TableRow>
+            ))}
+       
         </TableBody>
     </Table>
     </div>

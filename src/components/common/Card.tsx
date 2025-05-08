@@ -14,6 +14,7 @@ interface CardProps {
     value: number
     bgColor: string
     textColor: string
+    isLoading: boolean
   }
 export default function DashboardCard( prop: CardProps) {
 
@@ -22,7 +23,11 @@ export default function DashboardCard( prop: CardProps) {
     <div className={`rounded-lg p-6 ${prop.bgColor} ${prop.textColor} flex items-center justify-between`}>
         <div className=' flex flex-col gap-2'>
             <h3 className="font-medium text-sm mb-2">{prop.title}</h3>
-            <p className="text-4xl font-bold">{prop.value}</p>
+            {prop.isLoading ? (
+            <p className="text-4xl font-bold">---</p>
+            ) : (
+            <p className="text-4xl font-bold">{prop.value.toLocaleString()}</p>
+            )}
         </div>
 
         <div>
