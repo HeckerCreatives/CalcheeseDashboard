@@ -181,7 +181,7 @@ export default function MiniGames() {
         {/* <h2 className=' text-sm mt-4'>Minigames List</h2> */}
        
        
-        <div className=' w-full grid grid-cols-3 gap-4 mt-8'>
+        <div className=' w-full grid grid-cols-2 lg:grid-cols-3 gap-4 mt-8'>
             {data?.data.map((item, index) => (
                 <div key={item.id} className=' w-full aspect-video flex items-center justify-center bg-white relative'>
                     <div className=' absolute top-2 right-2 flex items-center gap-2'>

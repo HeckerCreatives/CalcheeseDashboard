@@ -54,7 +54,7 @@ export default function Rewardtype() {
 
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
-        <div className=' flex items-center gap-4'>
+        <div className=' flex flex-wrap items-center gap-4'>
             <div className=' relative w-fit flex items-center justify-center'>
                 <Search size={15} className=' absolute left-2'/>
                 <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Robux code' className=' w-fit pl-7'/>

@@ -52,7 +52,7 @@ export default function Socials() {
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
         <h2 className=' text-lg font-bold'>Social Medias</h2>
        
-        <div className=' w-full grid grid-cols-3 gap-4 mt-8'>
+        <div className=' w-full grid grid-cols-1 md:grid-cols-2 lg::grid-cols-3 gap-4 mt-8'>
             {data?.data.map((item, index) => (
                 <div key={item._id} className=' w-full aspect-video flex flex-col gap-6 items-center justify-center bg-amber-100 relative p-6'>
                     <div className=' absolute top-2 right-2 flex items-center gap-2'>

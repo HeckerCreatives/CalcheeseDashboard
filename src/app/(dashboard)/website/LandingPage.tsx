@@ -26,11 +26,11 @@ export default function LandingPage() {
 
         <div className=' relative w-full'>
             <img src="/assets/Top TAB.png" alt="tab" className='  w-full absolute' />
-            <img src="/assets/CalCheese World Logo.png" alt="logo" width={300} className=' w-[150px] lg:w-[300px] relative z-50 top-4 md:top-10 left-10'/>
+            <img src="/assets/CalCheese World Logo.png" alt="logo" width={300} className=' w-[150px] lg:w-[300px] relative z-50 top-4 md:top-10 left-4  md:left-10 '/>
 
         </div>
 
-        <div className=' w-full xl:h-[105vh] lg:h-[120vh] h-screen grid grid-cols-1 lg:grid-cols-[1fr_35%] p-1 md:p-4 xl:mt-0 lg:mt-24'>
+        <div className=' w-full xl:h-[105vh] lg:h-[120vh] h-[102vh] grid grid-cols-1 lg:grid-cols-[1fr_35%] p-1 md:p-4 xl:mt-0 lg:mt-24 pb-10'>
 
         <div className=' w-full h-full  '>
             <div className=' w-full h-full relative flex items-center justify-center'>
@@ -72,7 +72,7 @@ export default function LandingPage() {
 
                     </div>
 
-                    <div className="lg:hidden absolute z-30 bottom-0 mb-10 flex items-center justify-center gap-4 lg:gap-6 translate-y-24">
+                    <div className="lg:hidden absolute z-30 bottom-0 mb-10 flex items-center justify-center gap-4 lg:gap-6 translate-y-8">
                         {tabs.map((item, index) => {
                             const yOffsets = ['-translate-y-6', '-translate-y-2', 'translate-y-0', '-translate-y-2', '-translate-y-6']; // Arc pattern
                             return (
