@@ -199,3 +199,65 @@
   }
 }
 
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
+
+  .loader-secondary {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff9c1b;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+  
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  } 
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px; /* for horizontal scrollbars */
+  }
+  
+  /* Style the track (background) */
+  ::-webkit-scrollbar-track {
+    background: #ffdfba;
+  }
+  
+  /* Style the thumb (draggable part) */
+  ::-webkit-scrollbar-thumb {
+    background: #ff9737;
+    border-radius: 4px;
+  }
+  
+  /* On hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+

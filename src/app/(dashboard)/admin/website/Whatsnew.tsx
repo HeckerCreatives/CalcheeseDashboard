@@ -11,27 +11,8 @@ import {
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
 import { CircleHelp, ListFilter, Pen, Plus, Scan, Search, Trash } from 'lucide-react'
-import CreateRobuxCodeForm from '@/components/forms/CreateRobuxCode'
-import { useGetRobuxList } from '@/apis/robux'
-import PaginitionComponent from '@/components/common/Pagination'
 import Loader from '@/components/common/Loader'
-import EditRobuxCodeForm from '@/components/forms/EditRobuxCode'
-import DeleteRobuxCodeForm from '@/components/forms/DeleteRobuxCode'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
-import { useGetTicketList } from '@/apis/tickets'
-import CreateTicketCodeForm from '@/components/forms/CreateTicketCode'
-import EditTicketCodeForm from '@/components/forms/EditTicketCode'
-import DeleteTicketCodeForm from '@/components/forms/DeleteTicketCode'
-import statusColor from '@/lib/reusable'
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-  } from "@/components/ui/hover-card"
+
 import {
     Dialog,
     DialogContent,
@@ -42,18 +23,10 @@ import {
 } from "@/components/ui/dialog"
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button'
-import { useCreateMinigame, useDeleteMinigame, useEditMinigame, useGetMinigameList } from '@/apis/minigames'
 import toast from 'react-hot-toast'
 import { Textarea } from '@/components/ui/textarea'
 import { useCreateNewTab, useDeleteNews, useEditNews, usegetNewtab } from '@/apis/whatsnew'
-  
-
-
-const status =[
-    {value: '', name: 'All'},
-    {value: 'pending', name: 'Pending'},
-    {value: 'claimed', name: 'Claimed'},
-]
+import PaginitionComponent from '@/components/common/Pagination'
   
   
 export default function Whatsnew() {
@@ -62,6 +35,8 @@ export default function Whatsnew() {
     const [open2, setOpen2] = useState(false)
     const [open3, setOpen3] = useState(false)
     const [id, setId] = useState('')
+    const [currentPage, setCurrentpage] = useState(0)
+    const [totalpage, setTotalpage] = useState(0)
 
     const [preview, setPreview] = useState<string | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -143,6 +118,14 @@ export default function Whatsnew() {
         setDescription('')
     ),  [open])
 
+    const handlePageChange = (page: number) => {
+        setCurrentpage(page)
+      }
+    
+      useEffect(() => {
+        setTotalpage(data?.totalpages || 0)
+      },[data])
+
 
         
 
@@ -203,10 +186,9 @@ export default function Whatsnew() {
 
 
 
-        {/* <h2 className=' text-sm mt-4'>Minigames List</h2> */}
        
        
-        <div className=' w-full grid grid-cols-3 gap-4 mt-8'>
+        {/* <div className=' w-full grid grid-cols-3 gap-4 mt-8'>
             {data?.data.map((item, index) => (
                 <div key={item.id} className=' w-full aspect-video flex flex-col items-center justify-center bg-gray-100 relative p-1'>
                     <div className=' absolute top-2 right-2 flex items-center gap-2'>
@@ -301,7 +283,128 @@ export default function Whatsnew() {
             
 
            
-        </div>
+        </div> */}
+
+         <Table className=' mt-8 p-4 text-xs'>
+                    {data?.data.length === 0 && (
+                        <TableCaption>No data</TableCaption>
+        
+                    )}
+        
+                     {isLoading && (
+                        <TableCaption><Loader type={'loader-secondary'}/></TableCaption>
+                    ) }
+                <TableHeader>
+                <TableRow>
+                    <TableHead className="">Tab</TableHead>
+                    <TableHead className="">Image</TableHead>
+                    <TableHead className=" max-w-[300px] ">Description</TableHead>
+                    <TableHead className="">Action</TableHead>
+                </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {data?.data.map((item, index) => (
+                        <TableRow key={item.id}>
+                            <TableCell>{item.tab}</TableCell>
+                            <TableCell>
+                            <img src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.image}`} alt="" className=' w-[200px] ' />
+                            </TableCell>
+                            <TableCell className=''>
+                              <p className='max-w-[300px] text-xs whitespace-pre-wrap'>{item.description}</p>
+                            </TableCell>
+                            <TableCell className=''>
+                              <div className=' flex items-center gap-2'>
+                              <Dialog open={open2} onOpenChange={setOpen2}>
+                              <DialogTrigger className=' flex items-center justify-center gap-1 text-white w-fit bg-red-500 p-1 rounded-sm'>
+                                  <Trash size={15}/>
+                              </DialogTrigger>
+                              <DialogContent className="p-6 bg-yellow-50">
+                                  <DialogHeader>
+                                  <DialogTitle>Delete News</DialogTitle>
+                                  <DialogDescription>Are you sure you want to delete this news?</DialogDescription>
+                                  </DialogHeader>
+
+                                  <div className=' flex items-end justify-end'>
+                                      <Button disabled={isPending} onClick={() => deletenewsdata(item.id)}>
+                                          {isPending && (
+                                              <Loader type={'loader'}/>
+                                          )}
+                                          Continue</Button>
+
+                                  </div>
+                              </DialogContent>
+                              </Dialog>
+
+                              <Dialog open={open3} onOpenChange={setOpen3}>
+                              <DialogTrigger onClick={() =>{ setCurrentPreview(item.image), setId(item.id), setTab(item.tab),setDescription(item.description)}} className=' flex items-center justify-center gap-1 text-white w-fit bg-orange-500 p-1 rounded-sm'>
+                                  <Pen size={15}/>
+                              </DialogTrigger>
+                              <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1">
+                                  <DialogHeader>
+                                  <DialogTitle>Edit News</DialogTitle>
+                                  <DialogDescription>Fill out the form below.</DialogDescription>
+                                  </DialogHeader>
+
+                                  <label htmlFor="" className=' text-xs mt-4'>Tab</label>
+                                  <Input placeholder='Tab' type='text' value={tab} onChange={(e) => setTab(e.target.value)}/>
+
+                                  <label htmlFor="" className=' text-xs mt-2'>Description</label>
+                                  <Textarea placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)}/>
+
+
+                                  <div
+                                  {...getRootProps()}
+                                  className={`mt-4 border-2 border-dashed p-6 text-center rounded-md cursor-pointer transition text-xs ${
+                                      isDragActive ? 'border-orange-500 bg-orange-100' : 'border-gray-300'
+                                  }`}
+                                  >
+                                  <input {...getInputProps()} />
+                                  {
+                                      isDragActive ?
+                                      <p>Drop the image here...</p> :
+                                      <p>Drag 'n' drop an image file here, or click to select one</p>
+                                  }
+                                  </div>
+
+                                
+                                  <div className="mt-4">
+                                      <p className="text-sm text-gray-600 mb-1">Preview:</p>
+                                      <img
+                                          src={
+                                          preview
+                                              ? preview
+                                              : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${currentPreview}`
+                                          }
+                                          alt="Thumbnail Preview"
+                                          className="w-full max-h-60 object-contain border rounded-md"
+                                      />
+                                  </div>
+                              
+
+                                  <div className=' flex items-end justify-end'>
+                                      <Button disabled={isPending} onClick={() => editNewsData()}>
+                                          {isPending && (
+                                              <Loader type={'loader'}/>
+                                          )}
+                                      Save</Button>
+
+                                  </div>
+                              </DialogContent>
+                              </Dialog>
+                              </div>
+                              
+
+                            </TableCell>
+                          
+                        </TableRow>
+                    ))}
+                
+                </TableBody>
+            </Table>
+        
+            {data?.data.length !== 0 && (
+                <PaginitionComponent currentPage={currentPage} total={totalpage} onPageChange={handlePageChange }/>
+             )}
     </div>
     
   

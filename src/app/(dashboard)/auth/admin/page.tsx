@@ -2,8 +2,7 @@ import { LoginForm } from "@/components/forms/login";
 import Image from "next/image";
 export default function Home() {
   return (
-
-     <div className="grid min-h-svh lg:grid-cols-2 bg-[#fcf7eb]">
+     <div className="grid min-h-svh lg:grid-cols-2 bg-[#fcf7eb] w-full">
      <div className="flex flex-col gap-4 p-6 md:p-10">
        <div className="flex justify-center gap-2 md:justify-start">   
        </div>

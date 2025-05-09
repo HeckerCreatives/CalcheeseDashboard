@@ -17,18 +17,19 @@ export interface ImageSectionResponse {
     image: string; 
   }
   
-export const getMinigameList = async (): Promise<ImageSectionResponse> => { 
+export const getMinigameList = async (filter: string,limit: number): Promise<ImageSectionResponse> => { 
     const response = await axiosInstance.get(
       "/section/getimagesections",
+      {params: {filter, limit}}
     );
     return response.data
   };
   
   
-export const useGetMinigameList = () => {
+export const useGetMinigameList = (filter: string, limit: number) => {
     return useQuery({
-      queryKey: ["randomminigames"],
-      queryFn: () => getMinigameList(),
+      queryKey: ["randomminigames", filter, limit],
+      queryFn: () => getMinigameList(filter, limit),
       staleTime: 5 * 60 * 1000,
       refetchOnMount: false, 
       refetchOnWindowFocus: false,
@@ -104,7 +105,7 @@ export const createMinigame = async (image: File | null, section: string) => {
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["minigames"] });
+            queryClient.invalidateQueries({ queryKey: ["randomminigames"] });
           }
     
     });
@@ -127,7 +128,7 @@ export const createMinigame = async (image: File | null, section: string) => {
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["minigames"] });
+            queryClient.invalidateQueries({ queryKey: ["randomminigames"] });
           }
     
     });
@@ -149,7 +150,7 @@ export const createMinigame = async (image: File | null, section: string) => {
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["minigames"] });
+            queryClient.invalidateQueries({ queryKey: ["randomminigames"] });
           }
     
     });

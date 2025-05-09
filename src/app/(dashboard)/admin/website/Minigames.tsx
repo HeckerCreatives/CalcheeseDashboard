@@ -64,7 +64,7 @@ export default function MiniGames() {
     const [preview, setPreview] = useState<string | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [currentPreview, setCurrentPreview] = useState('');
-    const {data, isLoading} = useGetMinigameList()
+    const {data, isLoading} = useGetMinigameList('minigame', 9999)
     const {mutate: deleteMinigame} = useDeleteMinigame()
     const {mutate: editMinigame} = useEditMinigame()
 
@@ -101,7 +101,7 @@ export default function MiniGames() {
     }
 
     const deleteMinigameImage = (data: string) => {
-            deleteMinigame({id: data},{
+            deleteMinigame({id: id},{
                 onSuccess: () => {
                   toast.success(`Mini Game Thumbnail deleted.`);
                   setOpen2(false)
@@ -186,7 +186,7 @@ export default function MiniGames() {
                 <div key={item.id} className=' w-full aspect-video flex items-center justify-center bg-white relative'>
                     <div className=' absolute top-2 right-2 flex items-center gap-2'>
                     <Dialog open={open2} onOpenChange={setOpen2}>
-                    <DialogTrigger className=' flex items-center justify-center gap-1 text-white w-fit bg-red-500 p-1 rounded-sm'>
+                    <DialogTrigger onClick={() =>{ setCurrentPreview(item.image), setId(item.id)}} className=' flex items-center justify-center gap-1 text-white w-fit bg-red-500 p-1 rounded-sm'>
                         <Trash size={15}/>
                     </DialogTrigger>
                     <DialogContent className="p-6 bg-yellow-50">
