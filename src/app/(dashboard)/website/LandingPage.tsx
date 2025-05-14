@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import FloatImage from '@/components/animations/FloatImage'
 import RevealOnScroll from '@/components/animations/RevealOnScroll'
 import TrackedImage from '@/components/animations/TrackedImage'
+import Preloadmain from './Preload'
 
 const tabs = [
   { icon: "/assets/Description BUTTON.png", value: "description", title: 'Welcome To CalCheese World' },
@@ -52,32 +53,7 @@ export default function LandingPage() {
 
 
   return (
-    <>
-     {!enter ? (
-         <div className='w-full h-screen bg-white flex flex-col items-center justify-center gap-12 cursor-pointer' onClick={() => progress === 100 && setEnter(true)}>
-          <img src="/assets/CalCheese World Logo.png" alt="logo" width={300} className='w-[150px] lg:w-[300px]' />
-
-          <div className=' flex flex-col items-center justify-center gap-4'>
-            {progress < 100 && (
-                <div className='w-[300px] h-3 bg-gray-300 rounded-full overflow-hidden'>
-                    <div
-                    className='h-full bg-blue-500 transition-all duration-300'
-                    style={{ width: `${progress}%` }}
-                    />
-                </div>
-            )}
-            
-
-            <p className={`text-sm font-spenbeb ${progress < 100 ? 'text-gray-400' : 'text-blue-400 animate-pulse'}`}>
-                {progress < 100 ? `Loading... ${Math.round(progress)}%` : 'Click anywhere to enter'}
-            </p>
-          </div>
-
-          
-        </div>
-
-    ) : (
-        <main className=' relative w-full max-w-[1920px] h-auto bg-white overflow-x-hidden overflow-y-hidden  text-amber-900'
+    <main className=' relative w-full max-w-[1920px] h-auto bg-white overflow-x-hidden overflow-y-hidden  text-amber-900'
     // style={{backgroundImage: "url('/assets/BG.png')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'contain'}}
     
     >
@@ -96,7 +72,7 @@ export default function LandingPage() {
 
         <div className=' w-full xl:h-[105vh] lg:h-[120vh] h-[102vh] grid grid-cols-1 lg:grid-cols-[1fr_35%] p-1 md:p-4 xl:mt-0 lg:mt-24 pb-10'>
 
-            <RevealOnScroll className=' w-full' delay={.4}>
+            <RevealOnScroll className=' w-full' delay={.6}>
                 <div className=' w-full h-full  '>
                 <div className=' w-full h-full relative flex items-center justify-center'>
 
@@ -208,7 +184,7 @@ export default function LandingPage() {
                 </div>
             </RevealOnScroll>
             
-            {/* <RevealOnScroll className='' delay={.8}> */}
+            <RevealOnScroll className='' delay={1}>
                 <div className=' relative lg:block hidden w-full '>
 
                     <RevealOnScroll delay={.2}>
@@ -220,11 +196,9 @@ export default function LandingPage() {
               
                 
                 <div className=' relative w-full h-screen container '>
-                     <RevealOnScroll className='z-10 absolute' delay={.4}>
-                        <FloatImage className=' z-10 absolute bottom-32 left-0 -translate-x-24 item6'  hoverRange={15} floatRange={15} duration={6}>
+                        <FloatImage className=' z-10 absolute bottom-32 left-0 -translate-x-24 item6'>
                             <img src="/assets/Wafer.png" alt="tab" width={500} className=' '/>
                         </FloatImage>
-                    </RevealOnScroll>
                        
 
                         <FloatImage className=' z-10 absolute top-[12%] right-[40%] transition-all ' duration={7}>
@@ -254,13 +228,10 @@ export default function LandingPage() {
 
                 </div>
                 </div>
-            {/* </RevealOnScroll> */}
+            </RevealOnScroll>
        
         </div>
     </main>
-    )}
-    
-    </>
-   
+
   )
 }
