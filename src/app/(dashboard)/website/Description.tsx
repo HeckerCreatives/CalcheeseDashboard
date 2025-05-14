@@ -19,7 +19,7 @@ export default function Description() {
            <div className=' w-full grid grid-cols-2 md:grid-cols-3 gap-4 mt-8'>
             {data?.data.map((item, index) => (
               <div key={item.id} className=' relative flex items-center justify-center w-full h-[100px] md:h-[200px] rounded-2xl bg-gray-300 border-white border-4 overflow-hidden'
-                style={{backgroundImage: `url('${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.image}')` , backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}
+                style={{backgroundImage: `url('${process.env.NEXT_PUBLIC_API_URL}uploads/${item.image}')` , backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}
                 >
               </div>
             ))}
