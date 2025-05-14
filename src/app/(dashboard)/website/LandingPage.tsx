@@ -166,7 +166,7 @@ export default function LandingPage() {
 
                     <RevealOnScroll delay={.2}>
                         <FloatImage className=' z-40 absolute right-0 top-32 ' hoverRange={15} floatRange={15} duration={5} >
-                            <img src="/assets/Calvin.png" alt="tab" width={500} className='' />
+                            <Image src="/assets/Calvin.png" alt="tab"  width={500} height={500} priority unoptimized loading='eager' className='' />
                         </FloatImage>
                     </RevealOnScroll>
                     
@@ -174,32 +174,32 @@ export default function LandingPage() {
                 
                 <div className=' relative w-full h-screen container '>
                         <FloatImage className=' z-10 absolute bottom-32 left-0 -translate-x-24 item6'>
-                            <img src="/assets/Wafer.png" alt="tab" width={500} className=' '/>
+                            <Image src="/assets/Wafer.png" alt="tab"  width={500} height={500} priority unoptimized loading='eager' className=' '/>
                         </FloatImage>
                        
 
                         <FloatImage className=' z-10 absolute top-[12%] right-[40%] transition-all ' duration={7}>
-                            <img src="/assets/Floating Triangle TOP/Triangle B.png" alt="tab" width={80} />
+                            <Image src="/assets/Floating Triangle TOP/Triangle B.png"  alt="tab"  width={80} height={80} priority unoptimized loading='eager' />
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute top-[17%] right-[10%] transition-all ' duration={8}>
-                            <img src="/assets/Floating Triangle TOP/Triangle E.png" alt="tab" width={50}  />
+                            <Image src="/assets/Floating Triangle TOP/Triangle E.png" alt="tab" width={50} height={50} priority unoptimized loading='eager'/>
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute top-[25%] left-[25%] transition-all ' duration={6}>
-                        <img src="/assets/Floating Triangle TOP/Triangle A.png" alt="tab" width={50} />
+                        <Image src="/assets/Floating Triangle TOP/Triangle A.png" alt="tab" width={50} height={50} priority unoptimized loading='eager' />
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute top-[40%] left-[10%] transition-all ' duration={9}>
-                        <img src="/assets/Floating Triangle TOP/Triangle D.png" alt="tab" width={100} />
+                        <Image src="/assets/Floating Triangle TOP/Triangle D.png" alt="tab" width={100} height={100} priority unoptimized loading='eager' />
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute bottom-[30%] right-[2%] transition-all ' duration={6} >
-                            <img src="/assets/Floating Triangle TOP/Triangle F.png" alt="tab" width={80}/>
+                            <Image src="/assets/Floating Triangle TOP/Triangle F.png" alt="tab" width={80} height={80} priority unoptimized loading='eager'/>
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute bottom-[17%] right-[12%] transition-all' duration={7}>
-                        <img src="/assets/Floating Triangle TOP/Triangle C.png" alt="tab" width={110} />
+                        <Image src="/assets/Floating Triangle TOP/Triangle C.png" alt="tab" width={110} height={110} priority unoptimized loading='eager'/>
 
                         </FloatImage>
 
