@@ -89,8 +89,8 @@ export default function PreloadMain() {
             src="/assets/CalCheese World Logo.png"
             alt="logo"
             width={300}
-            onLoad={() => setLogo(true)}
             className="w-[150px] lg:w-[300px]"
+            loading='eager'
           />
 
           <div className="flex flex-col items-center justify-center gap-4">
