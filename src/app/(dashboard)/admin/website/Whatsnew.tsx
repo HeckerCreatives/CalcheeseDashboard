@@ -307,7 +307,7 @@ export default function Whatsnew() {
                         <TableRow key={item.id}>
                             <TableCell>{item.tab}</TableCell>
                             <TableCell>
-                            <img src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.image}`} alt="" className=' w-[200px] ' />
+                            <img src={`${process.env.NEXT_PUBLIC_API_URL}uploads/${item.image}`} alt="" className=' w-[200px] ' />
                             </TableCell>
                             <TableCell className=''>
                               <p className='max-w-[300px] text-xs whitespace-pre-wrap'>{item.description}</p>

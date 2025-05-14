@@ -257,7 +257,7 @@ export default function MiniGames() {
                     </Dialog>
 
                     </div>
-                    <img src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.image}`} alt="" className=' aspect-video ' />
+                    <img src={`${process.env.NEXT_PUBLIC_API_URL}uploads/${item.image}`} alt="" className=' aspect-video ' />
                 </div>
             ))}
             
