@@ -33,11 +33,13 @@ export default function PreloadMain() {
   const [loadedCount, setLoadedCount] = useState(0)
   const [allLoaded, setAllLoaded] = useState(false)
   const [enter, setEnter] = useState(false)
+  const [logo, setLogo] = useState(false)
 
   const totalImages = imageUrls.length
   const progress = Math.min((loadedCount / totalImages) * 100, 100)
 
   useEffect(() => {
+   
     const preloadFlag = sessionStorage.getItem('imagesPreloaded')
 
     if (preloadFlag === 'true') {
@@ -81,11 +83,12 @@ export default function PreloadMain() {
             src="/assets/CalCheese World Logo.png"
             alt="logo"
             width={300}
+            onLoad={() => setLogo(true)}
             className="w-[150px] lg:w-[300px]"
           />
 
           <div className="flex flex-col items-center justify-center gap-4">
-            {progress < 100 && (
+            {(progress < 100 && logo) && (
               <div className="w-[300px] h-3 bg-gray-300 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-blue-500 transition-all duration-300"
