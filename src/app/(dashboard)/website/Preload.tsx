@@ -38,6 +38,12 @@ export default function PreloadMain() {
   const totalImages = imageUrls.length
   const progress = Math.min((loadedCount / totalImages) * 100, 100)
 
+   if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('imagesPreloaded', 'false')
+    })
+  }
+
   useEffect(() => {
    
     const preloadFlag = sessionStorage.getItem('imagesPreloaded')
