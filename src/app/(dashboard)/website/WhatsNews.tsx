@@ -58,7 +58,7 @@ export default function WhatsNews() {
                 className='flex flex-col items-end justify-end w-full rounded-2xl bg-gray-300 border-white border-4 overflow-hidden'
                 >
                 <div className='w-full h-[120px] md:h-full max-h-[250px] overflow-hidden'>
-                    <img src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${findConetent?.image}`} alt="" />
+                    <img src={`${process.env.NEXT_PUBLIC_API_URL}uploads/${findConetent?.image}`} alt="" />
                 </div>
 
                 <div className='w-full h-[100px] bg-amber-100 p-4'>

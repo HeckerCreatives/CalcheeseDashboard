@@ -31,7 +31,7 @@ export default function MiniGames() {
               {data?.data.map((item) => (
                 <div key={item.id} className=' w-[300px] h-[120px] md:h-[180px] rounded-2xl  mx-4'
                   style={{
-                    backgroundImage: `url('${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.image}')`,
+                    backgroundImage: `url('${process.env.NEXT_PUBLIC_API_URL}uploads/${item.image}')`,
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover'
@@ -44,7 +44,7 @@ export default function MiniGames() {
               {data?.data.map((item) => (
                 <div key={item.id} className=' w-[300px] h-[120px] md:h-[180px] rounded-2xl  mx-4'
                   style={{
-                    backgroundImage: `url('${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.image}')`,
+                    backgroundImage: `url('${process.env.NEXT_PUBLIC_API_URL}uploads/${item.image}')`,
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover'
