@@ -151,7 +151,7 @@
 
 .outlined-text {
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: rgb(224, 0, 0);
+  -webkit-text-stroke-color: rgb(255, 55, 55);
 }
 
 .item1 {
@@ -197,6 +197,16 @@
   100% {
       transform: translateY(0);
   }
+}
+
+.item1:hover,
+.item2:hover,
+.item3:hover,
+.item4:hover,
+.item5:hover,
+.item6:hover {
+  transform: translate(6px, 6px);
+  transition: transform 0.3s ease-in-out;
 }
 
 
