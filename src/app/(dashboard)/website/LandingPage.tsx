@@ -12,6 +12,7 @@ import FloatImage from '@/components/animations/FloatImage'
 import RevealOnScroll from '@/components/animations/RevealOnScroll'
 import TrackedImage from '@/components/animations/TrackedImage'
 import Preloadmain from './Preload'
+import Image from 'next/image'
 
 const tabs = [
   { icon: "/assets/Description BUTTON.png", value: "description", title: 'Welcome To CalCheese World' },
@@ -33,13 +34,13 @@ export default function LandingPage() {
     // style={{backgroundImage: "url('/assets/BG.png')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'contain'}}
     
     >
-            <img src="/assets/BG.png" alt="tab" className=' h-[40%] lg:h-full w-[80%] object-cover absolute sm:top-0 right-0 translate-y-10' />
+            <Image src="/assets/BG.png" alt="tab" priority unoptimized loading='eager' className=' h-[40%] lg:h-full w-[80%] object-cover absolute sm:top-0 right-0 translate-y-10' />
 
         <div className=' relative w-full'>
-            <img src="/assets/Top TAB.png" alt="tab" className='  w-full absolute' />
+            <Image src="/assets/Top TAB.png" alt="tab" className='  w-full absolute' priority unoptimized loading='eager' />
             <RevealOnScroll delay={.2}>
                 <a href="/">
-                <img src="/assets/CalCheese World Logo.png" alt="logo" width={300} className=' hover:scale-105 duration-300 transition-all w-[150px] lg:w-[300px] relative z-50 top-4 md:top-10 left-4  md:left-10 '/>
+                <Image src="/assets/CalCheese World Logo.png" alt="logo" width={300} priority unoptimized loading='eager' className=' hover:scale-105 duration-300 transition-all w-[150px] lg:w-[300px] relative z-50 top-4 md:top-10 left-4  md:left-10 '/>
                 </a>
             </RevealOnScroll>
             
@@ -54,7 +55,7 @@ export default function LandingPage() {
 
                             <div className=' relative flex flex-col items-center justify-center'>
                                 <div className=' absolute z-30 top-0 -translate-y-4 md:-translate-y-12 flex items-center justify-center'>
-                                    <img src="/assets/Title HOLDER.png" alt="title-holder" className=' w-[clamp(200px,80vw,800px)] ' loading='lazy' />
+                                    <Image src="/assets/Title HOLDER.png" alt="title-holder" priority unoptimized loading='eager' className=' w-[clamp(200px,80vw,800px)] ' />
                                     {/* <TextReveal text={title} className='absolute text-[clamp(1rem,4vw,2rem)] font-spenbeb font-bold uppercase text-white outlined-text'/> */}
                                     <AnimatePresence mode="wait">
                                     <TextReveal
@@ -65,7 +66,7 @@ export default function LandingPage() {
                                     </AnimatePresence>
                                     {/* <h1 className=' absolute text-[clamp(1rem,4vw,2rem)] font-bold uppercase text-white outlined-text'>{title}</h1> */}
                                 </div>
-                                <img src="/assets/Big TAB.png"  alt="big-holder" className=' relative z-20 h-[600px] md:h-[800px] xl:h-[700px]' loading='lazy'/>
+                                <Image src="/assets/Big TAB.png"  alt="big-holder" priority unoptimized loading='eager' className=' relative z-20 h-[600px] md:h-[800px] xl:h-[700px]' />
 
                                 {tab === 'description' && (
                                     <Description/>
