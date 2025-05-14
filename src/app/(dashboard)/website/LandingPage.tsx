@@ -27,30 +27,6 @@ export default function LandingPage() {
   const [tabNumber, setTabNumber] = useState<number>(0)
   const [enter, setEnter] = useState(false)
 
-   const [loadedCount, setLoadedCount] = useState(0)
-  const totalItemsToLoad = 100 
-  const progress = Math.min((loadedCount / totalItemsToLoad) * 100, 100)
-
-  useEffect(() => {
-    if (loadedCount < totalItemsToLoad) {
-      const interval = setInterval(() => {
-        setLoadedCount((prev) => {
-          const next = prev + 2 
-          return next >= totalItemsToLoad ? totalItemsToLoad : next
-        })
-      }, 50) 
-
-      return () => clearInterval(interval)
-    }
-  }, [loadedCount])
-
-  useEffect(() => {
-    if (progress >= 100) {
-      console.log('Loading complete!')
-    
-    }
-  }, [progress])
-
 
   return (
     <main className=' relative w-full max-w-[1920px] h-auto bg-white overflow-x-hidden overflow-y-hidden  text-amber-900'
@@ -232,6 +208,5 @@ export default function LandingPage() {
        
         </div>
     </main>
-
   )
 }

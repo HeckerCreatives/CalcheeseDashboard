@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import LandingPage from './LandingPage'
 
-const imageUrls = [
+const imageUrls: string[] = [
   "/assets/BG.png",
   "/assets/Top TAB.png",
   "/assets/CalCheese World Logo.png",
@@ -32,37 +32,36 @@ const imageUrls = [
 export default function PreloadMain() {
   const [loadedCount, setLoadedCount] = useState(0)
   const [allLoaded, setAllLoaded] = useState(false)
-    const [enter, setEnter] = useState(false)
-  
+  const [enter, setEnter] = useState(false)
 
   const totalImages = imageUrls.length
   const progress = Math.min((loadedCount / totalImages) * 100, 100)
 
   useEffect(() => {
+    const preloadFlag = sessionStorage.getItem('imagesPreloaded')
+
+    if (preloadFlag === 'true') {
+      // Images were already preloaded this session
+      setLoadedCount(totalImages)
+      setAllLoaded(true)
+      return
+    }
+
     let isMounted = true
 
     imageUrls.forEach((src) => {
       const img = new Image()
       img.src = src
-      img.onload = () => {
-        if (isMounted) {
-          setLoadedCount((prev) => {
-            const next = prev + 1
-            console.log(`Image loaded: ${src}`)
-            if (next === totalImages) setAllLoaded(true)
-            return next
-          })
-        }
-      }
-      img.onerror = () => {
-        console.warn(`Failed to load image: ${src}`)
-        if (isMounted) {
-          setLoadedCount((prev) => {
-            const next = prev + 1
-            if (next === totalImages) setAllLoaded(true)
-            return next
-          })
-        }
+      img.onload = img.onerror = () => {
+        if (!isMounted) return
+        setLoadedCount((prev) => {
+          const next = prev + 1
+          if (next === totalImages) {
+            setAllLoaded(true)
+            sessionStorage.setItem('imagesPreloaded', 'true')
+          }
+          return next
+        })
       }
     })
 
@@ -71,46 +70,44 @@ export default function PreloadMain() {
     }
   }, [])
 
-return (
-  <main className="w-full max-w-[1920px] h-auto bg-white overflow-hidden text-amber-900">
-    {!allLoaded || !enter ? (
-      <div
-        className="w-full h-screen bg-white flex flex-col items-center justify-center gap-12 cursor-pointer"
-        onClick={() => progress === 100 && setEnter(true)}
-      >
-        <img
-          src="/assets/CalCheese World Logo.png"
-          alt="logo"
-          width={300}
-          className="w-[150px] lg:w-[300px]"
-        />
+  return (
+    <main className="w-full max-w-[1920px] h-auto bg-white overflow-hidden text-amber-900">
+      {!allLoaded || !enter ? (
+        <div
+          className="w-full h-screen bg-white flex flex-col items-center justify-center gap-12 cursor-pointer"
+          onClick={() => progress === 100 && setEnter(true)}
+        >
+          <img
+            src="/assets/CalCheese World Logo.png"
+            alt="logo"
+            width={300}
+            className="w-[150px] lg:w-[300px]"
+          />
 
-        <div className="flex flex-col items-center justify-center gap-4">
-          {progress < 100 && (
-            <div className="w-[300px] h-3 bg-gray-300 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-blue-500 transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          )}
+          <div className="flex flex-col items-center justify-center gap-4">
+            {progress < 100 && (
+              <div className="w-[300px] h-3 bg-gray-300 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-blue-500 transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            )}
 
-          <p
-            className={`text-sm font-spenbeb ${
-              progress < 100
-                ? 'text-gray-400'
-                : 'text-blue-400 animate-pulse'
-            }`}
-          >
-            {progress < 100
-              ? `Loading... ${Math.round(progress)}%`
-              : 'Click anywhere to enter'}
-          </p>
+            <p
+              className={`text-sm font-spenbeb ${
+                progress < 100 ? 'text-gray-400' : 'text-blue-400 animate-pulse'
+              }`}
+            >
+              {progress < 100
+                ? `Loading... ${Math.round(progress)}%`
+                : 'Click anywhere to enter'}
+            </p>
+          </div>
         </div>
-      </div>
-    ) : (
-      <LandingPage />
-    )}
-  </main>
-)
+      ) : (
+        <LandingPage />
+      )}
+    </main>
+  )
 }
