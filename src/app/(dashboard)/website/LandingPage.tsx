@@ -208,18 +208,24 @@ export default function LandingPage() {
                 </div>
             </RevealOnScroll>
             
-            <RevealOnScroll className='' delay={.8}>
+            {/* <RevealOnScroll className='' delay={.8}> */}
                 <div className=' relative lg:block hidden w-full '>
-               
-                    <FloatImage className=' z-40 absolute right-0 top-32 ' hoverRange={15} floatRange={15} duration={5} >
-                        <img src="/assets/Calvin.png" alt="tab" width={500} className='' />
-                    </FloatImage>
+
+                    <RevealOnScroll delay={.2}>
+                        <FloatImage className=' z-40 absolute right-0 top-32 ' hoverRange={15} floatRange={15} duration={5} >
+                            <img src="/assets/Calvin.png" alt="tab" width={500} className='' />
+                        </FloatImage>
+                    </RevealOnScroll>
+                    
               
                 
                 <div className=' relative w-full h-screen container '>
+                     <RevealOnScroll className='z-10 absolute' delay={.4}>
                         <FloatImage className=' z-10 absolute bottom-32 left-0 -translate-x-24 item6'  hoverRange={15} floatRange={15} duration={6}>
                             <img src="/assets/Wafer.png" alt="tab" width={500} className=' '/>
                         </FloatImage>
+                    </RevealOnScroll>
+                       
 
                         <FloatImage className=' z-10 absolute top-[12%] right-[40%] transition-all ' duration={7}>
                             <img src="/assets/Floating Triangle TOP/Triangle B.png" alt="tab" width={80} />
@@ -248,7 +254,7 @@ export default function LandingPage() {
 
                 </div>
                 </div>
-            </RevealOnScroll>
+            {/* </RevealOnScroll> */}
        
         </div>
     </main>

@@ -24,7 +24,7 @@ export default function Rewards() {
                     <div key={item.id} className=' relative w-full h-[210px] bg-orange-500 lg:bg-transparent lg:h-full flex items-center justify-center rounded-2xl'>
                         <img src={promocodeIcon(item.title)} alt="headphone" width={100} className=' w-[80px] md:w-[90px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' />
                         <div className=' relative'>
-                        <img src="/assets/tab.png" alt="" className=' hidden lg:block'/>
+                        <img src="/assets/TAB.png" alt="" className=' hidden lg:block'/>
                         <div className=' lg:absolute top-0 w-full h-fit lg:h-full p-4'> 
                             <p className=' text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-7'>{item.title}</p>
                             <p className='  text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6'>{item.description}</p>
