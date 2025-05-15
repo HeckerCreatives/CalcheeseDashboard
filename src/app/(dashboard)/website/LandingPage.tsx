@@ -280,7 +280,7 @@ export default function LandingPage() {
 
                             <div className=' relative flex flex-col items-center justify-center'>
                                 <div className=' absolute z-30 top-0 -translate-y-4 md:-translate-y-12 flex items-center justify-center'>
-                                    <Image src="/assets/Title HOLDER.png" alt="title-holder" priority unoptimized loading='eager' width={500} height={500} className=' w-[clamp(200px,80vw,800px)] ' />
+                                    <Image src="/assets/Title HOLDER.png" alt="title-holder" priority unoptimized loading='eager' width={500} height={500} className=' w-[85%] ' />
                                     {/* <TextReveal text={title} className='absolute text-[clamp(1rem,4vw,2rem)] font-spenbeb font-bold uppercase text-white outlined-text'/> */}
                                     <AnimatePresence mode="wait">
                                     <TextReveal
