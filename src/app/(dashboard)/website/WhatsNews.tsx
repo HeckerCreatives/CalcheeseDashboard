@@ -62,7 +62,7 @@ export default function WhatsNews() {
                 </div>
 
                 <div className='w-full h-[100px] bg-amber-100 p-4'>
-                    <TextRevealOnView text={findConetent?.description || ''} delay={.2}/>
+                    <TextRevealOnView text={findConetent?.description || ''} delay={.2} className='text-xs md:text-sm font-bold text-amber-900 line-clamp-3 text-ellipsis'/>
                     {/* <p className='text-xs md:text-sm font-bold text-amber-900 line-clamp-3 text-ellipsis'>
                     {findConetent?.description}
                     </p> */}

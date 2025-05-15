@@ -11,10 +11,10 @@ export default function Rewards() {
     
 
   return (
-    <div className=' absolute w-[90%] md:w-[80%] h-[75%] z-30 flex flex-col items-center'>
+    <div className=' absolute w-[90%] md:w-[80%] h-[85%] lg:h-[75%] z-30 flex flex-col items-center'>
          <TextRevealOnView
                 text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, deserunt sit voluptas voluptatum consectetur officiis suscipit laudantium eos dolores excepturi commodi neque aspernatur illo, adipisci, natus fugit possimus. Dolorem, ut."
-                className="text-center text-xs md:text-lg mt-6 font-semibold"
+                className="text-center text-xs md:text-lg mt-6 font-semibold w-[90%]"
                 delay={.6}
               />
 

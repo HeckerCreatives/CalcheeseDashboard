@@ -19,7 +19,7 @@ export default function Followus() {
          <RevealOnScroll delay={1} className=' w-full h-[40%] md:h-full flex items-center justify-center gap-8'>
            <div className=' w-full h-[40%] md:h-full flex items-center justify-center gap-8 '>
               {data?.data.map((item, index) => (
-                <a href={item.link} target='_blank' className=' hover:scale-105 duration-300 transition-all'>
+                <a href={item.link} key={index} target='_blank' className=' hover:scale-105 duration-300 transition-all'>
                 <img src={socialsIcon(item.title)} width={160} alt="icon" />
                 </a>
               ))}

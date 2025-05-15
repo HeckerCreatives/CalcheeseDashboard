@@ -79,10 +79,10 @@ export default function PreloadMain() {
   }, [])
 
   return (
-    <main className="w-full max-w-[1920px] h-auto bg-white overflow-hidden text-amber-900">
+    <main className="w-full max-w-[1920px] h-auto bg-amber-100 overflow-hidden text-amber-900">
       {!allLoaded || !enter ? (
         <div
-          className="w-full h-screen bg-white flex flex-col items-center justify-center gap-12 cursor-pointer"
+          className="w-full h-screen bg-amber-100 flex flex-col items-center justify-center gap-12 cursor-pointer"
           onClick={() => progress === 100 && setEnter(true)}
         >
           <img
