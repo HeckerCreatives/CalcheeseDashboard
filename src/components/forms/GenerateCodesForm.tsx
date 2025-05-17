@@ -65,7 +65,7 @@ export default function GenerateCodesForm() {
   })
 
    const onSubmit = (data: GenerateCodes) => {
-    generateCodeslist({chest: data.chest, expiration: data.expiration, codeamount: data.codeamount, type: data.type, items: selectedItemIds},{
+    generateCodeslist({chest: data.chest, expiration: data.expiration, codeamount: data.codeamount, type: data.type || '', items: selectedItemIds},{
         onSuccess: () => {
           toast.success(`Codes generated successfully`);
           setOpen(false)
