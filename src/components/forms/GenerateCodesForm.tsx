@@ -148,6 +148,9 @@ export default function GenerateCodesForm() {
                             <SelectItem  value='ticket' className="text-xs">
                             Ticket
                           </SelectItem>
+                           <SelectItem  value='ingame' className="text-xs">
+                            In Game
+                          </SelectItem>
                       </SelectContent>
                     </Select>
                     {errors.type && (
