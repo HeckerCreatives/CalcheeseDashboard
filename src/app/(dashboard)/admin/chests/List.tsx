@@ -28,17 +28,25 @@ import {
     HoverCardContent,
     HoverCardTrigger,
   } from "@/components/ui/hover-card"
+import CreateItemsForm from '@/components/forms/CreateItems'
+import { useGetItemsList } from '@/apis/items'
+import EditItemsForm from '@/components/forms/EditItems'
+import DeleteItemForm from '@/components/forms/DeleteItems'
+import { useGetChestList } from '@/apis/chests'
+import CreateChestForm from '@/components/forms/CreateChests'
+import EditChestForm from '@/components/forms/EditChest'
+import DeleteChestForm from '@/components/forms/DeleteChest'
   
   
   
   
-export default function Rewardtype() {
+export default function List() {
     const [currentPage, setCurrentpage] = useState(0)
     const [totalpage, setTotalpage] = useState(0)
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const [value, setValue] = useState('')
-    const {data, isLoading} = useGetRobuxList(currentPage,10,filter, search)
+    const {data, isLoading} = useGetChestList()
 
 
     
@@ -55,7 +63,7 @@ export default function Rewardtype() {
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
         <div className=' flex flex-wrap items-center gap-4'>
-            <div className=' relative w-fit flex items-center justify-center'>
+            {/* <div className=' relative w-fit flex items-center justify-center'>
                 <Search size={15} className=' absolute left-2'/>
                 <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Robux code' className=' w-fit pl-7'/>
             </div>
@@ -68,9 +76,9 @@ export default function Rewardtype() {
                     ))}
 
                 </PopoverContent>
-            </Popover>
+            </Popover> */}
 
-         <CreateRobuxCodeForm/>
+         <CreateChestForm/>
 
         </div>
        
@@ -85,41 +93,24 @@ export default function Rewardtype() {
             ) }
         <TableHeader>
         <TableRow>
-            <TableHead className="">ROBUX Code</TableHead>
-            <TableHead className="">Item</TableHead>
-            <TableHead className="">Name</TableHead>
-            {/* <TableHead className="">Amount</TableHead> */}
-            <TableHead className=" ">Claim Status</TableHead>
-            <TableHead className=" flex items-center gap-1 ">Availability
-
-            <HoverCard openDelay={10} closeDelay={10}>
-            <HoverCardTrigger className=' cursor-pointer'><CircleHelp size={15}/></HoverCardTrigger>
-            <HoverCardContent className=' bg-orange-100 text-xs'>
-                If the robux is already used in codes.
-            </HoverCardContent>
-            </HoverCard>
-
-            </TableHead>
-            <TableHead>Created at</TableHead>
+            <TableHead className="">Type</TableHead>
+            <TableHead className="">Chest Name</TableHead>
+            <TableHead className="">Items</TableHead>
+            
             <TableHead className="">Action</TableHead>
         </TableRow>
         </TableHeader>
         <TableBody>
             {data?.data.map((item, index) => (
                 <TableRow key={item.id}>
-                    <TableCell>{item.robuxcode}</TableCell>
-                    <TableCell>{item.item?.itemname}</TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    {/* <TableCell>{item.amount?.toLocaleString()}</TableCell> */}
-                    <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
-                    <TableCell >
-                        <p className={` w-fit rounded-full ${!item.isUsed ? 'bg-red-500 px-3 py-1 text-[.6rem] text-white' : 'bg-green-500 px-3 py-1 text-[.6rem] text-white'}`}>{!item.isUsed ? 'Not Available' : 'Available'}</p>
-                    </TableCell>
-                    <TableCell>{new Date(item.createdAt).toDateString()}</TableCell>
+                    <TableCell>{item.chestid}</TableCell>
+                    <TableCell>{item.chestname}</TableCell>
+                    <TableCell>{item.items.map(ite => ite.itemname).join(', ')}</TableCell>
+                   
                     <TableCell className=' flex items-center gap-2'>
         
-                       <EditRobuxCodeForm id={item.id} code={item.robuxcode} name={item.name} item={item.item?.id}/>
-                        <DeleteRobuxCodeForm id={item.id} code={item.robuxcode}/>
+                       <EditChestForm chestid={item.chestid} chestname={item.chestname} items={item.items} id={item.id} />
+                        <DeleteChestForm id={item.id} name={item.chestname}/>
                     </TableCell>
                 </TableRow>
             ))}

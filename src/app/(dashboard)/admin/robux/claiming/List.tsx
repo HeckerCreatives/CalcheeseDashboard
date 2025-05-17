@@ -82,11 +82,10 @@ export default function List() {
                    ) }
         <TableHeader>
         <TableRow>
-            <TableHead className="">Select</TableHead>
+            {/* <TableHead className="">Select</TableHead> */}
             <TableHead className="">Robux Code</TableHead>
-            <TableHead className="">User</TableHead>
-            <TableHead className="">Email</TableHead>
-            <TableHead className="">Picture</TableHead>
+            <TableHead className="">Item</TableHead>
+            <TableHead className="">Name</TableHead>
             <TableHead className="">Status</TableHead>
        
             <TableHead className="">Action</TableHead>
@@ -95,11 +94,10 @@ export default function List() {
         <TableBody>
           {data?.data.map((item, index) => (
             <TableRow>
-              <TableCell><input type='checkbox'/></TableCell>
+              {/* <TableCell><input type='checkbox'/></TableCell>robuxcodeid, robuxcode, item, name */}
               <TableCell>{item.robuxcode}</TableCell>
-              <TableCell>{item.name ? item.name : '------'}</TableCell>
-              <TableCell>{item.email ? item.email : '------'}</TableCell>
-              <TableCell>{item.picture ? item.picture : '------'}</TableCell>
+              <TableCell>{item.item?.itemname}</TableCell>
+              <TableCell>{item.name}</TableCell>
               <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
               <TableCell className=' flex items-center gap-2'>
 

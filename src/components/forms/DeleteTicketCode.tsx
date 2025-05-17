@@ -32,6 +32,7 @@ import toast from 'react-hot-toast'
 import Loader from '../common/Loader'
 import { on } from 'node:stream'
 import { useDeleteTicket } from '@/apis/tickets'
+import { Button } from '../ui/button'
 
 interface Props {
     id: string,
@@ -46,7 +47,7 @@ export default function DeleteTicketCodeForm( prop: Props) {
 
 
   const onSubmit = () => {
-    deleteTicket({ticketid: prop.id},{
+    deleteTicket({id: prop.id},{
         onSuccess: () => {
           toast.success(`Ticket code deleted successfully`);
           setOpen(false)
@@ -70,12 +71,12 @@ export default function DeleteTicketCodeForm( prop: Props) {
         <p className=' text-xs'>Code: <span className=' text-lg font-semibold text-red-600'>{prop.code}</span></p>
 
         <div className="w-full flex justify-end gap-2">
-            <button onClick={() => onSubmit()} disabled={isPending} type="submit" className="primary-btn">
+            <Button onClick={() => onSubmit()} disabled={isPending} >
                 {isPending && (
                     <Loader type={'loader'}/>
                 )}
               Continue
-            </button>
+            </Button>
             <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
               Cancel
             </button>

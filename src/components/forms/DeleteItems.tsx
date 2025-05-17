@@ -22,24 +22,24 @@ import { useCreateRobux, useDeleteRobux, useEditRobux } from '@/apis/robux'
 import toast from 'react-hot-toast'
 import Loader from '../common/Loader'
 import { on } from 'node:stream'
+import { useDeleteItem } from '@/apis/items'
 import { Button } from '../ui/button'
 
 interface Props {
     id: string,
-    code: string,
 }
 
-export default function DeleteRobuxCodeForm( prop: Props) {
-    const {mutate: deleteRobux, isPending} = useDeleteRobux()
+export default function DeleteItemForm( prop: Props) {
+    const {mutate: deleteItem, isPending} = useDeleteItem()
     const [open, setOpen] = useState(false)
 
 
 
 
   const onSubmit = () => {
-    deleteRobux({robuxcodeid: prop.id},{
+    deleteItem({id: prop.id},{
         onSuccess: () => {
-          toast.success(`Robux code deleted successfully`);
+          toast.success(`Item deleted successfully`);
           setOpen(false)
         },
       })
@@ -53,15 +53,14 @@ export default function DeleteRobuxCodeForm( prop: Props) {
       <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Delete ROBUX <span className="text-orange-500">Code</span>
+            Delete Item 
           </DialogTitle>
-          <DialogDescription>Are you sure you want to delete this robux code?</DialogDescription>
+          <DialogDescription>Are you sure you want to delete this item?</DialogDescription>
         </DialogHeader>
 
-        <p className=' text-xs'>Code: <span className=' text-lg font-semibold text-red-600'>{prop.code}</span></p>
 
         <div className="w-full flex justify-end gap-2">
-            <Button onClick={() => onSubmit()} disabled={isPending}>
+            <Button onClick={() => onSubmit()} disabled={isPending} >
                 {isPending && (
                     <Loader type={'loader'}/>
                 )}

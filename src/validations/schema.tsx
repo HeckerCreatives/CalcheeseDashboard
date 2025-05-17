@@ -36,13 +36,39 @@ export const generateCodesvalidations = z.object({
 
 export const createRobuxvalidations = z.object({
     code: z.string().nonempty('Code is empty.'),
-    amount: z.number().min(1, 'Enter a valid number'),
+    name: z.string().nonempty('Name is empty.'),
+    item: z.string().nonempty('Item is empty.'),
    
 });
 
 export const createTicketvalidations = z.object({
-  code: z.string().nonempty('Code is empty.'),
-  type: z.string().nonempty( 'Select a ticket type'),
+  // code: z.string().nonempty('Code is empty.'),
+  // type: z.string().nonempty( 'Select a ticket type'),
+  ticketid: z.string().nonempty('Ticket id is empty.'),
+  item: z.string().nonempty('Item is empty.'),
+  category: z.string().nonempty('Category is empty.'),
+  tickettype: z.string().nonempty('Ticket type is empty.'),
+  ticketname: z.string().nonempty('Ticket name is empty.'),
+});
+
+export const createItemvalidations = z.object({
+    itemname: z.string().nonempty('Item name is empty.'),
+    itemcode: z.string().nonempty('Item code is empty.'),
+   
+});
+
+export const createChestvalidations = z.object({
+    chestid: z.string().nonempty('Chest id is empty.'),
+    chestname: z.string().nonempty('Chest name is empty.'),
+   
+});
+
+export const createCodesvalidations = z.object({
+    chest: z.string().nonempty('Chest is empty.'),
+    expiration: z.string().nonempty('Expiration is empty.'),
+    codeamount: z.number().min(1,'Code quantity should atleast 1.'),
+    type: z.string().optional(), // <- now optional
+   
 });
 
 
@@ -50,3 +76,6 @@ export type RegisterUser = z.infer<typeof registerValidations>
 export type GenerateCodesvalidation = z.infer<typeof generateCodesvalidations>
 export type CreateRobuxCode = z.infer<typeof createRobuxvalidations>
 export type CreateTicketCode = z.infer<typeof createTicketvalidations>
+export type CreateItems = z.infer<typeof createItemvalidations>
+export type CreateChests = z.infer<typeof createChestvalidations>
+export type GenerateCodes = z.infer<typeof createCodesvalidations>

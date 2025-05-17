@@ -21,6 +21,10 @@ import {
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
+  CreateChests,
+    createChestvalidations,
+    CreateItems,
+    createItemvalidations,
     CreateRobuxCode,
   createRobuxvalidations,
   GenerateCodesvalidation,
@@ -29,8 +33,10 @@ import {
 import { useCreateRobux } from '@/apis/robux'
 import toast from 'react-hot-toast'
 import Loader from '../common/Loader'
-import { useGetItemsList } from '@/apis/items'
 import { Button } from '../ui/button'
+import { useCreateItems, useGetItemsList } from '@/apis/items'
+import { useCreateChest } from '@/apis/chests'
+import MultiSelect from '../common/Multiselect'
 
 type ItemType = 'robux' | 'ticket'
 
@@ -42,36 +48,38 @@ interface Item {
 
 const allTypes: ItemType[] = ['robux', 'ticket']
 
-export default function CreateRobuxCodeForm() {
-    const {mutate: createRobux, isPending} = useCreateRobux()
+export default function CreateChestForm() {
+    const {mutate: createChest, isPending} = useCreateChest()
     const [open, setOpen] = useState(false)
     const {data} = useGetItemsList()
+   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
 
+
+    
 
   const {
     register,
     handleSubmit,
     setValue,
     trigger,
-    reset,
     formState: { errors },
-  } = useForm<CreateRobuxCode>({
-    resolver: zodResolver(createRobuxvalidations),
+  } = useForm<CreateChests>({
+    resolver: zodResolver(createChestvalidations),
     defaultValues: {
       
     },
   })
 
 
-  const onSubmit = (data: CreateRobuxCode) => {
-    createRobux({robuxcode: data.code, item: data.item, name: data.name},{
+  const onSubmit = (data: CreateChests) => {
+    createChest({chestid: data.chestid, chestname: data.chestname, itemid: selectedItemIds},{
         onSuccess: () => {
-          toast.success(`Robux code created successfully`);
+          toast.success(`Chest created successfully`);
           setOpen(false)
-          reset()
         },
       })
   }
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -82,61 +90,55 @@ export default function CreateRobuxCodeForm() {
       <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Create ROBUX <span className="text-orange-500">Code</span>
+            Create Chest 
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-
-          <div className="w-full flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Item</label>
-            <Select onValueChange={(val) => setValue('item', val)}>
-            <SelectTrigger className=" w-full">
-                <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent>
-                {data?.data.map((item, index) => (
-                <SelectItem key={item.id} value={item.id}>{item.itemname}</SelectItem>
-                ))}
-              
-            </SelectContent>
-            </Select>
-          </div>
-
-         
-                  
-          <div className="w-full flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Code</label>
-            <Input
-                placeholder="Code"
-                type="text"
-                {...register('code')}
-              />
-              {errors.code && (
-                <p className="form-error">{errors.code.message}</p>
-              )}
-          </div>
-
-          <div className="flex items-center gap-4">
+        
+           <div className="flex items-center gap-4">
             <div className="w-full flex flex-col gap-1">
-              <label className="text-xs text-zinc-400">Name</label>
+              <label className="text-xs text-zinc-400">Chest id</label>
               <Input
-                placeholder="Name"
+                placeholder="Chest id"
                 type="text"
-                {...register('name')}
+                {...register('chestid')}
               />
-              {errors.name && (
-                <p className="form-error">{errors.name.message}</p>
+              {errors.chestid && (
+                <p className="form-error">{errors.chestid.message}</p>
               )}
             </div>
           
           </div>
 
+          <div className="flex items-center gap-4">
+            <div className="w-full flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Chest Name</label>
+              <Input
+                placeholder="Chest Name"
+                type="text"
+                {...register('chestname')}
+              />
+              {errors.chestname && (
+                <p className="form-error">{errors.chestname.message}</p>
+              )}
+            </div>
+          
+          </div>
+
+            <div className="w-full flex flex-col gap-1">
+                      <label className="text-xs text-zinc-400">Item</label>
+                    
+                      <MultiSelect
+              data={data?.data}
+              onChange={(ids) => setSelectedItemIds(ids)} selectedIds={[]}                    />
+          </div>
+
    
 
           <div className="w-full flex justify-end gap-2">
-            <Button disabled={isPending} type="submit">
+            <Button disabled={isPending} className="">
                             {isPending && (
                                 <Loader type={'loader'}/>
                             )}

@@ -32,11 +32,12 @@ import {
     HoverCardContent,
     HoverCardTrigger,
   } from "@/components/ui/hover-card"
+import { useGetCodesList } from '@/apis/codes'
 
 
 const status =[
     {value: '', name: 'All'},
-    {value: 'pending', name: 'Pending'},
+    // {value: 'pending', name: 'Pending'},
     {value: 'claimed', name: 'Claimed'},
 ]
   
@@ -48,6 +49,7 @@ export default function Rewardtype() {
     const [filter, setFilter] = useState('')
     const [value, setValue] = useState('')
     const {data, isLoading} = useGetTicketList(currentPage,10,filter, search)
+    // const {data: codes} =  useGetCodesList(currentPage,10,filter,'tickets','','', search)
 
 
     
@@ -59,6 +61,8 @@ export default function Rewardtype() {
   useEffect(() => {
     setTotalpage(data?.totalPages || 0)
   },[data])
+
+//   console.log(codes)
 
 
   return (
@@ -115,7 +119,7 @@ export default function Rewardtype() {
         <TableBody>
             {data?.data.map((item, index) => (
                 <TableRow key={item.id}>
-                    <TableCell>{item.ticketcode}</TableCell>
+                    <TableCell>{item.ticketid}</TableCell>
                     <TableCell>{item.ticketname}</TableCell>
                     <TableCell>{item.tickettype}</TableCell>
                     <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
@@ -126,8 +130,8 @@ export default function Rewardtype() {
                     <TableCell className=' flex items-center gap-2'>
         
                        {/* <EditRobuxCodeForm id={item.id} code={item.ticketcode} amount={item.amount}/> */}
-                       <EditTicketCodeForm code={item.ticketcode} type={item.tickettypeid} id={item.id}/>
-                        <DeleteTicketCodeForm id={item.id} code={item.ticketcode}/>
+                       <EditTicketCodeForm id={item._id} ticketid={item.ticketid} item={item.item} category={item.category} tickettype={item.tickettype} ticketname={item.ticketname} />
+                        <DeleteTicketCodeForm id={item._id} code={item.ticketid}/>
                     </TableCell>
                 </TableRow>
             ))}

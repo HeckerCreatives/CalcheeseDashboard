@@ -157,6 +157,10 @@
   @apply bg-red-600 px-4 py-2 text-xs text-white rounded-md
 }
 
+.form-error{
+  @apply text-[.6rem] text-red-500
+}
+
 .outlined-text {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: rgb(255, 55, 55);

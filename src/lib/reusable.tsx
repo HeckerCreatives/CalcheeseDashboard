@@ -2,7 +2,7 @@
 
 export const statusData =[
     {value: '', name: 'All'},
-    {value: 'pending', name: 'Pending'},
+    // {value: 'pending', name: 'Pending'},
     {value: 'claimed', name: 'Claimed'},
 ]
   

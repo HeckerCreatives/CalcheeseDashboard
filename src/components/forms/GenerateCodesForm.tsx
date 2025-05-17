@@ -18,13 +18,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useGetChests } from '@/apis/codes'
+import { useGenerateCodeslist, useGetChests } from '@/apis/codes'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  GenerateCodesvalidation,
-  generateCodesvalidations,
-} from '@/validations/schema'
+import { createCodesvalidations, GenerateCodes } from '@/validations/schema'
+import { useGetChestList } from '@/apis/chests'
+import MultiSelect from '../common/Multiselect'
+import { useGetItemsList } from '@/apis/items'
+import { Button } from '../ui/button'
+import toast from 'react-hot-toast'
+import Loader from '../common/Loader'
+
 
 type ItemType = 'robux' | 'ticket'
 
@@ -37,66 +41,44 @@ interface Item {
 const allTypes: ItemType[] = ['robux', 'ticket']
 
 export default function GenerateCodesForm() {
-  const { data } = useGetChests()
+  // const { data } = useGetChests()
   const [items, setItems] = useState<Item[]>([])
+  const {data: chest} = useGetChestList()
+  const {data} = useGetItemsList()
+  const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
+  const {mutate: generateCodeslist, isPending} = useGenerateCodeslist()
+  const [open, setOpen] = useState(false)
+  
 
   const {
     register,
     handleSubmit,
     setValue,
     trigger,
+    reset,
     formState: { errors },
-  } = useForm<GenerateCodesvalidation>({
-    resolver: zodResolver(generateCodesvalidations),
+  } = useForm<GenerateCodes>({
+    resolver: zodResolver(createCodesvalidations),
     defaultValues: {
-      items: [],
+      
     },
   })
 
-  const addItem = () => {
-    const newItems = [
-      ...items,
-      { id: crypto.randomUUID(), type: undefined, quantity: undefined },
-    ]
-    setItems(newItems)
-    syncItemsToForm(newItems)
-  }
+   const onSubmit = (data: GenerateCodes) => {
+    generateCodeslist({chest: data.chest, expiration: data.expiration, codeamount: data.codeamount, type: data.type, items: selectedItemIds},{
+        onSuccess: () => {
+          toast.success(`Codes generated successfully`);
+          setOpen(false)
+        },
+        onError: () => {
+          reset()
+        }
+      })
+    }
 
-  const updateItem = (id: string, field: keyof Item, value: any) => {
-    const updatedItems = items.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    )
-    setItems(updatedItems)
-    syncItemsToForm(updatedItems)
-  }
-
-  const removeItem = (id: string) => {
-    const updatedItems = items.filter((item) => item.id !== id)
-    setItems(updatedItems)
-    syncItemsToForm(updatedItems)
-  }
-
-  const syncItemsToForm = (items: Item[]) => {
-    const validItems = items
-    //   .filter((i) => typeof i.type === 'string' && typeof i.quantity === 'number')
-      .map((i) => ({
-        itemtype: i.itemtype as string,
-        quantity: i.quantity as number,
-      }))
-  
-    setValue('items', validItems)
-    trigger('items')
-  }
-  
-
-  const selectedTypes = items.map((item) => item.itemtype).filter(Boolean)
-
-  const onSubmit = (data: GenerateCodesvalidation) => {
-    console.log('Submitted:', data)
-  }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="cursor-pointer px-4 py-2 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm">
         <Scan size={15} />
         Generate
@@ -111,134 +93,87 @@ export default function GenerateCodesForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div className="w-full flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Chest Type</label>
-            <Select onValueChange={(val) => setValue('chesttype', val)}>
+            <label className="text-xs text-zinc-400">Chest</label>
+            <Select onValueChange={(val) => setValue('chest', val)}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Chest Type" className="text-xs" />
+                <SelectValue placeholder="Chest" className="text-xs" />
               </SelectTrigger>
               <SelectContent>
-                {data?.data.map((item) => (
+                {chest?.data.map((item) => (
                   <SelectItem key={item.id} value={item.id} className="text-xs">
-                    {item.name}
+                    {item.chestname}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.chesttype && (
-              <p className="form-error">{errors.chesttype.message}</p>
+            {errors.chest && (
+              <p className="form-error">{errors.chest.message}</p>
             )}
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="w-full flex flex-col gap-1">
-              <label className="text-xs text-zinc-400">Quantity</label>
-              <Input
-                placeholder="Quantity"
-                type="number"
-                {...register('quantity', { valueAsNumber: true })}
-              />
-              {errors.quantity && (
-                <p className="form-error">{errors.quantity.message}</p>
-              )}
-            </div>
-            <div className="w-full flex flex-col gap-1">
-              <label className="text-xs text-zinc-400">Expiration</label>
-              <Input placeholder="Expiration" type="date" {...register('expiration')} />
-              {errors.expiration && (
-                <p className="form-error">{errors.expiration.message}</p>
-              )}
-            </div>
-          </div>
+           <div className="w-full flex flex-col gap-1">
+                      <label className="text-xs text-zinc-400">Expiration</label>
+                      <Input
+                          placeholder="Expiration"
+                          type="date"
+                          {...register('expiration')}
+                        />
+                        {errors.expiration && (
+                          <p className="form-error">{errors.expiration.message}</p>
+                        )}
+                </div>
 
-          <div className="w-full flex flex-col gap-1 bg-yellow-100 p-2 rounded-sm">
-            <div className="w-full flex items-center justify-between">
-              <label className="text-xs text-zinc-400">Items</label>
-              <p
-                onClick={addItem}
-                className="p-1 bg-orange-500 text-white rounded-sm cursor-pointer"
-              >
-                <Plus size={15} />
-              </p>
-            </div>
+                 <div className="w-full flex flex-col gap-1">
+                      <label className="text-xs text-zinc-400">Code Quantity</label>
+                      <Input
+                          placeholder="Quantity"
+                          type="number"
+                          {...register('codeamount',{valueAsNumber: true})}
+                        />
+                        {errors.codeamount && (
+                          <p className="form-error">{errors.codeamount.message}</p>
+                        )}
+                </div>
 
-            <div className="flex flex-col gap-2 mt-2">
-              {items.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="w-full flex items-start gap-2 p-2 rounded-sm bg-yellow-50"
-                >
-                  <div className="flex flex-col items-start gap-1 w-full">
-                    <label className="text-[.6rem] text-zinc-400">Type</label>
-                    <Select
-                      value={item.itemtype}
-                      onValueChange={(val) => updateItem(item.id, 'itemtype', val)}
-                    >
+                 <div className="w-full flex flex-col gap-1">
+                    <label className="text-xs text-zinc-400">Type</label>
+                    <Select onValueChange={(val) => setValue('type', val)}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Type" className="text-xs" />
+                        <SelectValue placeholder=" Type" className="text-xs" />
                       </SelectTrigger>
                       <SelectContent>
-                        {allTypes.map((type) => (
-                          <SelectItem
-                            key={type}
-                            value={type}
-                            disabled={
-                              selectedTypes.includes(type) && item.itemtype !== type
-                            }
-                            className="text-xs"
-                          >
-                            {type}
+                          <SelectItem  value='robux' className="text-xs">
+                            Robux
                           </SelectItem>
-                        ))}
+                            <SelectItem  value='ticket' className="text-xs">
+                            Ticket
+                          </SelectItem>
                       </SelectContent>
                     </Select>
-
-                    {errors.items?.[index]?.itemtype && (
-                    <p className="form-error">{errors.items[index]?.itemtype.message}</p>
-                    )}
-                   
-                  </div>
-
-                  <div className="flex flex-col items-start gap-1 w-full">
-                    <label className="text-[.6rem] text-zinc-400">Quantity</label>
-                    <Input
-                      type="number"
-                      placeholder="Quantity"
-                      value={item.quantity ?? ''}
-                      onChange={(e) =>
-                        updateItem(
-                          item.id,
-                          'quantity',
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                    />
-                     {errors.items?.[index]?.quantity && (
-                    <p className="form-error">{errors.items[index]?.quantity?.message}</p>
+                    {errors.type && (
+                      <p className="form-error">{errors.type.message}</p>
                     )}
                   </div>
 
-                  <p
-                    onClick={() => removeItem(item.id)}
-                    className="text-red-500 hover:text-red-700 cursor-pointer"
-                  >
-                    <X size={14} />
-                  </p>
-                </div>
-              ))}
-            </div>
-            {errors.items && (
-              <p className="form-error">{errors.items.message}</p>
-            )}
-          </div>
+           <div className="w-full flex flex-col gap-1">
+                <label className="text-xs text-zinc-400">Items</label>
+                <MultiSelect
+                            data={data?.data}
+                            onChange={(ids) => setSelectedItemIds(ids)} selectedIds={selectedItemIds}/>
+              </div>
 
-          <div className="w-full flex justify-end gap-2">
-            <button type="submit" className="primary-btn">
-              Save
-            </button>
-            <button type="button" className="ghost-btn">
-              Cancel
-            </button>
-          </div>
+
+           <div className="w-full flex justify-end gap-2">
+                      <Button disabled={isPending} className="">
+                                      {isPending && (
+                                          <Loader type={'loader'}/>
+                                      )}
+                                    Save
+                                  </Button>
+                      <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
+                        Cancel
+                      </button>
+                    </div>
         </form>
       </DialogContent>
     </Dialog>

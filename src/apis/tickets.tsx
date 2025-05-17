@@ -39,6 +39,12 @@ export interface TicketCodeResponse {
     createdAt: string;
     tickettypeid: string
     isUsed: boolean
+
+    _id: string
+    item: string
+    ticketid: string
+    category: string
+        
   }
 
   export const getTicketTypeList = async (): Promise<TicketTypeResponse> => { 
@@ -82,8 +88,8 @@ export const useGetTicketList = (page: number, limit: number,  status: string, s
     });
 };
   
-export const createTicket = async (ticketcode: string, tickettype: string) => { 
-    const response = await axiosInstance.post("/ticket/createticket", { ticketcode, tickettype });
+export const createTicket = async (ticketid: string,item: string,category: string, tickettype: string,ticketname: string) => { 
+    const response = await axiosInstance.post("/ticket/createticket", { ticketid, item, category,tickettype, ticketname });
     return response.data;
   };
   
@@ -91,8 +97,8 @@ export const createTicket = async (ticketcode: string, tickettype: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ ticketcode, tickettype }: {ticketcode: string, tickettype: string}) =>
-        createTicket(ticketcode, tickettype),
+      mutationFn: ({ ticketid, item, category,tickettype, ticketname }: {ticketid: string,item: string,category: string, tickettype: string,ticketname: string}) =>
+        createTicket(ticketid, item, category,tickettype, ticketname),
         onError: (error) => {
             handleApiError(error);
         },
@@ -104,8 +110,8 @@ export const createTicket = async (ticketcode: string, tickettype: string) => {
   };
 
 
-  export const editTicket = async (ticketcode: string,ticketid: string, tickettype: string) => { 
-    const response = await axiosInstanceFormData.post("/ticket/editticket", { ticketcode, ticketid, tickettype });
+  export const editTicket = async (id: string,ticketid: string,item: string,category: string, tickettype: string,ticketname: string) => { 
+    const response = await axiosInstance.post("/ticket/editticket", { id, ticketid, item, category,tickettype, ticketname });
     return response.data;
   };
   
@@ -113,8 +119,8 @@ export const createTicket = async (ticketcode: string, tickettype: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ ticketcode, ticketid, tickettype}: {ticketcode: string,ticketid: string, tickettype: string}) =>
-        editTicket(ticketcode, ticketid, tickettype),
+      mutationFn: ({ id, ticketid, item, category,tickettype, ticketname}: {id: string,ticketid: string,item: string,category: string, tickettype: string,ticketname: string}) =>
+        editTicket(id, ticketid, item, category,tickettype, ticketname),
         onError: (error) => {
             handleApiError(error);
         },
@@ -126,8 +132,8 @@ export const createTicket = async (ticketcode: string, tickettype: string) => {
   };
 
 
-  export const deleteTicket = async (ticketid: string) => {
-    const response = await axiosInstance.post("/ticket/deleteticket", {ticketid });
+  export const deleteTicket = async (id: string) => {
+    const response = await axiosInstance.post("/ticket/deleteticket", {id });
     return response.data;
   };
   
@@ -135,8 +141,8 @@ export const createTicket = async (ticketcode: string, tickettype: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ ticketid}: {ticketid: string }) =>
-        deleteTicket(ticketid),
+      mutationFn: ({ id}: {id: string }) =>
+        deleteTicket(id),
         onError: (error) => {
             handleApiError(error);
         },

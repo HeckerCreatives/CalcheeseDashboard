@@ -18,28 +18,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useGetChests } from '@/apis/codes'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+    CreateRobuxCode,
+  createRobuxvalidations,
+  GenerateCodesvalidation,
+  generateCodesvalidations,
+} from '@/validations/schema'
 import { useCreateRobux, useDeleteRobux, useEditRobux } from '@/apis/robux'
 import toast from 'react-hot-toast'
 import Loader from '../common/Loader'
 import { on } from 'node:stream'
+import { useDeleteTicket } from '@/apis/tickets'
 import { Button } from '../ui/button'
+import { useDeleteChest } from '@/apis/chests'
 
 interface Props {
     id: string,
-    code: string,
+    name: string,
 }
 
-export default function DeleteRobuxCodeForm( prop: Props) {
-    const {mutate: deleteRobux, isPending} = useDeleteRobux()
+export default function DeleteChestForm( prop: Props) {
+    const {mutate: deleteChest, isPending} = useDeleteChest()
     const [open, setOpen] = useState(false)
 
 
 
 
   const onSubmit = () => {
-    deleteRobux({robuxcodeid: prop.id},{
+    deleteChest({id: prop.id},{
         onSuccess: () => {
-          toast.success(`Robux code deleted successfully`);
+          toast.success(`Chest deleted successfully`);
           setOpen(false)
         },
       })
@@ -53,15 +64,15 @@ export default function DeleteRobuxCodeForm( prop: Props) {
       <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Delete ROBUX <span className="text-orange-500">Code</span>
+            Delete Chest
           </DialogTitle>
-          <DialogDescription>Are you sure you want to delete this robux code?</DialogDescription>
+          <DialogDescription>Are you sure you want to delete this chest?</DialogDescription>
         </DialogHeader>
 
-        <p className=' text-xs'>Code: <span className=' text-lg font-semibold text-red-600'>{prop.code}</span></p>
+        <p className=' text-xs'>Chest Name: <span className=' text-lg font-semibold text-red-600'>{prop.name}</span></p>
 
         <div className="w-full flex justify-end gap-2">
-            <Button onClick={() => onSubmit()} disabled={isPending}>
+            <Button onClick={() => onSubmit()} disabled={isPending} >
                 {isPending && (
                     <Loader type={'loader'}/>
                 )}

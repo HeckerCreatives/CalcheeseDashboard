@@ -22,6 +22,11 @@ export interface RobuxCodeResponse {
     status: 'pending' | 'redeemed' | 'used' | string; // Extend as needed
     createdAt: string; // ISO date string (e.g., "2025-04-30")
     isUsed: boolean
+    item: {
+      id: string
+      itemname: string
+      itemid: string
+    },
   }
   
 
@@ -47,8 +52,8 @@ export const useGetRobuxList = (page: number, limit: number, status: string, sea
     });
 };
   
-export const createRobux = async (robuxcode: string, amount: number) => { 
-    const response = await axiosInstance.post("/robuxcode/createrobuxcode", { robuxcode, amount });
+export const createRobux = async (robuxcode: string, item: string, name: string) => { 
+    const response = await axiosInstance.post("/robuxcode/createrobuxcode", { robuxcode, item, name });
     return response.data;
   };
   
@@ -56,8 +61,8 @@ export const createRobux = async (robuxcode: string, amount: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ robuxcode, amount }: { robuxcode: string, amount: number }) =>
-        createRobux(robuxcode, amount),
+      mutationFn: ({ robuxcode, item, name  }: { robuxcode: string, item: string, name: string }) =>
+        createRobux(robuxcode, item, name ),
         onError: (error) => {
             handleApiError(error);
         },
@@ -69,8 +74,8 @@ export const createRobux = async (robuxcode: string, amount: number) => {
   };
 
 
-  export const editRobux = async (robuxcodeid: string,robuxcode: string, amount: number) => { 
-    const response = await axiosInstanceFormData.post("/robuxcode/editrobuxcode", { robuxcode, amount, robuxcodeid });
+  export const editRobux = async (robuxcodeid: string,robuxcode: string, item: string, name: string) => { 
+    const response = await axiosInstance.post("/robuxcode/editrobuxcode", { robuxcode, robuxcodeid, item, name });
     return response.data;
   };
   
@@ -78,8 +83,8 @@ export const createRobux = async (robuxcode: string, amount: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ robuxcode, amount, robuxcodeid}: {robuxcodeid: string, robuxcode: string, amount: number }) =>
-        editRobux(robuxcodeid, robuxcode, amount),
+      mutationFn: ({ robuxcodeid, robuxcode, item, name}: {robuxcodeid: string, robuxcode: string, item: string, name: string }) =>
+        editRobux(robuxcodeid, robuxcode, item, name),
         onError: (error) => {
             handleApiError(error);
         },
