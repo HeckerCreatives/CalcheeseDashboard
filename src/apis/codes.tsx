@@ -35,7 +35,7 @@ export interface Code {
   id: string;
   code: string;
   chest: Chest;
-  items: Item;
+  items: Item[];
   expiration: string; // You can use `Date` if you plan to convert it
   type: string; // Consider using a union type if values are known: "ingame" | "ticket" | etc.
   isUsed: boolean;

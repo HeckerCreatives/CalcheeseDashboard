@@ -191,7 +191,7 @@ export default function Generate() {
                 <TableRow key={index} className=' text-xs'>
                     <TableCell>{item.code}</TableCell>
                     <TableCell>{item.chest.chestname}</TableCell>
-                    <TableCell>{item?.items?.itemname ?? 'no items'}</TableCell>
+                    <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
                     <TableCell>{item.expiration}</TableCell>
                     <TableCell>{item.type}</TableCell>
                     <TableCell>{item.isUsed ? 'Claimed' : 'Unclaimed'}</TableCell>
