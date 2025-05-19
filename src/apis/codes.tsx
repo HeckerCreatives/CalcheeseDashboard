@@ -39,6 +39,14 @@ export interface Code {
   expiration: string; // You can use `Date` if you plan to convert it
   type: string; // Consider using a union type if values are known: "ingame" | "ticket" | etc.
   isUsed: boolean;
+  robuxcode: {
+      id: string,
+      robuxcode: string
+  },
+  form: {
+      name: string
+      email: string
+  }
 }
 
   interface CodeResponse {
@@ -112,6 +120,53 @@ export const generateCodeslist = async (chest: string, expiration: string,codeam
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+          }
+    
+    });
+  };
+
+
+  
+
+
+export const exportCodeslist = async (type: string) => {
+  const response = await axiosInstance.get("/code/export-csv", {
+    params: { type },
+    responseType: "blob", // <- VERY IMPORTANT
+  });
+
+  const disposition = response.headers["content-disposition"];
+  let filename = "calcheeseworlcodes.csv";
+
+  if (disposition && disposition.includes("filename=")) {
+    const match = disposition.match(/filename="?([^"]+)"?/);
+    if (match?.[1]) {
+      filename = match[1];
+    }
+  }
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+};
+
+  
+  export const useExportCodeslist = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({type} : {type: string}) =>
+        exportCodeslist( type),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [""] });
           }
     
     });

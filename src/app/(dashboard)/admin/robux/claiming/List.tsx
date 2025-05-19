@@ -19,6 +19,7 @@ import { Filter, ListFilter, Pen, Scan, Search, Ticket, TicketCheck, Trash } fro
 import { useGetRobuxList } from '@/apis/robux'
 import statusColor, { statusData } from '@/lib/reusable'
 import Loader from '@/components/common/Loader'
+import { useGetCodesList } from '@/apis/codes'
   
   
   
@@ -29,7 +30,10 @@ export default function List() {
       const [search, setSearch] = useState('')
       const [filter, setFilter] = useState('')
       const [value, setValue] = useState('All')
-      const {data, isLoading} = useGetRobuxList(currentPage,10,filter, search)
+      // const {data, isLoading} = useGetRobuxList(currentPage,10,filter, search)
+      const {data, isLoading} = useGetCodesList(currentPage, 10, status, 'robux', '', '',search)
+      
+
   
   
       
@@ -86,6 +90,7 @@ export default function List() {
             <TableHead className="">Robux Code</TableHead>
             <TableHead className="">Item</TableHead>
             <TableHead className="">Name</TableHead>
+            <TableHead className="">Email</TableHead>
             <TableHead className="">Status</TableHead>
        
             <TableHead className="">Action</TableHead>
@@ -95,10 +100,11 @@ export default function List() {
           {data?.data.map((item, index) => (
             <TableRow>
               {/* <TableCell><input type='checkbox'/></TableCell>robuxcodeid, robuxcode, item, name */}
-              <TableCell>{item.robuxcode}</TableCell>
-              <TableCell>{item.item?.itemname}</TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
+              <TableCell>{item.robuxcode.robuxcode}</TableCell>
+              <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
+              <TableCell>{item.form?.name}</TableCell>
+              <TableCell>{item.form?.email}</TableCell>
+              <TableCell className={` ${item.isUsed ? 'text-green-500' : 'text-orange-500'}`}>{item.isUsed ? 'Claimed' : 'UnClaimed'}</TableCell>
               <TableCell className=' flex items-center gap-2'>
 
                   {/* <button className='primary-btn flex items-center gap-1'><Pen size={15}/>Edit</button>
