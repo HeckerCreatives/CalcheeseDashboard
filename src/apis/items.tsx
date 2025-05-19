@@ -59,7 +59,7 @@ export const createItems = async (itemid: string, itemname: string) => {
 
 
   export const editItems = async (id: string,itemid: string, itemname: string ) => { 
-    const response = await axiosInstance.post("/item/updateitem", { id, itemid, itemname });
+    const response = await axiosInstance.post("/item/edititem", { id, itemid, itemname });
     return response.data;
   };
   

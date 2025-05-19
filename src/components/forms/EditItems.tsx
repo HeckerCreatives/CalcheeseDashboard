@@ -77,7 +77,7 @@ export default function EditItemsForm( prop: Props) {
       <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Create Items 
+            Edit Items 
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
