@@ -191,7 +191,7 @@ export default function Generate() {
 
           <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
 
-          <Dialog>
+          {/* <Dialog>
             <DialogTrigger className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={19}/></DialogTrigger>
             <DialogContent className=' bg-yellow-50'>
               <DialogHeader>
@@ -232,12 +232,7 @@ export default function Generate() {
                 </div>
 
                 <div className="w-full flex justify-end gap-2">
-                  {/* <Button disabled={isPending} className="">
-                                  {isPending && (
-                                      <Loader type={'loader'}/>
-                                  )}
-                                Save
-                              </Button> */}
+              
                   <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
                     Cancel
                   </button>
@@ -247,7 +242,7 @@ export default function Generate() {
 
               
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
           <Button disabled={isPending}  onClick={exportCsv} className=' flex items-center p-2'>
             {isPending && <Loader type={'loader'} />}
