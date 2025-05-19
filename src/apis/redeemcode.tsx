@@ -21,11 +21,34 @@ export const checkCode = async (code: string) => {
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["tickets"] });
+            queryClient.invalidateQueries({ queryKey: [""] });
           }
     
     });
   };
+
+
+  export const redeemCode = async (code: string, email: string, name: string, picture: File | null) => { 
+    const response = await axiosInstance.post("/code/redeemcode",{code, email, name, picture});
+    return response.data;
+  };
+  
+  export const useRedeemCode = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({ code, email, name, picture}: {code: string, email: string, name: string, picture: File | null}) =>
+        redeemCode(code, email, name, picture),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [""] });
+          }
+    
+    });
+  };
+
 
 
 

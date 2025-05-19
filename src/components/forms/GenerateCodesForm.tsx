@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Plus, Scan, X } from 'lucide-react'
 import {
@@ -28,6 +28,8 @@ import { useGetItemsList } from '@/apis/items'
 import { Button } from '../ui/button'
 import toast from 'react-hot-toast'
 import Loader from '../common/Loader'
+import { io } from 'socket.io-client'
+
 
 
 type ItemType = 'robux' | 'ticket'
@@ -48,6 +50,25 @@ export default function GenerateCodesForm() {
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
   const {mutate: generateCodeslist, isPending} = useGenerateCodeslist()
   const [open, setOpen] = useState(false)
+  const [socket, setSocket] = useState<any>(null);
+  const [progress, setProgress] = useState<number | null>(null);
+  const [progressStatus, setProgressStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`);
+    setSocket(newSocket);
+
+    newSocket.on('generate-progress', (data) => {
+      if (data.percentage !== undefined) setProgress(data.percentage);
+      if (data.status) setProgressStatus(data.status);
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+
   
 
   const {
@@ -65,17 +86,35 @@ export default function GenerateCodesForm() {
   })
 
    const onSubmit = (data: GenerateCodes) => {
-    generateCodeslist({chest: data.chest, expiration: data.expiration, codeamount: data.codeamount, type: data.type || '', items: selectedItemIds},{
-        onSuccess: () => {
-          toast.success(`Codes generated successfully`);
-          setOpen(false)
-        },
-        onError: () => {
-          reset()
-          setOpen(false)
-        }
-      })
+  if (!socket) {
+    console.log("Socket connection not established");
+    return;
+  }
+
+  generateCodeslist({
+    chest: data.chest,
+    expiration: data.expiration,
+    codeamount: data.codeamount,
+    type: data.type || '',
+    items: selectedItemIds,
+    socketid: socket.id // pass the socket ID to backend
+  }, {
+    onSuccess: () => {
+      toast.success(`Codes generated successfully`);
+      setOpen(false);
+      setProgress(null);
+      setProgressStatus(null);
+    },
+    onError: () => {
+      reset();
+      setOpen(false);
+      setProgress(null);
+      setProgressStatus(null);
     }
+  });
+}
+
+
 
 
   return (
@@ -178,6 +217,20 @@ export default function GenerateCodesForm() {
                         Cancel
                       </button>
                     </div>
+
+
+                    {progress !== null && (
+                      <div className="mt-4">
+                        <div className="text-xs text-amber-950 mb-1">{progressStatus}</div>
+                        <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                          <div
+                            className="bg-orange-500 h-full transition-all"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
         </form>
       </DialogContent>
     </Dialog>
