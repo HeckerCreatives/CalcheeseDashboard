@@ -73,25 +73,25 @@ export const useGetChests = () => {
   };
 
 
-export const getCodesList = async (page: number, limit: number, status: string, search: string, type: string, item: string, chest: string):Promise<CodeResponse> => { 
+export const getCodesList = async (page: number, limit: number, status: string, type: string, item: string, chest: string, search: string):Promise<CodeResponse> => { 
     const response = await axiosInstance.get(
       "/code/getcodes",
-      {params:{page, limit, status, search, type, item, chest}}
+      {params:{page, limit, status, type, item, chest, search}}
     );
     return response.data
   };
   
   
-export const useGetCodesList = (page: number, limit: number, status: string, search: string, type: string, item: string, chest: string) => {
+export const useGetCodesList = (page: number, limit: number, status: string, type: string, item: string, chest: string, search: string) => {
 
   const debouncedQuery = useDebounce(search, 500);
     return useQuery({
       queryKey: ["codeslist",page, limit, status, type, item, chest, debouncedQuery ],
       queryFn: () => getCodesList(page, limit, status, type, item, chest, debouncedQuery),
       enabled: debouncedQuery !== undefined,
-      staleTime: 5 * 60 * 1000,
-      refetchOnMount: false, 
-      refetchOnWindowFocus: false,
+      // staleTime: 5 * 60 * 1000,
+      // refetchOnMount: false, 
+      // refetchOnWindowFocus: false,
     });
 };
 

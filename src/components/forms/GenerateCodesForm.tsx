@@ -72,6 +72,7 @@ export default function GenerateCodesForm() {
         },
         onError: () => {
           reset()
+          setOpen(false)
         }
       })
     }

@@ -5,38 +5,42 @@ export const admin = [
     path:'/admin/dashboard', subpath:[
 
     ]},
-    {name: 'Codes', icon: <TicketCheckIcon size={15}/>, 
-    path:'/admin/codes', subpath:[
-        {name: 'Generate', icon: <Scan size={15}/>, 
-        path:'/admin/codes/generate'},
-        {name: 'List', icon: <List size={15}/>, 
-        path:'/admin/codes/list'},
-        {name: 'Reward Type', icon: <Ticket size={15}/>, 
-        path:'/admin/codes/rewardtype'}
-    ]},
-    {name: 'ROBUX', icon: <Box size={15}/>, 
-    path:'/admin/robux/rewardtype', subpath:[]},
-
-    {name: 'Tickets', icon: <Ticket size={15}/>, 
-    path:'/admin/tickets/rewardtype', subpath:[]},
-
-     {name: 'Chest', icon: <Boxes size={15}/>, 
-    path:'/admin/chests', subpath:[]},
-
+     {name: 'Codes', icon: <Scan size={15}/>, 
+    path:'/admin/codes/generate', subpath:[]},
+    // {name: 'Codes', icon: <TicketCheckIcon size={15}/>, 
+    
+    // path:'/admin/codes', subpath:[
+    //     {name: 'Generate', icon: <Scan size={15}/>, 
+    //     path:'/admin/codes/generate'},
+    //     {name: 'List', icon: <List size={15}/>, 
+    //     path:'/admin/codes/list'},
+    //     {name: 'Reward Type', icon: <Ticket size={15}/>, 
+    //     path:'/admin/codes/rewardtype'}
+    // ]},
     // {name: 'ROBUX', icon: <Box size={15}/>, 
-    // path:'/admin/robux', subpath:[
-    //     {name: 'Claiming', icon: <List size={15}/>, 
-    //     path:'/admin/robux/claiming'},
-    //     {name: 'Reward Type', icon: <Ticket size={15}/>, 
-    //     path:'/admin/robux/rewardtype'}
-    // ]},
+    // path:'/admin/robux/rewardtype', subpath:[]},
+
     // {name: 'Tickets', icon: <Ticket size={15}/>, 
-    // path:'/admin/tickets',  subpath:[
-    //     {name: 'Claiming', icon: <List size={15}/>, 
-    //     path:'/admin/tickets/claiming'},
-    //     {name: 'Reward Type', icon: <Ticket size={15}/>, 
-    //     path:'/admin/tickets/rewardtype'}
-    // ]},
+    // path:'/admin/tickets/rewardtype', subpath:[]},
+
+    
+
+     {name: 'ROBUX', icon: <Box size={15}/>, 
+     path:'/admin/robux', subpath:[
+         {name: 'Claiming', icon: <List size={15}/>, 
+         path:'/admin/robux/claiming'},
+         {name: 'Reward Type', icon: <Ticket size={15}/>, 
+         path:'/admin/robux/rewardtype'}
+     ]},
+     {name: 'Tickets', icon: <Ticket size={15}/>, 
+     path:'/admin/tickets',  subpath:[
+         {name: 'Claiming', icon: <List size={15}/>, 
+         path:'/admin/tickets/claiming'},
+         {name: 'Reward Type', icon: <Ticket size={15}/>, 
+         path:'/admin/tickets/rewardtype'}
+     ]},
+      {name: 'Chest', icon: <Boxes size={15}/>, 
+    path:'/admin/chests', subpath:[]},
     {name: 'Items', icon: <Box size={15}/>, 
     path:'/admin/items', subpath:[]},
     {name: 'Website', icon: <Globe size={15}/>, 

@@ -13,12 +13,9 @@ export default function Home() {
        </div>
      </div>
      <div className="relative hidden bg-gradient-to-br from-orange-500 to-orange-300 lg:flex items-center justify-center">
-       <img
-         src="/logo.png"
-         alt="Image"
-         width={300}
-         className=""
-       />
+       
+      <Image src="/assets/CalCheese World Logo.png" alt="logo" width={500} height={500} priority unoptimized loading='eager' className=' w-[70%]'/>
+       
      </div>
    </div>
   );

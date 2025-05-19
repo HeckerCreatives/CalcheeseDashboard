@@ -140,7 +140,7 @@ export default function Adminlayout({
                         <NavigationMenuContent className=' w-[400px]'>
                           {item.subpath.map((sub, index) => (
                           <NavigationMenuLink className={`text-xs flex items-center  ${path.includes(sub.path) ? 'bg-gradient text-white' : 'text-black hover:bg-zinc-100 gap-2'}`} href={sub.path}>
-                            <p className=' '>{sub.icon}</p>
+                            <p className=' '>{sub?.icon}</p>
                             {sub.name}</NavigationMenuLink>
                           ))}
                         </NavigationMenuContent>
