@@ -34,6 +34,7 @@ interface Item {
 export interface Code {
   id: string;
   code: string;
+  status: string
   chest: Chest;
   items: Item[];
   expiration: string; // You can use `Date` if you plan to convert it
@@ -156,7 +157,7 @@ export const exportCodeslist = async (type: string) => {
 };
 
   
-  export const useExportCodeslist = () => {
+export const useExportCodeslist = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -167,6 +168,27 @@ export const exportCodeslist = async (type: string) => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [""] });
+          }
+    
+    });
+};
+
+export const approveClaim = async (id: string, status: string) => { 
+    const response = await axiosInstance.post("/code/approverejectcode", { id,status});
+    return response.data;
+  };
+  
+  export const useApproveClaim = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({ id,status }: {id: string, status: string}) =>
+        approveClaim( id,status),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["codeslist"] });
           }
     
     });

@@ -28,7 +28,7 @@ export default function History() {
         const [value, setValue] = useState('All')
         const [status, setStatus]= useState('')
         
-        const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'robux', '', '',search)
+        const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'ingame', '', '',search)
         
   
     
@@ -65,7 +65,6 @@ export default function History() {
                   <TableHead className=""> Code</TableHead>
                   <TableHead className="">Item</TableHead>
                   <TableHead className="">Username</TableHead>
-                  <TableHead className="">Email</TableHead>
                 
                   <TableHead className=" ">Claim Status</TableHead>
                   
@@ -78,8 +77,6 @@ export default function History() {
                     <TableCell>{item.code}</TableCell>
                     <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
                     <TableCell>{item.form?.name}</TableCell>
-                                        <TableCell>{item.form?.email}</TableCell>
-                    
 
                     <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
                     

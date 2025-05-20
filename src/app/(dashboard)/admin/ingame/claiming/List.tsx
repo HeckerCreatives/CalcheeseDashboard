@@ -35,7 +35,7 @@ export default function List() {
       const [status, setStatus]= useState('')
       
       // const {data, isLoading} = useGetRobuxList(currentPage,10,filter, search)
-      const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'robux', '', '',search)
+      const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'ingame', '', '',search)
       const {mutate: approveClaim} = useApproveClaim()
       
 
@@ -54,7 +54,7 @@ export default function List() {
 
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
-        <p className=' text-lg font-semibold text-orange-500'>ROBUX Lists</p>
+        <p className=' text-lg font-semibold text-orange-500'>In-Game Lists</p>
         <div className=' flex flex-wrap items-center gap-4 mt-4'>
 
             <div className=' relative w-fit flex items-center justify-center'>
@@ -94,11 +94,10 @@ export default function List() {
                   <TableHead className=""> Code</TableHead>
                   <TableHead className="">Item</TableHead>
                   <TableHead className="">Username</TableHead>
-                  <TableHead className="">Email</TableHead>
                 
                   <TableHead className=" ">Claim Status</TableHead>
                   
-                  <TableHead className="">Action</TableHead>
+                  {/* <TableHead className="">Action</TableHead> */}
               </TableRow>
               </TableHeader>
               <TableBody>
@@ -108,12 +107,11 @@ export default function List() {
                     <TableCell>{item.code}</TableCell>
                     <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
                     <TableCell>{item.form?.name}</TableCell>
-                    <TableCell>{item.form?.email}</TableCell>
 
                     <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
-                    <TableCell className=' flex items-center gap-2'>
+                    {/* <TableCell className=' flex items-center gap-2'>
                         <ApproveClaimForm id={item.id} status={'approved'} code={item.code} name={item.form?.name}/>
-                    </TableCell>
+                    </TableCell> */}
                 </TableRow>
                 ) )}
               

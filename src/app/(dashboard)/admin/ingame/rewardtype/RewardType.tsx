@@ -41,7 +41,7 @@ export default function Rewardtype() {
     const [value, setValue] = useState('')
     const [status, setStatus]= useState('')
     
-    const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'robux', '', '',search)
+    const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'ingame', '', '',search)
     
 
 

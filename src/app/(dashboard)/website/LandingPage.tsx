@@ -13,6 +13,8 @@ import RevealOnScroll from '@/components/animations/RevealOnScroll'
 import TrackedImage from '@/components/animations/TrackedImage'
 import Preloadmain from './Preload'
 import Image from 'next/image'
+import RedeemedCodesRewards from './RedeemedCodesRewards'
+import useRedeemCodesStore from '@/hooks/player'
 
 const tabs = [
   { icon: "/assets/Description BUTTON.png", value: "description", title: 'Welcome To CalCheese World' },
@@ -27,13 +29,16 @@ export default function LandingPage() {
   const [title, setTitle] = useState('Welcome To CalCheese World')
   const [tabNumber, setTabNumber] = useState<number>(0)
   const [enter, setEnter] = useState(false)
+  const {setRedeemcodes} = useRedeemCodesStore()
 
 
   return (
     <>
-     <main className=' hidden lg:block lg:relative w-screen max-w-[1920px] h-auto bg-amber-100 overflow-x-hidden overflow-y-hidden  text-amber-900'
+     <main className=' hidden lg:flex lg:relative w-screen max-w-[1920px] h-auto bg-amber-100 overflow-x-hidden overflow-y-hidden flex-col  items-center justify-center  text-amber-900'
     // style={{backgroundImage: "url('/assets/BG.png')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'contain'}}
     >
+
+
         <Image src="/assets/background.png" alt="tab" width={500} height={500} priority unoptimized loading='eager' className=' h-[40%] lg:h-full w-[80%] object-cover absolute sm:top-0 right-0 translate-y-10' />
 
         <div className=' relative w-full'>
