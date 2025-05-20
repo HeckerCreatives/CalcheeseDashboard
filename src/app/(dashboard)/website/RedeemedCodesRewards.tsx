@@ -173,36 +173,26 @@ export default function RedeemedCodesRewards() {
                         </div>
                       )}
 
-                      {(type === 'robux' && checked === 'valid') && (
-                        <>
+                      {(rewarddata?.data.type === 'ticket' && checked === 'valid') && (
                         <div className="w-full flex flex-col gap-1">
-                            <label className="text-xs text-amber-900">Username</label>
+                            <label className="text-xs text-amber-50">Roblox Username</label>
                             <Input
-                            value={code}
-                            onChange={(e) => {
-                              const newCode = e.target.value;
-                              setCode(newCode);
-                              if (newCode.trim().length === 13) {
-                                validateCode(newCode);
-                              }
-                            }}
-                            placeholder="Code"
-                            type="text"
-                          />
-                        </div>
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                              placeholder="Username"
+                              type="text"
+                            />
 
-                        <div className="w-full flex flex-col gap-1">
-                            <label className="text-xs text-amber-900">Email</label>
+                             <label className="text-xs text-amber-50">Email</label>
                             <Input
-                            value={email}
+                            value={username}
                             onChange={(e) => setEmail(e.target.value)}
                               placeholder="Email"
-                              type="email"
+                              type="text"
                             />
                         </div>
-                        </>
-                        
                       )}
+
 
                       {(checked === 'valid') ? (
                         <>
