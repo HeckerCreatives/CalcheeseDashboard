@@ -309,15 +309,16 @@ export default function RedeemedCodesRewards() {
                         <div className="flex flex-col items-center">
 
                           {!chest ? (
-                             <div onClick={() => setChest(true)} className=' relative flex items-center justify-center'>
+                             <div onClick={() => setChest(true)} className=' cursor-pointer relative flex items-center justify-center'>
                               <img
                               src={chestImageMap[chestName]}
                               alt={rewarddata.data.chest.chestname}
                               width={150}
                               height={150}
+                              className=' cursor-pointer'
                             />
 
-                            <p className=' animate-pulse text-yellow-100 absolute'>Click to open</p>
+                            <p className=' animate-pulse text-yellow-100 absolute cursor-pointer'>Click to open</p>
                           </div>
                           ) : (
                             <div className=" w-full flex items-center justify-center flex-wrap gap-4">
