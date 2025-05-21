@@ -24,7 +24,7 @@ export interface TicketType {
 export interface TicketCodeResponse {
     message: string;
     data: TicketCodeItem[];
-    totalPages: number;
+    totalpages: number;
   }
   
   export interface TicketCodeItem {

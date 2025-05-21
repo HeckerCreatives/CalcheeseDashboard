@@ -123,8 +123,12 @@ export default function RedeemedCodesRewards() {
             // style={{backgroundImage: "url('/rewards/bg.png')" , backgroundPosition:'bottom', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}
              >
               {/* <button onClick={() => {setRedeemcodes('close'), setIsclaimed(false), setChecked('invalid'), setCode('')}} className=' cursor-pointer absolute top-4 left-4 text-yellow-100'><X size={20}/></button> */}
+
+             
               
               {!isclaimed ? (
+
+                <>
                  <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 min-h-[300px]'>
 
                  <div className=' h-full flex flex-col items-center justify-center gap-4 p-12 '>
@@ -291,6 +295,10 @@ export default function RedeemedCodesRewards() {
                  
                
                 </div>
+
+              
+
+                              </>
               ) : (
                 <div className=' w-full h-full flex flex-col items-center justify-center gap-8 p-10'>
                   <h2 className=' md:text-2xl text-xl lg:text-4xl font-bold text-yellow-100 font-spenbeb'>Congratulations!</h2>
@@ -319,6 +327,8 @@ export default function RedeemedCodesRewards() {
                                 const hasGems = itemName.toLowerCase().includes('gem');
                                 const hasRobux = itemName.toLowerCase().includes('robux');
                                 const hasDisneyLand = itemName.toLowerCase().includes('disneyland');
+                                const hasOceanpark = itemName.toLowerCase().includes('ocean park');
+                                const hasEnchantedkingdom = itemName.toLowerCase().includes('enchanted kingdom');
                                  const numbers = itemName.match(/\d+/g); // Match all numbers
                                 const multiplier = numbers ? numbers[numbers.length - 1] : '1';
 
@@ -351,15 +361,39 @@ export default function RedeemedCodesRewards() {
 
                                     )}
 
+                                
                                     {hasDisneyLand && (
-                                      <div className=' w-[145px] aspect-video relative rounded-sm'
-                                        style={{backgroundImage: "url('/rewards/disneyland.jpg')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}
+                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
                                       >
+                                        <img src="https://cdn1.parksmedia.wdprapps.disney.com/vision-dam/digital/parks-platform/parks-standard-assets/parks/logo/disneyland/dlr-70th-logo.svg?2025-04-02T16:55:45+00:00" alt="enchanted kingdom" className=' w-full'/>
                                         
-                                        <p className='text-sm text-white absolute top-2 right-2'>Disneyland</p>
+                                      
                                       </div>
 
                                     )}
+
+                                    {hasEnchantedkingdom && (
+                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
+                                      >
+                                        <img src="/rewards/enchantedkingdom.png" alt="enchanted kingdom" className=' w-full'/>
+                                        
+                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
+                                      </div>
+
+                                    )}
+
+                                     {hasOceanpark && (
+                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
+                                      >
+                                        <img src="/rewards/oceanpark.png" alt="enchanted kingdom" className=' w-full'/>
+                                        
+                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
+                                      </div>
+
+                                    )}
+
+                                    
+
                                    
                                   </div>
                                 );
@@ -376,12 +410,16 @@ export default function RedeemedCodesRewards() {
                       )}
 
                       
+
+                      
                           {[...(rewarddata?.data?.items || [])].map((item) => {
                                 const itemName = item.itemname || '';
                                 const hasCoins = itemName.toLowerCase().includes('coin');
                                 const hasGems = itemName.toLowerCase().includes('gem');
                                 const hasRobux = itemName.toLowerCase().includes('robux');
                                 const hasDisneyLand = itemName.toLowerCase().includes('disneyland');
+                                const hasOceanpark = itemName.toLowerCase().includes('ocean park');
+                                const hasEnchantedkingdom = itemName.toLowerCase().includes('enchanted kingdom');
                                  const numbers = itemName.match(/\d+/g); // Match all numbers
                                 const multiplier = numbers ? numbers[numbers.length - 1] : '1';
 
@@ -414,12 +452,33 @@ export default function RedeemedCodesRewards() {
 
                                     )}
 
+                                
                                     {hasDisneyLand && (
-                                      <div className=' w-[145px] aspect-video relative rounded-sm'
-                                        style={{backgroundImage: "url('/rewards/disneyland.jpg')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}
+                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
                                       >
+                                        <img src="https://cdn1.parksmedia.wdprapps.disney.com/vision-dam/digital/parks-platform/parks-standard-assets/parks/logo/disneyland/dlr-70th-logo.svg?2025-04-02T16:55:45+00:00" alt="enchanted kingdom" className=' w-full'/>
                                         
-                                        <p className='text-sm text-white absolute top-2 right-2'>Disneyland</p>
+                                      
+                                      </div>
+
+                                    )}
+
+                                    {hasEnchantedkingdom && (
+                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
+                                      >
+                                        <img src="/rewards/enchantedkingdom.png" alt="enchanted kingdom" className=' w-full'/>
+                                        
+                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
+                                      </div>
+
+                                    )}
+
+                                     {hasOceanpark && (
+                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
+                                      >
+                                        <img src="/rewards/oceanpark.png" alt="enchanted kingdom" className=' w-full'/>
+                                        
+                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
                                       </div>
 
                                     )}
@@ -430,69 +489,14 @@ export default function RedeemedCodesRewards() {
 
                     
 
-                      {/* <div className=' flex'>
-                         {rewarddata?.data.items.map((item) => {
-                                const itemName = item.itemname || '';
-                                const hasCoins = itemName.toLowerCase().includes('coin');
-                                const hasGems = itemName.toLowerCase().includes('gem');
-                                const hasRobux = itemName.toLowerCase().includes('robux');
-                                const hasDisneyLand = itemName.toLowerCase().includes('disneyland');
-                                 const numbers = itemName.match(/\d+/g); // Match all numbers
-                                const multiplier = numbers ? numbers[numbers.length - 1] : '1';
-
-
-                                return (
-                                  <div key={item._id} className="relative w-fit h-fit">
-                                    {hasCoins && (
-                                      <div key={item._id} className="relative w-fit h-fit">
-                                        <img src="/rewards/coins.png" alt="Coins" width={100} height={100} />
-                                        <p className="absolute text-xl font-bold text-yellow-100 top-0 right-0">
-                                          x{multiplier}
-                                        </p>
-                                       </div>
-
-                                    )}
-                                    {hasGems && (
-                                      <div key={item._id} className="relative w-fit h-fit">
-                                        <img src="/rewards/gems.png" alt="Gems" width={100} height={100} />
-                                        <p className="absolute text-xl font-bold text-yellow-100 top-0 right-0">
-                                          x{multiplier}
-                                        </p>
-                                       </div>
-                                    )}
-
-                                    {hasRobux && (
-                                      <div className=' relative'>
-                                        <img src="/rewards/robloxgiftcards.png" alt="Gems" width={130} height={130} />
-                                        <p className='text-sm text-white absolute top-2 right-2'>${multiplier}</p>
-                                      </div>
-
-                                    )}
-
-                                    {hasDisneyLand && (
-                                      <div className=' w-[145px] aspect-video relative rounded-sm'
-                                        style={{backgroundImage: "url('/rewards/disneyland.jpg')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}
-                                      >
-                                        
-                                        <p className='text-sm text-white absolute top-2 right-2'>Disneyland</p>
-                                      </div>
-
-                                    )}
-                                   
-                                  </div>
-                                );
-                        })}
-                      </div> */}
-
-                      
-
 
         
                     </div>
                 </div>
               )}
 
-          
+
+            
         </div>
      
   )

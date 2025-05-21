@@ -56,7 +56,7 @@ export default function Rewardtype() {
   }
 
   useEffect(() => {
-    setTotalpage(data?.totalPages || 0)
+    setTotalpage(data?.totalpages || 0)
   },[data])
 
 

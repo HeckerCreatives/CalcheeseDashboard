@@ -95,8 +95,8 @@ export default function Generate() {
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-4'>
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <DashboardCard title="Total Codes" value={data?.totalDocs ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-              <DashboardCard title="Total Used Codes" value={data?.usedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-              <DashboardCard title="Total Unused Codes" value={data?.unusedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+              <DashboardCard title="Total Claimed Codes" value={data?.usedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+              <DashboardCard title="Total Unclaimed Codes" value={data?.unusedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
               <DashboardCard title="Total Expired Codes" value={data?.expiredCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
             </div>
         <div className=' flex items-end gap-4 mt-8'>
