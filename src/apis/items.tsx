@@ -20,18 +20,19 @@ interface ItemResponse {
 
   
 
-export const getItemList = async (): Promise<ItemResponse> => { 
+export const getItemList = async (page: number, limit: number): Promise<ItemResponse> => { 
     const response = await axiosInstance.get(
       "/item/getitems",
+      {params:{page, limit}}
     );
     return response.data
   };
   
   
-export const useGetItemsList = () => {
+export const useGetItemsList = (page: number, limit: number) => {
     return useQuery({
-      queryKey: ["items" ],
-      queryFn: () => getItemList(),
+      queryKey: ["items",page, limit ],
+      queryFn: () => getItemList(page, limit),
      
     });
 };

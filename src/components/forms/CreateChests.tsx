@@ -51,7 +51,7 @@ const allTypes: ItemType[] = ['robux', 'ticket']
 export default function CreateChestForm() {
     const {mutate: createChest, isPending} = useCreateChest()
     const [open, setOpen] = useState(false)
-    const {data} = useGetItemsList()
+    const {data} = useGetItemsList(0, 100)
    const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
 
 
@@ -80,6 +80,8 @@ export default function CreateChestForm() {
       })
   }
 
+
+  console.log(selectedItemIds)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -132,7 +134,7 @@ export default function CreateChestForm() {
                     
                       <MultiSelect
               data={data?.data}
-              onChange={(ids) => setSelectedItemIds(ids)} selectedIds={[]}                    />
+              onChange={(ids) => setSelectedItemIds(ids)}  selectedIds={selectedItemIds}                   />
           </div>
 
    

@@ -48,7 +48,7 @@ const allTypes: ItemType[] = ['robux', 'ticket']
 export default function CreateTicketCodeForm() {
     const {mutate: createTicket, isPending} = useCreateTicket()
     const [open, setOpen] = useState(false)
-    const {data: items} = useGetItemsList()
+    const {data: items} = useGetItemsList(0,100)
     
 
   const {
@@ -99,8 +99,16 @@ export default function CreateTicketCodeForm() {
                           <SelectValue placeholder="Select" />
                       </SelectTrigger>
                       <SelectContent>
-                          {items?.data.map((item, index) => (
-                          <SelectItem key={item.id} value={item.id}>{item.itemname}</SelectItem>
+                          {items?.data
+                            .filter((item) =>
+                              ['Disneyland', 'Ocean Park', 'Enchanted Kingdom'].some(keyword =>
+                                item.itemname.includes(keyword)
+                              )
+                            )
+                            .map((item) => (
+                              <SelectItem key={item.id} value={item.id}>
+                                {item.itemname}
+                              </SelectItem>
                           ))}
                         
                       </SelectContent>

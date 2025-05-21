@@ -62,8 +62,8 @@ export const checkCode = async (code: string): Promise<RewardData> => {
   };
 
 
-  export const redeemCode = async (code: string, email: string, name: string, picture: File | null) => { 
-    const response = await axiosInstance.post("/code/redeemcode",{code, email, name, picture});
+  export const redeemCode = async (code: string, email: string, name: string, picture: File | null, guardian: string, contact: number, address: string) => { 
+    const response = await axiosInstanceFormData.post("/code/redeemcode",{code, email, name, picture, guardian, contact,address});
     return response.data;
   };
   
@@ -71,8 +71,8 @@ export const checkCode = async (code: string): Promise<RewardData> => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ code, email, name, picture}: {code: string, email: string, name: string, picture: File | null}) =>
-        redeemCode(code, email, name, picture),
+      mutationFn: ({ code, email, name, picture, guardian, contact,address}: {code: string, email: string, name: string, picture: File | null, guardian: string, contact: number, address: string}) =>
+        redeemCode(code, email, name, picture, guardian, contact,address),
         onError: (error) => {
             handleApiError(error);
         },

@@ -50,7 +50,7 @@ export default function Generate() {
     const [itemfilter, setItemFilter]= useState('')
     const [status, setStatus]= useState('')
     const [chestfilter, setChestFilter]= useState('')
-    const {data: items} = useGetItemsList()
+    const {data: items} = useGetItemsList(currentPage,100)
     const {data: chests} = useGetChestList()
       const [open, setOpen] = useState(false)
     const {data, isLoading} = useGetCodesList(currentPage, 10, status, type, itemfilter, chestfilter,search)
@@ -97,7 +97,7 @@ export default function Generate() {
               <DashboardCard title="Total Codes" value={data?.totalDocs ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
               <DashboardCard title="Total Used Codes" value={data?.usedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
               <DashboardCard title="Total Unused Codes" value={data?.unusedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-              <DashboardCard title="Total Expired Codes" value={0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+              <DashboardCard title="Total Expired Codes" value={data?.expiredCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
             </div>
         <div className=' flex items-end gap-4 mt-8'>
           
@@ -254,9 +254,9 @@ export default function Generate() {
         
        
         <Table className=' text-sm mt-8'>
-            {/* {data?.data.length === 0 && (
+            {data?.data.length === 0 && (
                 <TableCaption>No data</TableCaption>
-            )} */}
+            )}
 
             {isLoading && (
                 <TableCaption><Loader type={'loader-secondary'}/></TableCaption>
@@ -277,7 +277,11 @@ export default function Generate() {
                 <TableRow key={index} className=' text-xs'>
                     <TableCell>{item.code}</TableCell>
                     <TableCell>{item.chest.chestname}</TableCell>
-                    <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
+                    <TableCell>
+                      {item.items.length > 0
+                        ? item.items.map((item) => item.itemname).join(', ')
+                        : 'No items'}
+                    </TableCell>
                     <TableCell>{item.expiration}</TableCell>
                     <TableCell>{item.type}</TableCell>
                     <TableCell className={` ${item.isUsed ? 'text-green-500' : 'text-orange-500'}`}>{item.isUsed ? 'Claimed' : 'UnClaimed'}</TableCell>

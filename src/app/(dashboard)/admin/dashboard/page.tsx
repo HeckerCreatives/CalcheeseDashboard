@@ -27,8 +27,8 @@ export default function page() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <DashboardCard title="Total Codes" value={data?.data.totalcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-        <DashboardCard title="Total Used Codes" value={data?.data.totalusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-        <DashboardCard title="Total Unused Codes" value={data?.data.totalunusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+        <DashboardCard title="Total Claimed Codes" value={data?.data.totalusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+        <DashboardCard title="Total Unclaimed Codes" value={data?.data.totalunusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
         <DashboardCard title="Total Expired Codes" value={data?.data.totalexpiredcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
       </div>
 
@@ -59,11 +59,11 @@ export default function page() {
           </CardContent>
         </Card>
 
-        <Card className=" bg-yellow-50">
+        <Card className=" bg-yellow-50 h-full">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-orange-500">Redeem History</CardTitle>
+            <CardTitle className="text-lg font-semibold text-orange-500">Claim History</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className=" h-full">
             <TransactionsList />
           </CardContent>
         </Card>

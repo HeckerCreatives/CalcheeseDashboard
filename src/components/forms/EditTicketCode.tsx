@@ -49,7 +49,7 @@ export default function EditTicketCodeForm(prop: Props) {
     const {mutate: editTicket, isPending} = useEditTicket()
     const [open, setOpen] = useState(false)
     // const {data} = useGetTicketTypeList()
-    const {data: items} = useGetItemsList()
+    const {data: items} = useGetItemsList(0, 100)
     
 
   const {
@@ -93,6 +93,8 @@ export default function EditTicketCodeForm(prop: Props) {
     
   },[prop])
 
+  console.log(prop)
+
 
 
   return (
@@ -116,9 +118,17 @@ export default function EditTicketCodeForm(prop: Props) {
                           <SelectValue placeholder="Select" />
                       </SelectTrigger>
                       <SelectContent>
-                          {items?.data.map((item, index) => (
-                          <SelectItem key={item.id} value={item.id}>{item.itemname}</SelectItem>
-                          ))}
+                         {items?.data
+                                                     .filter((item) =>
+                                                       ['Disneyland', 'Ocean Park', 'Enchanted Kingdom'].some(keyword =>
+                                                         item.itemname.includes(keyword)
+                                                       )
+                                                     )
+                                                     .map((item) => (
+                                                       <SelectItem key={item.id} value={item.id}>
+                                                         {item.itemname}
+                                                       </SelectItem>
+                                                   ))}
                         
                       </SelectContent>
                       </Select>

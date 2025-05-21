@@ -41,7 +41,11 @@ export interface TicketCodeResponse {
     isUsed: boolean
 
     _id: string
-    item: string
+     item: {
+              _id: string
+              itemid: string
+              itemname: string
+            },
     ticketid: string
     category: string
         

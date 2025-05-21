@@ -59,7 +59,7 @@ const allTypes: ItemType[] = ['robux', 'ticket']
 export default function EditChestForm(prop: Props) {
     const {mutate: editChest, isPending} = useEditChest()
     const [open, setOpen] = useState(false)
-    const {data} = useGetItemsList()
+    const {data} = useGetItemsList(0, 100)
    const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
 
    useEffect(() => {

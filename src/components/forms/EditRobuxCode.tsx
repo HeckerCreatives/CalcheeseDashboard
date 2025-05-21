@@ -42,7 +42,7 @@ interface Props {
 export default function EditRobuxCodeForm( prop: Props) {
     const {mutate: editRobux, isPending} = useEditRobux()
     const [open, setOpen] = useState(false)
-  const {data} = useGetItemsList()
+  const {data} = useGetItemsList(0,100)
     
 
   const {
@@ -107,7 +107,14 @@ export default function EditRobuxCodeForm( prop: Props) {
                 <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-                {data?.data.map((item, index) => (
+              
+                {data?.data
+                 .filter((item) =>
+                  ['ROBUX', 'Robux'].some(keyword =>
+                    item.itemname.includes(keyword)
+                  )
+                )
+                .map((item, index) => (
                 <SelectItem value={item.id}>{item.itemname}</SelectItem>
                 ))}
               

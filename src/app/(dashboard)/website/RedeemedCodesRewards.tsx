@@ -61,16 +61,21 @@ export default function RedeemedCodesRewards() {
         const [checked, setChecked] = useState('invalid')
         const [username, setUsername] = useState('')
         const [email, setEmail] = useState('')
+        const [address, setAddress] = useState('')
+        const [contact, setContact] = useState('')
+        const [gurdian, setGurdian] = useState('')
         const {mutate: checkCode} = useCheckCode()
         const {mutate: redeemCode, isPending} = useRedeemCode()
         const {redeemcodes,setRedeemcodes, clearRedeemcodes} = useRedeemCodesStore()
         const [rewarddata, setRewarddata] = useState<RewardData>()
         const [isclaimed, setIsclaimed] = useState(false)
         const [chest, setChest] = useState(false)
+        const [image, setImage] = useState<File | null>(null);
+        const [preview, setPreview] = useState<string | null>(null);
     
 
         const validateCode = (value: string) => {
-          if (value.length !== 13) return;
+          if (value.length <= 13) return;
           checkCode(
             { code: value },
             {
@@ -86,7 +91,7 @@ export default function RedeemedCodesRewards() {
         };
     
         const redeemCodeRewards = () => {
-            redeemCode({code: code, email: email, name: username, picture: null},{
+            redeemCode({code: code, email: email, name: username, picture: image, guardian: gurdian, contact: Number(contact), address: address},{
                 onSuccess: (response) => {
                   toast.success(`Code redeemed successfully`);
                   setType(response.data.codetype)
@@ -102,11 +107,11 @@ export default function RedeemedCodesRewards() {
         }
 
         const chestImageMap = {
-          "Uncommon Box": "/rewards/uncommonchest.png",
-          "Common Box": "/rewards/commonchest.png",
+          "Uncommon Chest": "/rewards/uncommonchest.png",
+          "Common Chest": "/rewards/commonchest.png",
           "Rare Chest": "/rewards/rarechest.png",
-          "Epic Box": "/rewards/epicchest.png",
-          "Legendary Box": "/rewards/legendarychest.png",
+          "Epic Chest": "/rewards/epicchest.png",
+          "Legendary Chest": "/rewards/legendarychest.png",
         } as const;
 
         const chestName = rewarddata?.data?.chest?.chestname as keyof typeof chestImageMap;
@@ -120,13 +125,13 @@ export default function RedeemedCodesRewards() {
               {/* <button onClick={() => {setRedeemcodes('close'), setIsclaimed(false), setChecked('invalid'), setCode('')}} className=' cursor-pointer absolute top-4 left-4 text-yellow-100'><X size={20}/></button> */}
               
               {!isclaimed ? (
-                 <div className=' w-full h-full grid grid-cols-2 min-h-[300px]'>
+                 <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 min-h-[300px]'>
 
                  <div className=' h-full flex flex-col items-center justify-center gap-4 p-12 '>
-                  <h2 className=' text-3xl font-bold text-yellow-100 font-spenbeb'>Redeem Code</h2>
+                  <h2 className=' text-2xl md:text-3xl font-bold text-yellow-100 font-spenbeb'>Redeem Code</h2>
                    
 
-                  <div className=' w-full flex flex-col gap-4'>
+                  <div className=' w-full flex flex-col gap-2'>
                     <div className="w-full flex flex-col gap-1">
                           <label className="text-xs text-amber-50">Code</label>
                                 <Input
@@ -142,7 +147,7 @@ export default function RedeemedCodesRewards() {
                       </div>
 
                       {(rewarddata?.data.type === 'ingame' && checked === 'valid') && (
-                        <div className="w-full flex flex-col gap-1">
+                        <div className="w-full flex flex-col gap-2">
                             <label className="text-xs text-amber-50">Roblox Username</label>
                             <Input
                             value={username}
@@ -154,7 +159,7 @@ export default function RedeemedCodesRewards() {
                       )}
 
                       {(rewarddata?.data.type === 'robux' && checked === 'valid') && (
-                        <div className="w-full flex flex-col gap-1">
+                        <div className="w-full flex flex-col gap-2">
                             <label className="text-xs text-amber-50">Roblox Username</label>
                             <Input
                             value={username}
@@ -165,7 +170,7 @@ export default function RedeemedCodesRewards() {
 
                              <label className="text-xs text-amber-50">Email</label>
                             <Input
-                            value={username}
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                               placeholder="Email"
                               type="text"
@@ -175,7 +180,7 @@ export default function RedeemedCodesRewards() {
 
                       {(rewarddata?.data.type === 'ticket' && checked === 'valid') && (
                         <div className="w-full flex flex-col gap-1">
-                            <label className="text-xs text-amber-50">Roblox Username</label>
+                            <label className="text-xs text-amber-50">Name</label>
                             <Input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -185,11 +190,51 @@ export default function RedeemedCodesRewards() {
 
                              <label className="text-xs text-amber-50">Email</label>
                             <Input
-                            value={username}
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                               placeholder="Email"
                               type="text"
                             />
+
+                            <label className="text-xs text-amber-50">Contact no.</label>
+                            <Input
+                            value={contact}
+                            onChange={(e) => setContact(e.target.value)}
+                              placeholder="Contact no."
+                              type="string"
+                            />
+
+                            <label className="text-xs text-amber-50">Address</label>
+                            <Input
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                              placeholder="Address"
+                              type="text"
+                            />
+
+                            <label className="text-xs text-amber-50">Guardian Name</label>
+                            <Input
+                            value={gurdian}
+                            onChange={(e) => setGurdian(e.target.value)}
+                              placeholder="Guardian Name"
+                              type="text"
+                            />
+
+                             <label className="text-xs text-amber-50">Picture</label>
+                              <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    setImage(file);
+                                    setPreview(URL.createObjectURL(file));
+                                  }
+                                }}
+                                className="text-sm text-black"
+                              />
+
+                             
                         </div>
                       )}
 
@@ -198,7 +243,7 @@ export default function RedeemedCodesRewards() {
                         <>
                         <p className='text-yellow-50 text-[.6rem]'>Code is valid, Please fill the aditional information.</p>
 
-                        <button disabled={isPending} onClick={redeemCodeRewards}  className=' relative cursor-pointer flex items-center justify-center'>
+                        <button disabled={isPending} onClick={redeemCodeRewards}  className=' relative cursor-pointer flex items-center justify-center mt-4'>
                             <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-[80%]' />
 
                             <div className='absolute flex items-center justify-center gap-2'>
@@ -248,7 +293,7 @@ export default function RedeemedCodesRewards() {
                 </div>
               ) : (
                 <div className=' w-full h-full flex flex-col items-center justify-center gap-8 p-10'>
-                  <h2 className=' text-4xl font-bold text-yellow-100 font-spenbeb'>Congratulations!</h2>
+                  <h2 className=' md:text-2xl text-xl lg:text-4xl font-bold text-yellow-100 font-spenbeb'>Congratulations!</h2>
                     <h2 className=' text-sm font-bold text-yellow-100'>You recieved</h2>
         
                     <div className=' flex items-center justify-center flex-wrap gap-6'>

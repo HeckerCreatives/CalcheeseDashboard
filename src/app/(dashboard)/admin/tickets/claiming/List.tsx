@@ -16,21 +16,39 @@ import { Filter, ListFilter, Pen, Scan, Search, Ticket, TicketCheck, Trash } fro
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-import { useGetTicketList } from '@/apis/tickets'
+import { useGetRobuxList } from '@/apis/robux'
 import statusColor, { statusData } from '@/lib/reusable'
 import Loader from '@/components/common/Loader'
+import { useApproveClaim, useGetCodesList } from '@/apis/codes'
+import PaginitionComponent from '@/components/common/Pagination'
+import ApproveClaimForm from '@/components/forms/ApproveClaim'
+import CreateTicketCodeForm from '@/components/forms/CreateTicketCode'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
   
   
   
   
 export default function List() {
-
-  const [currentPage, setCurrentpage] = useState(0)
+    const [currentPage, setCurrentpage] = useState(0)
       const [totalpage, setTotalpage] = useState(0)
       const [search, setSearch] = useState('')
       const [filter, setFilter] = useState('')
-      const [value, setValue] = useState('')
-      const {data, isLoading} = useGetTicketList(currentPage,10,filter, search)
+      const [value, setValue] = useState('All')
+      const [status, setStatus]= useState('')
+      
+      // const {data, isLoading} = useGetRobuxList(currentPage,10,filter, search)
+      const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'ticket', '', '',search)
+      const {mutate: approveClaim} = useApproveClaim()
+      
+
   
   
       
@@ -55,67 +73,103 @@ export default function List() {
 
             </div>
 
+            
+
             <div className=' flex items-center gap-4 text-xs'>
                 <p className=' text-zinc-400'>Filter:</p>
-                 <Popover>
-                   <PopoverTrigger className=' text-xs flex items-center gap-1 cursor-pointer bg-white px-3 py-1 rounded-sm'><ListFilter size={15}/>Status: {value}</PopoverTrigger>
-                   <PopoverContent className=' text-xs flex flex-col gap-2'>
-                       {statusData.map((item, index) => (
-                       <p key={index} onClick={() =>{ setFilter(item.name), setValue(item.name)}} className={`  p-1 rounded-sm w-full cursor-pointer ${filter === item.value ? 'bg-zinc-100' : 'hover:bg-zinc-50' }`}>{item.name}</p>
-                       ))}
-                      
-                   </PopoverContent>
-               </Popover>
+                <Popover>
+                    <PopoverTrigger className=' text-xs flex items-center gap-1 cursor-pointer bg-white px-3 py-1 rounded-sm'><ListFilter size={15}/>Status: {value}</PopoverTrigger>
+                    <PopoverContent className=' text-xs flex flex-col gap-2'>
+                        {statusData.map((item, index) => (
+                        <p key={index} onClick={() =>{ setFilter(item.value), setValue(item.name)}} className={`  p-1 rounded-sm w-full cursor-pointer ${filter === item.value ? 'bg-zinc-100' : 'hover:bg-zinc-50' }`}>{item.name}</p>
+                        ))}
+    
+                    </PopoverContent>
+                </Popover>
 
              
             </div>
 
         </div>
        
-        <Table className=' text-sm mt-8'>
-        {data?.data.length === 0 && (
-                       <TableCaption>No data</TableCaption>
-       
-                   )}
-       
-                    {isLoading && (
-                       <TableCaption><Loader type={'loader-secondary'}/></TableCaption>
-                   ) }
-        <TableHeader>
-        <TableRow>
-            <TableHead className="">Select</TableHead>
-            <TableHead className="">Ticket Code</TableHead>
-            <TableHead className="">Ticket Name</TableHead>
-            <TableHead className="">User</TableHead>
-            <TableHead className="">Email</TableHead>
-            <TableHead className="">Picture</TableHead>
-            <TableHead className="">Status</TableHead>
-       
-            <TableHead className="">Action</TableHead>
-        </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data?.data.map((item, index) => (
-            <TableRow key={item.id}>
-              <TableCell><input type='checkbox'/></TableCell>
-              <TableCell>{item.ticketcode}</TableCell>
-              <TableCell>{item.ticketname}</TableCell>
-              <TableCell>{item.name ? item.name : '------'}</TableCell>
-              <TableCell>{item.email ? item.email : '------'}</TableCell>
-              <TableCell>{item.picture ? item.picture : '------'}</TableCell>
-              <TableCell className={`${statusColor(item.status)}`}>{item.status}</TableCell>
-              <TableCell className=' flex items-center gap-2'>
+       <Table className=' text-sm mt-8'>
+                  {data?.data.length === 0 && (
+                      <TableCaption>No data</TableCaption>
+      
+                  )}
+      
+                   {isLoading && (
+                      <TableCaption><Loader type={'loader-secondary'}/></TableCaption>
+                  ) }
+              <TableHeader>
+              <TableRow>
+                  <TableHead className=""> Code</TableHead>
+                  <TableHead className="">Item</TableHead>
+                  <TableHead className="">Username</TableHead>
+                  <TableHead className="">Email</TableHead>
+                  <TableHead className="">Picture</TableHead>
+                  <TableHead className="">Contact</TableHead>
+                  <TableHead className="">Guardian</TableHead>
+                  <TableHead className="">Address</TableHead>
+                  <TableHead className=" ">Claim Status</TableHead>
+                  
+                  <TableHead className="">Action</TableHead>
+              </TableRow>
+              </TableHeader>
+              <TableBody>
+                   {data?.data.map((item, index) => (
+                  <TableRow>
+                    {/* <TableCell><input type='checkbox'/></TableCell>robuxcodeid, robuxcode, item, name */}
+                    <TableCell>{item.code}</TableCell>
+                    <TableCell>
+                      {item.items.length > 0
+                        ? item.items.map((item) => item.itemname).join(', ')
+                        : 'No items'}
+                    </TableCell>
+                    <TableCell>{item.form?.name}</TableCell>
+                    <TableCell>{item.form?.email}</TableCell>
+                    <TableCell>
+                    
 
-                  {/* <button className='primary-btn flex items-center gap-1'><Pen size={15}/>Edit</button>
-                  <button className='danger-btn flex items-center gap-1'><Trash size={15}/>Delete</button> */}
-                  <button className='ghost-btn flex items-center gap-1'><TicketCheck size={15}/>Claimed</button>
-              </TableCell>
-          </TableRow>
-          ))}
-        
-        </TableBody>
-    </Table>
-    </div>
+                      <Dialog>
+                      <DialogTrigger className=' cursor-pointer'>
+                         {item.form?.picture && (
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.form.picture}`}
+                          alt="picture"
+                          className="w-12 h-12 object-cover rounded-full"
+                        />
+                      )}
+                      </DialogTrigger>
+                      <DialogContent className=' bg-transparent border-none shadow-none'>
+                       <img
+                          src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.form?.picture}`}
+                          alt="picture"
+                          className=""
+                        />
+                      </DialogContent>
+                    </Dialog>
+
+                    </TableCell>
+                    <TableCell>{item.form?.contact}</TableCell>
+                    <TableCell>{item.form?.guardian}</TableCell>
+                    <TableCell>{item.form?.address}</TableCell>
+
+
+                    <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
+                    <TableCell className=' flex items-center gap-2'>
+                        <ApproveClaimForm id={item.id} status={'approved'} code={item.code} name={item.form?.name}/>
+                    </TableCell>
+                </TableRow>
+                ) )}
+              
+              </TableBody>
+          </Table>
+      
+          {data?.data.length !== 0 && (
+                <PaginitionComponent currentPage={currentPage} total={totalpage} onPageChange={handlePageChange }/>
+              )}
+      </div>
     
   
   )

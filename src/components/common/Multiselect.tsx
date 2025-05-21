@@ -25,6 +25,8 @@ export default function MultiSelect({
     onChange(updated);
   };
 
+  console.log(data)
+
   return (
     <div className="border p-2 bg-white w-full rounded-md mt-1">
       <div className="mb-2 text-xs text-gray-600">Select Items:</div>

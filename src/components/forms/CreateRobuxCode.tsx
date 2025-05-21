@@ -45,7 +45,7 @@ const allTypes: ItemType[] = ['robux', 'ticket']
 export default function CreateRobuxCodeForm() {
     const {mutate: createRobux, isPending} = useCreateRobux()
     const [open, setOpen] = useState(false)
-    const {data} = useGetItemsList()
+    const {data} = useGetItemsList(0, 100)
 
 
   const {
@@ -96,9 +96,15 @@ export default function CreateRobuxCodeForm() {
                 <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-                {data?.data.map((item, index) => (
-                <SelectItem key={item.id} value={item.id}>{item.itemname}</SelectItem>
-                ))}
+               {data?.data
+                               .filter((item) =>
+                                ['ROBUX', 'Robux'].some(keyword =>
+                                  item.itemname.includes(keyword)
+                                )
+                              )
+                              .map((item, index) => (
+                              <SelectItem value={item.id}>{item.itemname}</SelectItem>
+                              ))}
               
             </SelectContent>
             </Select>

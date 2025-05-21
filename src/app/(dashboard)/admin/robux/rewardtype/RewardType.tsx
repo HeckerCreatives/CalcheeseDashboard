@@ -41,7 +41,7 @@ export default function Rewardtype() {
     const [value, setValue] = useState('')
     const [status, setStatus]= useState('')
     
-    const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'robux', '', '',search)
+    const {data, isLoading} = useGetRobuxList(currentPage, 10, filter,search)
     
 
 
@@ -63,6 +63,8 @@ export default function Rewardtype() {
                 <Search size={15} className=' absolute left-2'/>
                 <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Code' className=' w-fit pl-7'/>
             </div>
+
+            <CreateRobuxCodeForm/>
 
             <Popover>
                 <PopoverTrigger className=' text-xs flex items-center gap-1 cursor-pointer bg-white px-3 py-1 rounded-sm'><ListFilter size={15}/>Status: {value}</PopoverTrigger>
@@ -91,7 +93,8 @@ export default function Rewardtype() {
             <TableHead className=""> Code</TableHead>
             <TableHead className="">Item</TableHead>
           
-            <TableHead className=" ">Claim Status</TableHead>
+            <TableHead className=" ">Status</TableHead>
+            <TableHead className=" ">Action</TableHead>
             
         </TableRow>
         </TableHeader>
@@ -99,9 +102,13 @@ export default function Rewardtype() {
              {data?.data.map((item, index) => (
             <TableRow>
               {/* <TableCell><input type='checkbox'/></TableCell>robuxcodeid, robuxcode, item, name */}
-              <TableCell>{item.code}</TableCell>
-              <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
+              <TableCell>{item.robuxcode}</TableCell>
+              <TableCell>{item.item.itemname}</TableCell>
               <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
+              <TableCell className=' flex items-center gap-2'><EditRobuxCodeForm id={item.id} code={item.robuxcode} item={item.item.id} name={item.name}/>
+              <DeleteRobuxCodeForm id={item.id} code={item.robuxcode}/>
+              </TableCell>
+
              
           </TableRow>
           ) )}

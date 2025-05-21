@@ -46,7 +46,7 @@ export default function GenerateCodesForm() {
   // const { data } = useGetChests()
   const [items, setItems] = useState<Item[]>([])
   const {data: chest} = useGetChestList()
-  const {data} = useGetItemsList()
+  const {data} = useGetItemsList(0, 100)
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
   const {mutate: generateCodeslist, isPending} = useGenerateCodeslist()
   const [open, setOpen] = useState(false)
@@ -67,9 +67,6 @@ export default function GenerateCodesForm() {
       newSocket.disconnect();
     };
   }, []);
-
-
-  
 
   const {
     register,

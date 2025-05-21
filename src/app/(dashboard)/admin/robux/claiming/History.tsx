@@ -76,7 +76,11 @@ export default function History() {
                   <TableRow>
                     {/* <TableCell><input type='checkbox'/></TableCell>robuxcodeid, robuxcode, item, name */}
                     <TableCell>{item.code}</TableCell>
-                    <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
+                      <TableCell>
+                                          {item.items.length > 0
+                                            ? item.items.map((item) => item.itemname).join(', ')
+                                            : 'No items'}
+                                        </TableCell>
                     <TableCell>{item.form?.name}</TableCell>
                                         <TableCell>{item.form?.email}</TableCell>
                     

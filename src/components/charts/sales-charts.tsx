@@ -11,8 +11,8 @@ export function SalesChart() {
   const chartData = stats
     ? [
         { name: "Expired Codes", value: stats.totalexpiredcodes, color: "#2563eb" },
-        { name: "Redeemed Codes", value: stats.totalusedcodes, color: "#facc15" },
-        { name: "Unredeemed Codes", value: stats.totalunusedcodes, color: "#f97316" },
+        { name: "Claimed Codes", value: stats.totalusedcodes, color: "#facc15" },
+        { name: "Unclaimed Codes", value: stats.totalunusedcodes, color: "#f97316" },
       ]
     : []
 

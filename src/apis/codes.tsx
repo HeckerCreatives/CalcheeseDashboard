@@ -36,6 +36,7 @@ export interface Code {
   code: string;
   status: string
   chest: Chest;
+  claimdate: string
   items: Item[];
   expiration: string; // You can use `Date` if you plan to convert it
   type: string; // Consider using a union type if values are known: "ingame" | "ticket" | etc.
@@ -47,6 +48,11 @@ export interface Code {
   form: {
       name: string
       email: string
+      picture: string
+      guardian: string
+      contact: string
+      address: string
+              
   }
 }
 
@@ -57,6 +63,7 @@ export interface Code {
     totalDocs: number
     usedCodesCount: number 
     unusedCodesCount: number
+    expiredCodesCount: number
   }
 
 
@@ -65,7 +72,7 @@ export interface Code {
 
 export const getChests = async (): Promise<ChestsResponse | null> => { 
   const response = await axiosInstance.get(
-    "/code/getchests",
+    "/chest/getchestcodeanalytics",
   );
   return response.data
 };

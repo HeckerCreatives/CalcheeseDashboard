@@ -164,7 +164,7 @@ export default function Rewards() {
                                 <div className=' relative'>
                                 <img src="/assets/TAB.png" alt="" className=' hidden lg:block'/>
                                 <div className=' lg:absolute top-0 w-full h-fit lg:h-full p-4'> 
-                                    <p className=' text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-7'>{item.title}</p>
+                                    <p className=' text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-6'>{item.title}</p>
                                     <p className='  text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6'>{item.description}</p>
                                 </div>
 
@@ -190,7 +190,7 @@ export default function Rewards() {
                 </RevealOnScroll>
                 </DialogTrigger>
                 
-                <DialogContent className=' border-2 border-orange-300 p-0 w-[700px] overflow-hidden'>
+                <DialogContent className=' border-2 border-orange-300 p-0 w-[90%] md:w-[700px] overflow-hidden max-h-[80%] overflow-y-auto'>
                   <RedeemedCodesRewards/>
                 </DialogContent>
               </Dialog>

@@ -42,7 +42,7 @@ export default function List() {
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const [value, setValue] = useState('')
-    const {data, isLoading} = useGetItemsList()
+    const {data, isLoading} = useGetItemsList(currentPage, 10)
 
 
     
