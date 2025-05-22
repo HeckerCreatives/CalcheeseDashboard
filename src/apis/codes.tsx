@@ -144,7 +144,7 @@ export const exportCodeslist = async (type: string) => {
   });
 
   const disposition = response.headers["content-disposition"];
-  let filename = "calcheeseworlcodes.csv";
+  let filename = "calcheeseworlcodes.zip";
 
   if (disposition && disposition.includes("filename=")) {
     const match = disposition.match(/filename="?([^"]+)"?/);
