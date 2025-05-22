@@ -24,7 +24,7 @@ export const getDashboardCount = async (): Promise<CodeStatsResponse | null> => 
 
 export const useGetDashboardCount = () => {
   return useQuery({
-    queryKey: ["analytics", ],
+    queryKey: ["analyticscount", ],
     queryFn: () => getDashboardCount(),
     
     // staleTime: 5 * 60 * 1000,

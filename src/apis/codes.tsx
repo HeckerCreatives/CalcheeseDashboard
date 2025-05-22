@@ -127,7 +127,7 @@ export const generateCodeslist = async (chest: string, expiration: string,codeam
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+            queryClient.invalidateQueries({ queryKey: ["codeslist", "analyticscount"] });
           }
     
     });
