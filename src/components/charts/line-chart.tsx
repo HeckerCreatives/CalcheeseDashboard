@@ -34,7 +34,7 @@ export function LineChartDashboard(prop: Props) {
               domain={[0, yAxisMax]}
             />
 
-          <Tooltip formatter={(value) => [`${value}`, ""]} labelFormatter={(label) => `Month: ${label}`} />
+          <Tooltip formatter={(value) => [`${value}`, ""]} labelFormatter={(label) => `${prop.timeframe}: ${label}`} />
           <Legend />
           <Line dataKey="value" name="Redeemed Codes" stroke="#f97316" strokeWidth={2} />
         </LineChart>
