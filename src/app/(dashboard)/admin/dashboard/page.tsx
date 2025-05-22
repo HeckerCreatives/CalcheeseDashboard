@@ -61,7 +61,7 @@ export default function page() {
 
         <Card className=" bg-yellow-50 h-full">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-orange-500">Claim History</CardTitle>
+            <CardTitle className="text-lg font-semibold text-orange-500">Approved History</CardTitle>
           </CardHeader>
           <CardContent className=" h-full">
             <TransactionsList />
