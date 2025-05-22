@@ -107,10 +107,10 @@ export default function RedeemedCodesRewards() {
         }
 
         const chestImageMap = {
-          "Uncommon Chest": "/rewards/uncommonchest.png",
-          "Common Chest": "/rewards/commonchest.png",
-          "Rare Chest": "/rewards/rarechest.png",
-          "Epic Chest": "/rewards/epicchest.png",
+          "Uncommon Box": "/rewards/uncommonchest.png",
+          "Common Box": "/rewards/commonchest.png",
+          "Rare Box": "/rewards/rarechest.png",
+          "Epic Box": "/rewards/epicchest.png",
           "Legendary Chest": "/rewards/legendarychest.png",
         } as const;
 
