@@ -35,6 +35,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import toast from 'react-hot-toast'
+import { useGetDashboardCount } from '@/apis/dashboard'
 
 
   
@@ -55,6 +56,8 @@ export default function Generate() {
       const [open, setOpen] = useState(false)
     const {data, isLoading} = useGetCodesList(currentPage, 10, status, type, itemfilter, chestfilter,search)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
+    const {data: codes} = useGetDashboardCount()
+    
 
       
       
@@ -94,10 +97,10 @@ export default function Generate() {
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-4'>
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <DashboardCard title="Total Codes" value={data?.totalDocs ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-              <DashboardCard title="Total Claimed Codes" value={data?.usedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-              <DashboardCard title="Total Unclaimed Codes" value={data?.unusedCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-              <DashboardCard title="Total Expired Codes" value={data?.expiredCodesCount ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+             <DashboardCard title="Total Codes" value={codes?.data.totalcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+            <DashboardCard title="Total Claimed Codes" value={codes?.data.totalusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+            <DashboardCard title="Total Unclaimed Codes" value={codes?.data.totalunusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
+            <DashboardCard title="Total Expired Codes" value={codes?.data.totalexpiredcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
             </div>
         <div className=' flex items-end gap-4 mt-8'>
           
