@@ -30,7 +30,7 @@ export default function List() {
     const [currentPage, setCurrentpage] = useState(0)
       const [totalpage, setTotalpage] = useState(0)
       const [search, setSearch] = useState('')
-      const [filter, setFilter] = useState('')
+      const [filter, setFilter] = useState('to-claim')
       const [value, setValue] = useState('All')
       const [status, setStatus]= useState('')
       
@@ -63,7 +63,7 @@ export default function List() {
 
             </div>
 
-            <div className=' flex items-center gap-4 text-xs'>
+            {/* <div className=' flex items-center gap-4 text-xs'>
                 <p className=' text-zinc-400'>Filter:</p>
                 <Popover>
                     <PopoverTrigger className=' text-xs flex items-center gap-1 cursor-pointer bg-white px-3 py-1 rounded-sm'><ListFilter size={15}/>Status: {value}</PopoverTrigger>
@@ -76,7 +76,7 @@ export default function List() {
                 </Popover>
 
              
-            </div>
+            </div> */}
 
         </div>
        
