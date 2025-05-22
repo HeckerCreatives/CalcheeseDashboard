@@ -165,6 +165,9 @@ export default function Generate() {
                  <SelectItem  value='rejected' className="text-xs">
                   Rejected
                 </SelectItem>
+                <SelectItem  value='expired' className="text-xs">
+                  Expired
+                </SelectItem>
             </SelectContent>
           </Select> 
           </div>

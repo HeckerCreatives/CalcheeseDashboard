@@ -36,7 +36,7 @@ export default function History() {
         const [value, setValue] = useState('All')
         const [status, setStatus]= useState('')
         
-        const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'robux', '', '',search)
+        const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'ticket', '', '',search)
         
   
     

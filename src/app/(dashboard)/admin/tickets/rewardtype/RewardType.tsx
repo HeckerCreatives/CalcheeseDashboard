@@ -41,7 +41,7 @@ export default function Rewardtype() {
     const [currentPage, setCurrentpage] = useState(0)
     const [totalpage, setTotalpage] = useState(0)
     const [search, setSearch] = useState('')
-    const [filter, setFilter] = useState('')
+    const [filter, setFilter] = useState('to-claim')
     const [value, setValue] = useState('')
     const [status, setStatus]= useState('')
     

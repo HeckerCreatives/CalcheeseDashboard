@@ -5,7 +5,7 @@ export const statusData =[
     // {value: 'pending', name: 'Pending'},
     {value: 'claimed', name: 'Claimed'},
     {value: 'to-claim', name: 'Unclaimed'},
-    {value: 'approved', name: 'Approved'},
+    // {value: 'approved', name: 'Approved'},
 ]
   
 const statusColor = (data: string): string => {
