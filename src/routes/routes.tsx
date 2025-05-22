@@ -39,13 +39,17 @@ export const admin = [
          {name: 'Reward Type', icon: <Ticket size={15}/>, 
          path:'/admin/tickets/rewardtype'}
      ]},
-      {name: 'In-Game', icon: <Gamepad size={15}/>, 
-     path:'/admin/ingame', subpath:[
-         {name: 'Claiming', icon: <List size={15}/>, 
-         path:'/admin/ingame/claiming'},
-         {name: 'Reward Type', icon: <Ticket size={15}/>, 
-         path:'/admin/ingame/rewardtype'}
-     ]},
+    //   {name: 'In-Game', icon: <Gamepad size={15}/>, 
+    //  path:'/admin/ingame', subpath:[
+    //      {name: 'Claiming', icon: <List size={15}/>, 
+    //      path:'/admin/ingame/claiming'},
+    //      {name: 'Reward Type', icon: <Ticket size={15}/>, 
+    //      path:'/admin/ingame/rewardtype'}
+    //  ]},
+
+     {name: 'In Game', icon: <Gamepad size={15}/>, 
+    path:'/admin/ingame/claiming', subpath:[]},
+    
       {name: 'Chest', icon: <Boxes size={15}/>, 
     path:'/admin/chests', subpath:[]},
     {name: 'Items', icon: <Box size={15}/>, 

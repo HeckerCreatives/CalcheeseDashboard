@@ -64,7 +64,7 @@ export default function History() {
               <TableRow>
                   <TableHead className=""> Code</TableHead>
                   <TableHead className="">Item</TableHead>
-                  <TableHead className="">Username</TableHead>
+                  {/* <TableHead className="">Username</TableHead> */}
                 
                   <TableHead className=" ">Claim Status</TableHead>
                   
@@ -76,7 +76,7 @@ export default function History() {
                     {/* <TableCell><input type='checkbox'/></TableCell>robuxcodeid, robuxcode, item, name */}
                     <TableCell>{item.code}</TableCell>
                     <TableCell>{item.items.map((item) => item.itemname).join(',')}</TableCell>
-                    <TableCell>{item.form?.name}</TableCell>
+                    {/* <TableCell>{item.form?.name}</TableCell> */}
 
                     <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
                     
