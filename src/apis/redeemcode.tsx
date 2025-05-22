@@ -77,7 +77,9 @@ export const checkCode = async (code: string): Promise<RewardData> => {
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [""] });
+            // queryClient.invalidateQueries({ queryKey: [""] });
+             queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
+
           }
     
     });
