@@ -131,7 +131,7 @@ export default function RedeemedCodesRewards() {
                 <>
                  <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 min-h-[300px]'>
 
-                 <div className=' h-full flex flex-col items-center justify-center gap-4 p-12 '>
+                 <div className=' h-full flex flex-col items-center justify-center gap-4 p-6 lg:p-12 '>
                   <h2 className=' text-2xl md:text-3xl font-bold text-yellow-100 font-spenbeb'>Redeem Code</h2>
                    
 
@@ -152,7 +152,7 @@ export default function RedeemedCodesRewards() {
 
                       {(rewarddata?.data.type === 'ingame' && checked === 'valid') && (
                         <div className="w-full flex flex-col gap-2">
-                            <label className="text-xs text-amber-50">Roblox Username</label>
+                            <label className="text-xs text-amber-50">Roblox Id</label>
                             <Input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -164,7 +164,7 @@ export default function RedeemedCodesRewards() {
 
                       {(rewarddata?.data.type === 'robux' && checked === 'valid') && (
                         <div className="w-full flex flex-col gap-2">
-                            <label className="text-xs text-amber-50">Roblox Username</label>
+                            <label className="text-xs text-amber-50">Roblox Id</label>
                             <Input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -184,46 +184,59 @@ export default function RedeemedCodesRewards() {
 
                       {(rewarddata?.data.type === 'ticket' && checked === 'valid') && (
                         <div className="w-full flex flex-col gap-1">
-                            <label className="text-xs text-amber-50">Name</label>
+                            <label className="text-xs text-amber-50">Roblox Id</label>
                             <Input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                               placeholder="Username"
                               type="text"
                             />
+                              <div className=' flex items-start gap-2'>
+                                <div className=' flex flex-col gap-1'>
+                                  <label className="text-xs text-amber-50">Email</label>
+                                  <Input
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email"
+                                    type="text"
+                                  />
+                                </div>
 
-                             <label className="text-xs text-amber-50">Email</label>
-                            <Input
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                              placeholder="Email"
-                              type="text"
-                            />
+                                <div className=' flex flex-col gap-1'>
+                                  <label className="text-xs text-amber-50">Contact no.</label>
+                                  <Input
+                                  value={contact}
+                                  onChange={(e) => setContact(e.target.value)}
+                                    placeholder="Contact no."
+                                    type="string"
+                                  />
+                                </div>
+                              </div>
 
-                            <label className="text-xs text-amber-50">Contact no.</label>
-                            <Input
-                            value={contact}
-                            onChange={(e) => setContact(e.target.value)}
-                              placeholder="Contact no."
-                              type="string"
-                            />
 
-                            <label className="text-xs text-amber-50">Address</label>
-                            <Input
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                              placeholder="Address"
-                              type="text"
-                            />
+                              <div className=' flex items-start gap-2'>
+                                <div className=' flex flex-col gap-1'>
+                                   <label className="text-xs text-amber-50">Address</label>
+                                    <Input
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                      placeholder="Address"
+                                      type="text"
+                                    />
+                                </div>
 
-                            <label className="text-xs text-amber-50">Guardian Name</label>
-                            <Input
-                            value={gurdian}
-                            onChange={(e) => setGurdian(e.target.value)}
-                              placeholder="Guardian Name"
-                              type="text"
-                            />
+                                <div className=' flex flex-col gap-1'>
+                                  <label className="text-xs text-amber-50">Guardian Name</label>
+                                  <Input
+                                  value={gurdian}
+                                  onChange={(e) => setGurdian(e.target.value)}
+                                    placeholder="Guardian Name"
+                                    type="text"
+                                  />
+                                </div>
+                              </div>
 
+                    
                              <label className="text-xs text-amber-50">Picture</label>
                               <Input
                                 type="file"
@@ -248,7 +261,7 @@ export default function RedeemedCodesRewards() {
                         <p className='text-yellow-50 text-[.6rem]'>Code is valid, Please fill the aditional information.</p>
 
                         <button disabled={isPending} onClick={redeemCodeRewards}  className=' relative cursor-pointer flex items-center justify-center mt-4'>
-                            <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-[80%]' />
+                            <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-[60%]' />
 
                             <div className='absolute flex items-center justify-center gap-2'>
                               {isPending && <Loader type={'loader'}/>}
@@ -278,11 +291,11 @@ export default function RedeemedCodesRewards() {
                   <div className='w-full h-full  flex  items-center justify-center bg-orange-400 p-10'>
 
                     <div className='w-full h-full  flex flex-col gap-8 items-center justify-center'>
-                      <img src="/assets/CalCheese World Logo.png" alt="logo" width={200} height={200} loading='eager' className=''/>
+                      <img src="/assets/CalCheese World Logo.png" alt="logo" width={200} height={200} loading='eager' className=' w-[80%]'/>
                     
                         <div className=' w-full h-fit flex items-center justify-center bg-orange-400'>
                           <img src='/assets/Neon Headphones ICON.png' alt="headphone" width={200} height={200} className=' h-[70px] w-[60px] translate-x-6' />
-                          <img src='/assets/Robux ICON.png' alt="robux" width={200} height={200} className=' h-auto relative z-10 w-[80px] ' />
+                          <img src='/assets/Robux ICON.png' alt="robux" width={200} height={200} className=' h-auto relative z-10 w-[100px] ' />
                           <img src='/assets/Ticket ICON.png' alt="ticket" width={200} height={200} className=' h-[80px] w-[60px] -translate-x-6' />
                         </div>
 
@@ -313,8 +326,8 @@ export default function RedeemedCodesRewards() {
                               <img
                               src={chestImageMap[chestName]}
                               alt={rewarddata.data.chest.chestname}
-                              width={150}
-                              height={150}
+                              width={200}
+                              height={200}
                               className=' cursor-pointer'
                             />
 
@@ -413,7 +426,7 @@ export default function RedeemedCodesRewards() {
                       
 
                       
-                          {[...(rewarddata?.data?.items || [])].map((item) => {
+                          {/* {[...(rewarddata?.data?.items || [])].map((item) => {
                                 const itemName = item.itemname || '';
                                 const hasCoins = itemName.toLowerCase().includes('coin');
                                 const hasGems = itemName.toLowerCase().includes('gem');
@@ -469,7 +482,6 @@ export default function RedeemedCodesRewards() {
                                       >
                                         <img src="/rewards/enchantedkingdom.png" alt="enchanted kingdom" className=' w-full'/>
                                         
-                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
                                       </div>
 
                                     )}
@@ -479,14 +491,13 @@ export default function RedeemedCodesRewards() {
                                       >
                                         <img src="/rewards/oceanpark.png" alt="enchanted kingdom" className=' w-full'/>
                                         
-                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
                                       </div>
 
                                     )}
                                    
                                   </div>
                                 );
-                              })}
+                              })} */}
 
                     
 

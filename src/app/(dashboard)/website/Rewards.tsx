@@ -190,7 +190,7 @@ export default function Rewards() {
                 </RevealOnScroll>
                 </DialogTrigger>
                 
-                <DialogContent className=' border-2 border-orange-300 p-0 w-[90%] md:w-[700px] overflow-hidden max-h-[80%] overflow-y-auto'>
+                <DialogContent className=' border-2 border-orange-300 p-0 w-[90%] lg:w-[900px] overflow-hidden max-h-[80%] overflow-y-auto'>
                   <RedeemedCodesRewards/>
                 </DialogContent>
               </Dialog>
