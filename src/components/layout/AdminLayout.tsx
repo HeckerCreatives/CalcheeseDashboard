@@ -122,7 +122,7 @@ export default function Adminlayout({
       >
             <div>
                 <h2 className=' text-lg font-bold'>
-                 <img src="/logo.png" alt="" width={90} className='md:w-[90px] w-[70px]' />
+                 <img src="/assets/CalCheese World Logo.png" alt="" width={90} className='md:w-[150px] w-[100px]' />
                   
                 </h2>
             </div>
