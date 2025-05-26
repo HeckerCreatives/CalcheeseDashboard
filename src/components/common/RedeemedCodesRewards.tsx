@@ -133,7 +133,7 @@ export default function RedeemedCodesRewards() {
                 <button onClick={() => setState(false)} className=' absolute right-4 top-4 text-orange-600 cursor-pointer'><X size={40}/></button>
 
               <div className=' lg:block hidden w-full h-screen relative z-10 '>
-                <Image src="/assets/Calvin.png" alt="tab"  width={700} height={700} priority unoptimized loading='eager' className=' w-[70%] translate-y-12 absolute right-0 translate-x-24' />
+                <Image src="/assets/Calvin.png" alt="tab"  width={700} height={700} priority unoptimized loading='eager' className=' w-[70%] translate-y-12 absolute right-0 translate-x-16' />
 
               </div>
               <div className=' w-full h-full  flex items-center'>
@@ -141,29 +141,28 @@ export default function RedeemedCodesRewards() {
                 <div className=' w-full xl:w-[70%] h-auto bg-orange-500  rounded-2xl border-4 border-white p-6 lg:p-8 flex flex-col items-center'>
                   <h2 className=' text-white uppercase text-2xl lg:text-4xl font-bold italic'>Claim Your Rewards!</h2>
 
-               
 
-
-                  <div className="w-full flex flex-col gap-1 p-4 md:p-6 lg:p-8">
-                     <div className="w-full flex flex-col gap-1">
-                      <div className=' flex items-center gap-4'>
-                        <label className=" text-xs text-amber-50  w-[150px]">CalCheese Code:</label>
-                        <Input
-                            value={code}
-                            onChange={(e) => {
-                              const newCode = e.target.value;
-                              setCode(newCode);
-                              validateCode(newCode);
-                            }}
-                            placeholder="Enter calcheese code"
-                            type="text"
-                          />
-                      </div>
-                                              
-                  </div>
-                   
-                      {(rewarddata?.data.type === 'robux' && checked === 'valid') && (
-                                            <div className="w-full flex flex-col gap-3 mt-2">
+                  <Tabs defaultValue="robux" className="w-full mt-8">
+                    <TabsList>
+                      <TabsTrigger value="robux">Robux</TabsTrigger>
+                      <TabsTrigger value="ticket">Ticket</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="robux">
+                    
+                         <div className="w-full flex flex-col gap-3 mt-2">
+                            <div className=' flex items-center gap-4 mt-8'>
+                              <label className=" text-xs text-amber-50  w-[150px]">CalCheese Code:</label>
+                              <Input
+                                  value={code}
+                                  onChange={(e) => {
+                                    const newCode = e.target.value;
+                                    setCode(newCode);
+                                    validateCode(newCode);
+                                  }}
+                                  placeholder="Enter calcheese code"
+                                  type="text"
+                                />
+                            </div>
                                                <div className=' w-full flex items-center gap-4'>
                                                    <label className="text-xs text-amber-50 w-[150px]">Roblox Id</label>
                                                     <Input
@@ -186,11 +185,23 @@ export default function RedeemedCodesRewards() {
                                               
                     
                                                 
-                                            </div>
-                                          )}
-                    
-                                          {(rewarddata?.data.type === 'ticket' && checked === 'valid') && (
-                                            <div className="w-full flex flex-col gap-3 mt-2">
+                          </div>
+                    </TabsContent>
+                    <TabsContent value="ticket">
+                       <div className="w-full flex flex-col gap-3 mt-2">
+                      <div className=' flex items-center gap-4 mt-8'>
+                              <label className=" text-xs text-amber-50  w-[150px]">CalCheese Code:</label>
+                              <Input
+                                  value={code}
+                                  onChange={(e) => {
+                                    const newCode = e.target.value;
+                                    setCode(newCode);
+                                    validateCode(newCode);
+                                  }}
+                                  placeholder="Enter calcheese code"
+                                  type="text"
+                                />
+                            </div>
                                                <div className=' w-full flex items-center gap-4'>
                                                    <label className="text-xs text-amber-50 w-[150px]">Roblox Id</label>
                                                     <Input
@@ -248,35 +259,26 @@ export default function RedeemedCodesRewards() {
                                                     </div>
                                                  
                                             </div>
-                                          )}
-                      {(checked === 'valid') ? (
-                                              <>
-                                              <p className='text-yellow-50 text-[.6rem] w-full text-center mt-4'>Code is valid, Please fill the aditional information.</p>
+                    </TabsContent>
+                    
+                  </Tabs>
+
+              
+                      <button disabled={isPending} onClick={redeemCodeRewards}  className=' relative cursor-pointer flex items-center justify-center mt-8'>
+                          <img src="/assets/Play BUTTON.png" alt="" className=' w-full max-w-[200px] ' />
+                          <div className='absolute flex items-center justify-center gap-2'>
+                            {isPending && <Loader type={'loader'}/>}
+                          <p className=' text-lg md:text-lg font-bold  text-yellow-200'>Redeem now</p>
+                          </div>
+                      </button>
                       
-                                              <button disabled={isPending} onClick={redeemCodeRewards}  className=' relative cursor-pointer flex items-center justify-center mt-4'>
-                                                  <img src="/assets/Play BUTTON.png" alt="" className=' w-full max-w-[200px] ' />
-                      
-                                                  <div className='absolute flex items-center justify-center gap-2'>
-                                                    {isPending && <Loader type={'loader'}/>}
-                                                  <p className=' text-lg md:text-lg font-bold  text-yellow-200'>Redeem now</p>
-                      
-                                                  </div>
-                                              </button>
-                      
-                                              </>
-                        ) : (
-                          <>
-                          {code.trim().length >= 13 && (
-                          <p className='text-yellow-50 text-[.6rem] w-full text-center mt-4'>Code is invalid.</p>
-  
-                          )}
-                          </>
-  
-                        )}
-                      
-                  
-                                               
-                  </div>
+                   
+
+
+               
+
+
+                 
                 </div>
                 
            
