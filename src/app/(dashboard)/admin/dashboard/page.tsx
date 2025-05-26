@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import RadarChartComponent from "@/components/charts/radar-chart"
 
 
 export default function page() {
@@ -33,7 +34,7 @@ export default function page() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Card className="lg:col-span-1 bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-lg font-semibold text-orange-500">Chests</CardTitle>
@@ -51,12 +52,27 @@ export default function page() {
 
         <Card className="bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-semibold text-orange-500">Codes</CardTitle>
+            <CardTitle className="text-lg font-semibold text-orange-500">Chests</CardTitle>
                 
           </CardHeader>
-          <CardContent className="">
+          <CardContent className=" bg-transparent">
             <SalesChart />
           </CardContent>
+        </Card>
+
+        <Card className="lg:col-span-1 bg-yellow-50">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-lg font-semibold text-orange-500"> Geographic</CardTitle>
+            {/* <select className="bg-white border text-xs border-gray-200 rounded-md px-2 py-1">
+              <option>This Day</option>
+              <option>This Week</option>
+              <option>This Month</option>
+              <option>This Year</option>
+            </select> */}
+          </CardHeader>
+          <CardContent>
+            <RadarChartComponent/>
+            </CardContent>
         </Card>
 
         <Card className=" bg-yellow-50 h-full">

@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import RedeemedCodesRewards from './RedeemedCodesRewards'
+import useRedeemStatePopup from '@/hooks/redeempopup'
 
 
 export default function Rewards() {
@@ -33,6 +34,8 @@ export default function Rewards() {
     const {mutate: checkCode, isPending} = useCheckCode()
     const {mutate: redeemCode} = useRedeemCode()
     const {setRedeemcodes, clearRedeemcodes} = useRedeemCodesStore()
+    const {state, setState} = useRedeemStatePopup()
+
 
  
 
@@ -174,9 +177,18 @@ export default function Rewards() {
 
                     </div>
                 </RevealOnScroll>
-              
-              
 
+                 <RevealOnScroll delay={1.2} className=' w-full mt-4'>
+                  <div className=' w-full flex items-center justify-center mt-8 md:mt-8'>
+                      <button onClick={() => setState(true)}  className=' relative cursor-pointer flex items-center justify-center'>
+                          <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-full' />
+                          <p className=' text-xl md:text-3xl font-bold absolute text-yellow-200'>Redeem Now</p>
+                      </button>
+                  </div>
+                </RevealOnScroll>
+              
+              
+{/* 
                <Dialog>
                 <DialogTrigger>
 
@@ -193,7 +205,7 @@ export default function Rewards() {
                 <DialogContent className=' border-2 border-orange-300 p-0 w-[90%] lg:w-[900px] overflow-hidden max-h-[80%] overflow-y-auto'>
                   <RedeemedCodesRewards/>
                 </DialogContent>
-              </Dialog>
+              </Dialog> */}
                 </>
               {/* )} */}
 
