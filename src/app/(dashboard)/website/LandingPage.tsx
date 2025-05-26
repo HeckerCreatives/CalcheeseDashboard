@@ -18,16 +18,16 @@ import RedeemedCodesRewards from '@/components/common/RedeemedCodesRewards'
 import useRedeemStatePopup from '@/hooks/redeempopup'
 
 const tabs = [
+  { icon: "/assets/Rewards BUTTON.png", value: "rewards", title: 'Promo Codes' },
   { icon: "/assets/Description BUTTON.png", value: "description", title: 'Welcome To CalCheese World' },
   { icon: "/assets/What's New BUTTON.png", value: "whatsnew", title: 'Whats New?' },
   { icon: "/assets/Min Game BUTTON.png", value: "minigames", title: 'Mini Games' },
-  { icon: "/assets/Rewards BUTTON.png", value: "rewards", title: 'Promo Codes' },
   { icon: "/assets/Follow Us on BUTTON.png", value: "socials", title: 'Follow us on' },
 ]
 
 export default function LandingPage() {
   const [tab, setTab] = useState('rewards')
-  const [title, setTitle] = useState('Welcome To CalCheese World')
+  const [title, setTitle] = useState('Promo Codes')
   const [tabNumber, setTabNumber] = useState<number>(0)
   const [enter, setEnter] = useState(false)
   const {setRedeemcodes} = useRedeemCodesStore()
