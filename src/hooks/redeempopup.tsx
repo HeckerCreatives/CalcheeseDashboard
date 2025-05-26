@@ -10,7 +10,7 @@ interface RedeemStatePopup {
 const useRedeemStatePopup = create<RedeemStatePopup>()(
   persist(
     (set) => ({
-      state: true,
+      state: false,
       setState: (state: boolean) => set({ state }),
       clearState: () => set({ state: false }),
     }),

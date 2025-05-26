@@ -26,7 +26,7 @@ const tabs = [
 ]
 
 export default function LandingPage() {
-  const [tab, setTab] = useState('description')
+  const [tab, setTab] = useState('rewards')
   const [title, setTitle] = useState('Welcome To CalCheese World')
   const [tabNumber, setTabNumber] = useState<number>(0)
   const [enter, setEnter] = useState(false)
@@ -34,7 +34,7 @@ export default function LandingPage() {
   const {state, setState} = useRedeemStatePopup()
 
   useEffect(() => {
-    setState(true)
+    setState(false)
   },[])
 
 

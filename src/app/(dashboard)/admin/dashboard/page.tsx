@@ -70,7 +70,7 @@ export default function page() {
               <option>This Year</option>
             </select> */}
           </CardHeader>
-          <CardContent>
+          <CardContent className=" ">
             <RadarChartComponent/>
             </CardContent>
         </Card>
