@@ -285,7 +285,7 @@ export default function RedeemedCodesRewards() {
 
 
               </div>
-
+{/* 
               {isclaimed && (
                 <div className=' absolute z-[9999999] w-[40%] h-fit flex flex-col items-center justify-center gap-8 p-10 bg-orange-500'>
                   <button onClick={() => {setIsclaimed(false), setChecked('')}} className=' absolute right-4 top-4 text-white cursor-pointer'><X size={20}/></button>
@@ -366,7 +366,6 @@ export default function RedeemedCodesRewards() {
                                       >
                                         <img src="/rewards/enchantedkingdom.png" alt="enchanted kingdom" className=' w-full'/>
                                         
-                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
                                       </div>
 
                                     )}
@@ -376,7 +375,6 @@ export default function RedeemedCodesRewards() {
                                       >
                                         <img src="/rewards/oceanpark.png" alt="enchanted kingdom" className=' w-full'/>
                                         
-                                        {/* <p className='text-sm text-white absolute top-2 right-2'>Enchanted Kingdom</p> */}
                                       </div>
 
                                     )}
@@ -400,87 +398,10 @@ export default function RedeemedCodesRewards() {
 
                       
 
-                      
-                          {/* {[...(rewarddata?.data?.items || [])].map((item) => {
-                                const itemName = item.itemname || '';
-                                const hasCoins = itemName.toLowerCase().includes('coin');
-                                const hasGems = itemName.toLowerCase().includes('gem');
-                                const hasRobux = itemName.toLowerCase().includes('robux');
-                                const hasDisneyLand = itemName.toLowerCase().includes('disneyland');
-                                const hasOceanpark = itemName.toLowerCase().includes('ocean park');
-                                const hasEnchantedkingdom = itemName.toLowerCase().includes('enchanted kingdom');
-                                 const numbers = itemName.match(/\d+/g); // Match all numbers
-                                const multiplier = numbers ? numbers[numbers.length - 1] : '1';
-
-
-                                return (
-                                  <div key={item._id} className="relative w-fit h-fit">
-                                    {hasCoins && (
-                                      <div key={item._id} className="relative w-fit h-fit">
-                                        <img src="/rewards/coins.png" alt="Coins" width={100} height={100} />
-                                        <p className="absolute text-xl font-bold text-yellow-100 top-0 right-0">
-                                          x{multiplier}
-                                        </p>
-                                       </div>
-
-                                    )}
-                                    {hasGems && (
-                                      <div key={item._id} className="relative w-fit h-fit">
-                                        <img src="/rewards/gems.png" alt="Gems" width={100} height={100} />
-                                        <p className="absolute text-xl font-bold text-yellow-100 top-0 right-0">
-                                          x{multiplier}
-                                        </p>
-                                       </div>
-                                    )}
-
-                                    {hasRobux && (
-                                      <div className=' relative'>
-                                        <img src="/rewards/robloxgiftcards.png" alt="Gems" width={130} height={130} />
-                                        <p className='text-sm text-white absolute top-2 right-2'>${multiplier}</p>
-                                      </div>
-
-                                    )}
-
-                                
-                                    {hasDisneyLand && (
-                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
-                                      >
-                                        <img src="https://cdn1.parksmedia.wdprapps.disney.com/vision-dam/digital/parks-platform/parks-standard-assets/parks/logo/disneyland/dlr-70th-logo.svg?2025-04-02T16:55:45+00:00" alt="enchanted kingdom" className=' w-full'/>
-                                        
-                                      
-                                      </div>
-
-                                    )}
-
-                                    {hasEnchantedkingdom && (
-                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
-                                      >
-                                        <img src="/rewards/enchantedkingdom.png" alt="enchanted kingdom" className=' w-full'/>
-                                        
-                                      </div>
-
-                                    )}
-
-                                     {hasOceanpark && (
-                                      <div className=' w-[145px] aspect-video relative flex items-center justify-center p-2 rounded-sm bg-white'
-                                      >
-                                        <img src="/rewards/oceanpark.png" alt="enchanted kingdom" className=' w-full'/>
-                                        
-                                      </div>
-
-                                    )}
-                                   
-                                  </div>
-                                );
-                              })} */}
-
-                    
-
-
-        
+                  
                     </div>
                 </div>
-              )}
+              )} */}
               
              
               
