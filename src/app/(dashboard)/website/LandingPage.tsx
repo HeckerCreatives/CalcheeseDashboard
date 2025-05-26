@@ -7,7 +7,7 @@ import Rewards from './Rewards'
 import Followus from './Followus'
 import CursorFollower from '@/components/animations/CursorFollower'
 import TextReveal from '@/components/animations/TextReveal'
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import FloatImage from '@/components/animations/FloatImage'
 import RevealOnScroll from '@/components/animations/RevealOnScroll'
 import TrackedImage from '@/components/animations/TrackedImage'
@@ -40,9 +40,25 @@ export default function LandingPage() {
 
   return (
     <div className=' h-screen overflow-y-auto'>
-        {state && (
-        <RedeemedCodesRewards/>
-        )}
+       <AnimatePresence mode="wait">
+          {state && (
+            <motion.div
+              key="redeem-modal"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                duration: 0.4,
+              }}
+              className="fixed inset-0 z-[9999]"
+            >
+              <RedeemedCodesRewards />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
      <main className=' hidden lg:flex lg:relative w-screen max-w-[1920px] h-auto bg-amber-100 overflow-x-hidden overflow-y-hidden flex-col  items-center justify-center  text-amber-900'
     // style={{backgroundImage: "url('/assets/BG.png')" , backgroundPosition:'top right', backgroundRepeat:'no-repeat', backgroundSize:'contain'}}
