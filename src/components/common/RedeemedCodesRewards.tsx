@@ -176,7 +176,7 @@ export default function RedeemedCodesRewards() {
                     
                          <div className="w-full flex flex-col gap-2 mt-2">
 
-                          <div className=' flex flex-col gap-3 bg-orange-100 rounded-md p-2 mt-4'>
+                          <div className=' flex flex-col gap-2 bg-orange-100 rounded-md p-2 mt-4'>
                              <div className=' flex items-center gap-4 '>
                               <label className=" text-xs text-amber-950  w-[150px]">CalCheese Code:</label>
                               <Input

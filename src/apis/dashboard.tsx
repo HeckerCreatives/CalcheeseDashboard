@@ -11,6 +11,16 @@ interface CodeStatsResponse {
   };
 }
 
+export interface GeoCount {
+  region: string;
+  count: number;
+}
+
+export interface GeoCountResponse {
+  message: string;
+  data: GeoCount[];
+}
+
 
 
 export const getDashboardCount = async (): Promise<CodeStatsResponse | null> => { 
@@ -54,7 +64,25 @@ export const useGetRedeemedCodesChartData = (charttype: string) => {
       
     });
 };
+
+export const getRegionAnalytics = async ():Promise <GeoCountResponse> => { 
+    const response = await axiosInstance.get(
+      "/dashboard/getregionalanlytics",
+    );
+    return response.data
+  };
   
+  
+export const  useGetRegionAnalytics = () => {
+     return useQuery({
+      queryKey: ["region" ],
+      queryFn: () => getRegionAnalytics(),
+      // staleTime: 5 * 60 * 1000,
+      // refetchOnMount: false, 
+      // refetchOnWindowFocus: false,
+      
+});
+}
 
 
 
