@@ -125,6 +125,7 @@ export default function RedeemedCodesRewards() {
         const chestName = rewarddata?.data?.chest?.chestname as keyof typeof chestImageMap;
 
 
+
   return (
     
       <div className=' absolute z-[9999999] w-full h-full overflow-y-hidden flex items-center justify-center bg-orange-100'>
@@ -189,6 +190,16 @@ export default function RedeemedCodesRewards() {
                                                       type="text"
                                                     />
                                                 </div>
+
+                                                     <div className=' flex items-center gap-4'>
+                                                        <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Address</label>
+                                                            <Input
+                                                            value={address}
+                                                            onChange={(e) => setAddress(e.target.value)}
+                                                              placeholder="Address"
+                                                              type="text"
+                                                            />
+                                                    </div>
                                               
                     
                                                 
