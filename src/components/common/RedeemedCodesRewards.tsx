@@ -22,6 +22,15 @@ import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import useRedeemStatePopup from '@/hooks/redeempopup'
 import { AnimatePresence, motion } from "framer-motion";
+import PhilippinesAddressSelector from './AddressSelector'
+
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
 
 
 
@@ -79,6 +88,14 @@ export default function RedeemedCodesRewards() {
         const [image, setImage] = useState<File | null>(null);
         const [preview, setPreview] = useState<string | null>(null);
         const {state, setState} = useRedeemStatePopup()
+
+          const [selectedAddress, setSelectedAddress] = useState({
+          region: '',
+          province: '',
+          city: '',
+          barangay: '',
+        });
+
 
     
 
@@ -157,9 +174,11 @@ export default function RedeemedCodesRewards() {
                     </TabsList>
                     <TabsContent value="robux">
                     
-                         <div className="w-full flex flex-col gap-3 mt-2">
-                            <div className=' flex items-center gap-4 mt-8'>
-                              <label className=" text-xs text-amber-50  w-[150px]">CalCheese Code:</label>
+                         <div className="w-full flex flex-col gap-2 mt-2">
+
+                          <div className=' flex flex-col gap-3 bg-orange-100 rounded-md p-2 mt-4'>
+                             <div className=' flex items-center gap-4 '>
+                              <label className=" text-xs text-amber-950  w-[150px]">CalCheese Code:</label>
                               <Input
                                   value={code}
                                   onChange={(e) => {
@@ -171,35 +190,36 @@ export default function RedeemedCodesRewards() {
                                   type="text"
                                 />
                             </div>
-                                               <div className=' w-full flex items-center gap-4'>
-                                                   <label className="text-xs text-amber-50 w-[150px]">Roblox Id</label>
-                                                    <Input
-                                                    value={username}
-                                                    onChange={(e) => setUsername(e.target.value)}
-                                                      placeholder="Username"
-                                                      type="text"
-                                                    />
-                                                </div>
 
-                                                <div className=' flex items-center gap-4'>
-                                                    <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Email</label>
-                                                    <Input
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                      placeholder="Email"
-                                                      type="text"
-                                                    />
-                                                </div>
+                            <div className=' w-full flex items-center gap-4'>
+                              <label className="text-xs text-amber-950 w-[150px]">Roblox Id</label>
+                               <Input
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                  placeholder="Username"
+                                  type="text"
+                                />
+                            </div>
 
-                                                     <div className=' flex items-center gap-4'>
-                                                        <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Address</label>
-                                                            <Input
-                                                            value={address}
-                                                            onChange={(e) => setAddress(e.target.value)}
-                                                              placeholder="Address"
-                                                              type="text"
-                                                            />
-                                                    </div>
+                              <div className=' flex items-center gap-4'>
+                                  <label className="text-xs text-amber-950 text-nowrap  w-[150px]">Email</label>
+                                  <Input
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email"
+                                    type="text"
+                                  />
+                              </div>
+                                         
+                          </div>
+                                   
+
+                              <PhilippinesAddressSelector
+                              onAddressChange={(address) => {
+                                  const addressString = Object.values(address).filter(Boolean).join(', ');
+                                  setAddress(addressString);
+                              }}
+                            />
                                               
                     
                                                 
@@ -207,8 +227,10 @@ export default function RedeemedCodesRewards() {
                     </TabsContent>
                     <TabsContent value="ticket">
                        <div className="w-full flex flex-col gap-3 mt-2">
-                      <div className=' flex items-center gap-4 mt-8'>
-                              <label className=" text-xs text-amber-50  w-[150px]">CalCheese Code:</label>
+
+                         <div className=' flex flex-col gap-2 bg-orange-100 rounded-md p-2 mt-4'>
+                              <div className=' flex items-center gap-4 '>
+                              <label className=" text-xs text-amber-950  w-[150px]">CalCheese Code:</label>
                               <Input
                                   value={code}
                                   onChange={(e) => {
@@ -221,7 +243,7 @@ export default function RedeemedCodesRewards() {
                                 />
                             </div>
                                                <div className=' w-full flex items-center gap-4'>
-                                                   <label className="text-xs text-amber-50 w-[150px]">Roblox Id</label>
+                                                   <label className="text-xs text-amber-950 w-[150px]">Roblox Id</label>
                                                     <Input
                                                     value={username}
                                                     onChange={(e) => setUsername(e.target.value)}
@@ -231,7 +253,7 @@ export default function RedeemedCodesRewards() {
                                                 </div>
 
                                                 <div className=' flex items-center gap-4'>
-                                                    <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Email</label>
+                                                    <label className="text-xs text-amber-950 text-nowrap  w-[150px]">Email</label>
                                                     <Input
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
@@ -240,18 +262,10 @@ export default function RedeemedCodesRewards() {
                                                     />
                                                 </div>
 
-                                                <div className=' flex items-center gap-4'>
-                                                        <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Address</label>
-                                                            <Input
-                                                            value={address}
-                                                            onChange={(e) => setAddress(e.target.value)}
-                                                              placeholder="Address"
-                                                              type="text"
-                                                            />
-                                                    </div>
+                                             
 
                                                     <div className=' flex items-center gap-4'>
-                                                        <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Guardian</label>
+                                                        <label className="text-xs text-amber-950 text-nowrap  w-[150px]">Guardian</label>
                                                           <Input
                                                       value={gurdian}
                                                       onChange={(e) => setGurdian(e.target.value)}
@@ -260,8 +274,18 @@ export default function RedeemedCodesRewards() {
                                                       />
                                                     </div>
 
+                                                     <div className=' flex items-center gap-4'>
+                                                        <label className="text-xs text-amber-950 text-nowrap  w-[150px]">Contact</label>
+                                                          <Input
+                                                      value={contact}
+                                                      onChange={(e) => setContact(e.target.value)}
+                                                        placeholder="Contact no."
+                                                        type="text"
+                                                      />
+                                                    </div>
+
                                                     <div className=' flex items-center gap-4'>
-                                                        <label className="text-xs text-amber-50 text-nowrap  w-[150px]">Picture</label>
+                                                        <label className="text-xs text-amber-950 text-nowrap  w-[150px]">Picture</label>
                                                          <Input
                                                           type="file"
                                                           accept="image/*"
@@ -275,6 +299,17 @@ export default function RedeemedCodesRewards() {
                                                           className="text-sm text-black"
                                                         />
                                                     </div>
+                                         
+                          </div>
+                                   
+                   
+
+                                                  <PhilippinesAddressSelector
+                                                    onAddressChange={(address) => {
+                                                        const addressString = Object.values(address).filter(Boolean).join(', ');
+                                                        setAddress(addressString);
+                                                    }}
+                                                  />
                                                  
                                             </div>
                     </TabsContent>
