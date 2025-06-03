@@ -105,7 +105,7 @@ useEffect(() => {
     <div className="space-y-2 w-full bg-orange-100 p-2 rounded-md">
       <h3 className="text-xs font-semibold">Address</h3>
 
-      <div className="w-full flex items-center gap-4">
+      <div className="w-full grid grid-cols-2 items-center gap-2 md:gap-4">
         {/* Region */}
         <div className="w-full">
           <label className="block font-medium text-xs">Region</label>
@@ -145,7 +145,7 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className="w-full flex items-center gap-4">
+      <div className="w-full grid grid-cols-2 items-center gap-2 md:gap-4">
         {/* City */}
         <div className="w-full">
           <label className="block font-medium text-xs">City/Municipality</label>

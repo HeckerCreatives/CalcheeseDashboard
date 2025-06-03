@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Download, Eye, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
-import { getCodesList, useExportCodeslist, useGetCodesList } from '@/apis/codes'
+import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
 import PaginitionComponent from '@/components/common/Pagination'
 import {
@@ -57,6 +57,9 @@ export default function Generate() {
     const {data, isLoading} = useGetCodesList(currentPage, 10, status, type, itemfilter, chestfilter,search)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
+    const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
+    const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+
     
 
       
@@ -91,6 +94,23 @@ export default function Generate() {
                   },
                 })
             }
+
+
+           const deleteCodeData = () => {
+             deleteCodes(
+                    { ids: selectedCodes },
+                    {
+                      onSuccess: () => {
+                        toast.success('Codes deleted successfully!');
+                        setOpen(false);
+                        setOpen(false)
+                        setSelectedCodes([]);
+                      },
+                    }
+                  );
+           }
+
+            console.log(selectedCodes)
 
         
 
@@ -254,6 +274,44 @@ export default function Generate() {
             {isPending && <Loader type={'loader'} />}
             <Download size={15}/> Csv</Button>
 
+         <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
+            <Trash size={15} />
+          </DialogTrigger>
+          <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
+            <DialogHeader>
+              <DialogTitle>Delete Codes</DialogTitle>
+              <DialogDescription>Are you sure you want to delete the selected codes?</DialogDescription>
+            </DialogHeader>
+
+            <div className='flex flex-col gap-2 text-amber-950 text-sm mt-4 max-h-64 overflow-y-auto'>
+              
+
+              {selectedCodes.map((id) => {
+                const selectedItem = data?.data.find((item) => item.id === id);
+                return (
+                  <label key={id} className='flex items-center gap-2'>
+                    {selectedItem?.code || 'Unknown'}
+                  </label>
+                );
+              })}
+            </div>
+
+            <div className='w-full flex items-end justify-end mt-4'>
+              <Button
+                disabled={deletePending}
+                onClick={() => {
+                 deleteCodeData()
+                }}
+                className='bg-red-600'
+              >
+                Continue
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+
          
 
         </div>
@@ -269,6 +327,20 @@ export default function Generate() {
             ) }
         <TableHeader>
         <TableRow>
+           <TableHead>
+            <input
+              type='checkbox'
+              checked={selectedCodes.length === data?.data.length && data?.data.length > 0}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  const allIds = data?.data.map((item) => item.id) || [];
+                  setSelectedCodes(allIds);
+                } else {
+                  setSelectedCodes([]);
+                }
+              }}
+            />
+          </TableHead>
             <TableHead className="">Code</TableHead>
             <TableHead>Chest Name</TableHead>
             <TableHead>Item Name</TableHead>
@@ -280,7 +352,22 @@ export default function Generate() {
         </TableHeader>
         <TableBody>
             {data?.data.map((item, index) => (
-                <TableRow key={index} className=' text-xs'>
+                <TableRow key={item.id} className=' text-xs'>
+                  <TableCell>
+                    <input
+                      type='checkbox'
+                      checked={selectedCodes.includes(item.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedCodes((prev) => [...prev, item.id]);
+                        } else {
+                          setSelectedCodes((prev) =>
+                            prev.filter((id) => id !== item.id)
+                          );
+                        }
+                      }}
+                    />
+                  </TableCell>
                     <TableCell>{item.code}</TableCell>
                     <TableCell>{item.chest.chestname}</TableCell>
                     <TableCell>
@@ -291,7 +378,7 @@ export default function Generate() {
                     <TableCell>{item.expiration}</TableCell>
                     <TableCell>{item.type}</TableCell>
                     <TableCell className={` ${item.isUsed ? 'text-green-500' : 'text-orange-500'}`}>{item.isUsed ? 'Claimed' : 'UnClaimed'}</TableCell>
-                    <TableCell>
+                    <TableCell className=' flex gap-2'>
                       <Dialog>
                       <DialogTrigger className=' p-2 bg-orange-500 rounded-sm text-yellow-100'><Eye size={15}/></DialogTrigger>
                       <DialogContent className=' bg-yellow-50'>
@@ -302,7 +389,7 @@ export default function Generate() {
                           </DialogDescription>
                         </DialogHeader>
 
-                        <div className=' flex flex-col gap-2 text-amber-950'>
+                        <div className=' flex flex-col gap-2 text-amber-950 mt-2'>
                           <p>Code: {item.code}</p>
                           <p>Chest Name: {item.chest.chestname}</p>
                           <p>Items: {item.items.map((item) => item.itemname).join(',')}</p>
@@ -311,6 +398,35 @@ export default function Generate() {
                           <p>Status: {item.isUsed ? 'Claimed' : 'UnClaimed'}</p>
 
                         </div>
+                      </DialogContent>
+                    </Dialog>
+
+                     <Dialog>
+                      <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>
+                      <DialogContent className=' bg-yellow-50 p-8'>
+                        <DialogHeader>
+                          <DialogTitle>Are you sure you want to delete this codes?</DialogTitle>
+                          <DialogDescription>
+                            
+                          </DialogDescription>
+                        </DialogHeader>
+
+                        <div className=' flex flex-col gap-2 text-amber-950 mt-2'>
+                          <p>Code: {item.code}</p>
+                          <p>Chest Name: {item.chest.chestname}</p>
+                          <p>Items: {item.items.map((item) => item.itemname).join(',')}</p>
+                          <p>Expiration: {item.expiration}</p>
+                          <p>Type: {item.type}</p>
+                          <p>Status: {item.isUsed ? 'Claimed' : 'UnClaimed'}</p>
+
+                        </div>
+
+                        <div className=' w-full flex items-end justify-end mt-4'>
+                          <Button disabled={deletePending} onClick={deleteCodeData} className=' bg-red-600 flex items-center justify-center gap-2 '>
+                            
+                          {deletePending &&  <Loader type={'loader-secondary'}/>}Continue</Button>
+                        </div>
+
                       </DialogContent>
                     </Dialog>
 

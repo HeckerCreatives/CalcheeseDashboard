@@ -201,6 +201,27 @@ export const approveClaim = async (id: string, status: string) => {
     
     });
   };
+
+export const deleteCodes = async (ids: string[]) => { 
+    const response = await axiosInstance.post("/code/deletecode", { ids});
+    return response.data;
+  };
+  
+export const useDeleteCodes = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({ ids } : {ids: string[]}) =>
+        deleteCodes( ids),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+          }
+    
+    });
+  };
   
 
 

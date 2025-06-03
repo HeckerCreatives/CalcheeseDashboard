@@ -63,7 +63,7 @@ export default function CreateItemsForm() {
 
 
   const onSubmit = (data: CreateItems) => {
-     createItems({itemid: data.itemcode, itemname: data.itemname},{
+     createItems({itemid: data.itemcode, itemname: data.itemname, quantity: data.quantity},{
          onSuccess: () => {
            toast.success(`Item created successfully`);
            setOpen(false)
@@ -112,6 +112,21 @@ export default function CreateItemsForm() {
               />
               {errors.itemname && (
                 <p className="form-error">{errors.itemname.message}</p>
+              )}
+            </div>
+          
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="w-full flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Quantity</label>
+              <Input
+                placeholder="Quantity"
+                type="number"
+                {...register('quantity', {valueAsNumber: true})}
+              />
+              {errors.quantity && (
+                <p className="form-error">{errors.quantity.message}</p>
               )}
             </div>
           

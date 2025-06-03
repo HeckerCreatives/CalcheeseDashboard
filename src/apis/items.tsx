@@ -9,6 +9,7 @@ interface Item {
   id: string;
   itemid: string;
   itemname: string;
+  quantity: number
   createdAt: string;
 }
 
@@ -37,8 +38,8 @@ export const useGetItemsList = (page: number, limit: number) => {
     });
 };
   
-export const createItems = async (itemid: string, itemname: string) => { 
-    const response = await axiosInstance.post("/item/createitem", { itemid, itemname });
+export const createItems = async (itemid: string, itemname: string, quantity: number) => { 
+    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity});
     return response.data;
   };
   
@@ -46,8 +47,8 @@ export const createItems = async (itemid: string, itemname: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ itemid, itemname }: { itemid: string, itemname: string }) =>
-        createItems(itemid, itemname),
+      mutationFn: ({ itemid, itemname, quantity }: { itemid: string, itemname: string, quantity: number }) =>
+        createItems(itemid, itemname, quantity),
         onError: (error) => {
             handleApiError(error);
         },
@@ -59,8 +60,8 @@ export const createItems = async (itemid: string, itemname: string) => {
   };
 
 
-  export const editItems = async (id: string,itemid: string, itemname: string ) => { 
-    const response = await axiosInstance.post("/item/edititem", { id, itemid, itemname });
+  export const editItems = async (id: string,itemid: string, itemname: string,quantity: number ) => { 
+    const response = await axiosInstance.post("/item/edititem", { id, itemid, itemname, quantity });
     return response.data;
   };
   
@@ -68,8 +69,8 @@ export const createItems = async (itemid: string, itemname: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ id, itemid, itemname}: {id: string,itemid: string, itemname: string }) =>
-        editItems(id, itemid, itemname),
+      mutationFn: ({ id, itemid, itemname, quantity}: {id: string,itemid: string, itemname: string, quantity: number }) =>
+        editItems(id, itemid, itemname, quantity),
         onError: (error) => {
             handleApiError(error);
         },

@@ -145,11 +145,11 @@ export default function RedeemedCodesRewards() {
 
   return (
     
-      <div className=' absolute z-[9999999] w-full h-full overflow-y-hidden flex items-center justify-center bg-orange-100'>
+      <div className=' absolute z-[9999999] w-full h-screen overflow-y-hidden flex items-center justify-center bg-orange-100'>
         <div className=' relative gap-8 w-[90%] h-full grid grid-cols-1 lg:grid-cols-2  bg-orange-100 z-[9999] overflow-y-hidden place-items-center place-content-center'
              >
 
-                <button onClick={() => setState(false)} className=' absolute right-4 top-4 text-orange-600 cursor-pointer'><X size={40}/></button>
+                <button onClick={() => setState(false)} className=' z-[9999] absolute right-4 top-4 text-orange-600 cursor-pointer bg-amber-50 p-2 rounded-md'><X size={25}/></button>
 
                 <RevealOnScroll className=' w-full relative z-10' delay={.4}>
                    <div className=' lg:block hidden w-full h-screen relative z-10 '>
@@ -163,7 +163,7 @@ export default function RedeemedCodesRewards() {
               <RevealOnScroll className=' w-full relative z-0' delay={.8}>
                 <div className=' w-full h-full  flex items-center'>
 
-                <div className=' w-full xl:w-[70%] h-auto bg-orange-500  rounded-2xl border-4 border-white p-6 lg:p-8 flex flex-col items-center'>
+                <div className=' w-full xl:w-[70%] h-full max-h-[90vh] bg-orange-500  rounded-2xl border-4 border-white p-6 lg:p-8 flex flex-col items-center overflow-y-auto'>
                   <h2 className=' text-white uppercase text-2xl lg:text-4xl font-bold italic'>Claim Your Rewards!</h2>
 
 

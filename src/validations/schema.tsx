@@ -54,6 +54,7 @@ export const createTicketvalidations = z.object({
 export const createItemvalidations = z.object({
     itemname: z.string().nonempty('Item name is empty.'),
     itemcode: z.string().nonempty('Item code is empty.'),
+    quantity: z.number().min(1,'Quantity is required.'),
    
 });
 

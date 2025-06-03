@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Pen, Plus, Scan, SquarePlus, X } from 'lucide-react'
 import {
@@ -38,7 +38,8 @@ import { Button } from '../ui/button'
 interface Props {
     id: string,
     itemcode: string,
-    itemname: string
+    itemname: string,
+    quantity: number
 }
 
 export default function EditItemsForm( prop: Props) {
@@ -50,24 +51,36 @@ export default function EditItemsForm( prop: Props) {
     handleSubmit,
     setValue,
     trigger,
+    reset,
     formState: { errors },
   } = useForm<CreateItems>({
     resolver: zodResolver(createItemvalidations),
     defaultValues: {
       itemcode: prop.itemcode,
-      itemname: prop.itemname
+      itemname: prop.itemname,
+      quantity: prop.quantity
     },
   })
 
 
   const onSubmit = (data: CreateItems) => {
-     editItems({id: prop.id, itemname: data.itemname, itemid: data.itemcode},{
+     editItems({id: prop.id, itemname: data.itemname, itemid: data.itemcode, quantity: data.quantity},{
          onSuccess: () => {
            toast.success(`Item updated successfully`);
            setOpen(false)
          },
        })
   }
+
+  useEffect(() => {
+    if(prop){
+      reset({
+         itemcode: prop.itemcode,
+        itemname: prop.itemname,
+        quantity: prop.quantity
+      })
+    }
+  },[prop])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -114,6 +127,21 @@ export default function EditItemsForm( prop: Props) {
             </div>
           
           </div>
+
+          <div className="flex items-center gap-4">
+                      <div className="w-full flex flex-col gap-1">
+                        <label className="text-xs text-zinc-400">Quantity</label>
+                        <Input
+                          placeholder="Quantity"
+                          type="number"
+                          {...register('quantity', {valueAsNumber: true})}
+                        />
+                        {errors.quantity && (
+                          <p className="form-error">{errors.quantity.message}</p>
+                        )}
+                      </div>
+                    
+                    </div>
 
    
 

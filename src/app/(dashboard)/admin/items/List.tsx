@@ -91,6 +91,7 @@ export default function List() {
         <TableRow>
             <TableHead className="">Item Code</TableHead>
             <TableHead className="">Name</TableHead>
+            <TableHead className="">Quantity</TableHead>
             
             <TableHead className="">Action</TableHead>
         </TableRow>
@@ -100,10 +101,11 @@ export default function List() {
                 <TableRow key={item.id}>
                     <TableCell>{item.itemid}</TableCell>
                     <TableCell>{item.itemname}</TableCell>
+                    <TableCell>{item.quantity.toLocaleString()}</TableCell>
                    
                     <TableCell className=' flex items-center gap-2'>
         
-                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname}/>
+                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname} quantity={item.quantity}/>
                         <DeleteItemForm id={item.id}/>
                     </TableCell>
                 </TableRow>

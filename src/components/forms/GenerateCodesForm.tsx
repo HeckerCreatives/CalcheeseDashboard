@@ -53,6 +53,8 @@ export default function GenerateCodesForm() {
   const [socket, setSocket] = useState<any>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [progressStatus, setProgressStatus] = useState<string | null>(null);
+  const [formattedValue, setFormattedValue] = useState('');
+
 
   useEffect(() => {
     const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`);
@@ -111,6 +113,20 @@ export default function GenerateCodesForm() {
   });
 }
 
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/,/g, '');
+    const numberValue = parseInt(rawValue, 10);
+
+    if (!isNaN(numberValue)) {
+      const formatted = numberValue.toLocaleString();
+      setFormattedValue(formatted);
+      setValue('codeamount', numberValue);
+    } else {
+      setFormattedValue('');
+      setValue('codeamount', 0);
+    }
+  };
+
 
 
 
@@ -164,8 +180,9 @@ export default function GenerateCodesForm() {
                       <label className="text-xs text-zinc-400">Code Quantity</label>
                       <Input
                           placeholder="Quantity"
-                          type="number"
-                          {...register('codeamount',{valueAsNumber: true})}
+                          type="text"
+                          value={formattedValue}
+                          onChange={handleInputChange}  
                         />
                         {errors.codeamount && (
                           <p className="form-error">{errors.codeamount.message}</p>
