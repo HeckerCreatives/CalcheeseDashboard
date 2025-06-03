@@ -18,7 +18,7 @@ export default function WhatsNews() {
     const {data, isLoading} = usegetNewtab()
 
     useEffect(() => {
-        setTab(data?.data[0].tab || '')
+        setTab(data?.data[0]?.tab || '')
     },[data])
 
     const findConetent = data?.data.find((data) => data.tab === tab)
@@ -31,7 +31,8 @@ export default function WhatsNews() {
                delay={.6}
              />
 
-            <RevealOnScroll delay={1} className='w-full  h-[85%] flex md:flex-row flex-col mt-4 md:mt-8 gap-4'>
+             {data?.data.length !== 0 && (
+              <RevealOnScroll delay={1} className='w-full  h-[85%] flex md:flex-row flex-col mt-4 md:mt-8 gap-4'>
                   <div className=' w-full  h-[85%] flex md:flex-row flex-col mt-4 md:mt-8 gap-4'>
             
             <div className="w-full md:w-fit h-[65px] md:h-fit overflow-x-auto">
@@ -72,6 +73,9 @@ export default function WhatsNews() {
             </div>
                 </div>
             </RevealOnScroll>
+             )}
+
+            
       
 
         {isLoading ? (
