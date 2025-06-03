@@ -218,6 +218,7 @@ export const useDeleteCodes = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+            queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
           }
     
     });
