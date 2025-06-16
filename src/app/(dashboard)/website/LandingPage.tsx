@@ -39,7 +39,7 @@ export default function LandingPage() {
 
 
   return (
-    <div className=' h-screen overflow-y-auto'
+    <div className=' h-screen overflow-y-auto overflow-x-hidden'
     
     >
        <AnimatePresence mode="wait">
@@ -61,14 +61,14 @@ export default function LandingPage() {
           )}
         </AnimatePresence>
 
-     <main className=' hidden lg:flex lg:relative w-screen max-w-[1920px] h-auto bg-amber-100 overflow-x-hidden overflow-y-hidden flex-col  items-center justify-center  text-amber-900'
+     <main className=' hidden lg:flex lg:relative w-screen max-w-[1920px] h-auto bg-amber-100 overflow-y-hidden flex-col  items-center justify-center  text-amber-900 overflow-x-hidden'
     style={{backgroundImage: "url('/assets/floating/bg.png')" , backgroundSize:'cover'}}
 
     >
 
 
 
-        <Image src="/assets/background.png" alt="tab" width={500} height={500} priority unoptimized loading='eager' className=' h-[40%] lg:h-full w-[80%] object-cover absolute sm:top-0 right-0 translate-y-10' />
+        <Image src="/BG.png" alt="tab" width={500} height={500} priority unoptimized loading='eager' className=' h-[40%] lg:h-full w-[80%] object-cover absolute sm:top-0 right-0 translate-y-10' />
 
         <div className=' relative w-full'>
             <Image src="/assets/Top TAB.png" alt="tab" width={500} height={500} className='  w-full absolute' priority unoptimized loading='eager' />
