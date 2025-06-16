@@ -68,7 +68,7 @@ export default function LandingPage() {
 
 
 
-        <Image src="/BG.png" alt="tab" width={500} height={500} priority unoptimized loading='eager' className=' h-[40%] lg:h-full w-[80%] object-cover absolute sm:top-0 right-0 translate-y-10' />
+        <Image src="/BG.png" alt="tab" width={500} height={500} priority unoptimized loading='eager' className=' h-[40%] lg:h-full w-[50%] object-cover absolute sm:top-0 right-0 translate-y-10' />
 
         <div className=' relative w-full'>
             <Image src="/assets/Top TAB.png" alt="tab" width={500} height={500} className='  w-full absolute' priority unoptimized loading='eager' />
