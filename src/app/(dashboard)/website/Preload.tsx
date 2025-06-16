@@ -79,10 +79,14 @@ export default function PreloadMain() {
   }, [])
 
   return (
-    <main className="w-full max-w-[1920px] h-auto bg-amber-100 overflow-hidden text-amber-900">
+    <main className="w-full max-w-[1920px] h-auto bg-amber-100 overflow-hidden text-amber-900"
+    
+    >
       {!allLoaded || !enter ? (
         <div
           className="w-full h-screen bg-amber-100 flex flex-col items-center justify-center gap-12 cursor-pointer"
+    style={{backgroundImage: "url('/assets/floating/bg.png')" , backgroundSize:'cover'}}
+
           onClick={() => progress === 100 && setEnter(true)}
         >
           <img

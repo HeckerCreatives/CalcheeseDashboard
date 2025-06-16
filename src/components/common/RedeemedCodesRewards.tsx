@@ -145,8 +145,11 @@ export default function RedeemedCodesRewards() {
 
   return (
     
-      <div className=' absolute z-[9999999] w-full h-screen overflow-y-hidden flex items-center justify-center bg-orange-100'>
-        <div className=' relative gap-8 w-[90%] h-full grid grid-cols-1 lg:grid-cols-2  bg-orange-100 z-[9999] overflow-y-hidden place-items-center place-content-center'
+      <div className=' absolute z-[9999999] w-full h-screen overflow-y-hidden flex items-center justify-center bg-orange-100'
+    style={{backgroundImage: "url('/assets/floating/bg.png')" , backgroundSize:'cover'}}
+      
+      >
+        <div className=' relative gap-8 w-[90%] h-full grid grid-cols-1 lg:grid-cols-2   z-[9999] overflow-y-hidden place-items-center place-content-center'
              >
 
                 <button onClick={() => setState(false)} className=' z-[9999] absolute right-4 top-4 text-orange-600 cursor-pointer bg-amber-50 p-2 rounded-md'><X size={25}/></button>
