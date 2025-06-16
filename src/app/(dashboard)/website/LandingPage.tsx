@@ -93,7 +93,7 @@ export default function LandingPage() {
                                     <TextReveal
                                         // key={tabs[tabNumber].title} 
                                         text={title}
-                                        className="absolute text-[clamp(1rem,4vw,2.5rem)] font-extrabold uppercase  text-orange-700  font-bitbold"
+                                        className="absolute text-[clamp(1rem,4vw,2.5rem)] font-extrabold uppercase  text-orange-600  font-bitbold"
                                     />
                                     </AnimatePresence>
                                     {/* <h1 className=' absolute text-[clamp(1rem,4vw,2rem)] font-bold uppercase text-white outlined-text'>{title}</h1> */}
@@ -318,7 +318,7 @@ export default function LandingPage() {
                                     <TextReveal
                                         // key={tabs[tabNumber].title} 
                                         text={title}
-                                        className="absolute text-[clamp(1rem,4vw,2.5rem)] font-extrabold uppercase text-white outlined-text font-spenbeb"
+                                        className="absolute text-[clamp(1rem,4vw,2.5rem)] font-extrabold uppercase text-orange-600 font-bitbold"
                                     />
                                     </AnimatePresence>
                                     {/* <h1 className=' absolute text-[clamp(1rem,4vw,2rem)] font-bold uppercase text-white outlined-text'>{title}</h1> */}

@@ -109,7 +109,7 @@ export default function Rewards() {
       <DialogTrigger className='mt-4 flex items-center justify-center gap-1 text-white w-fit bg-orange-500 px-3 py-1 rounded-sm'>
         <Plus size={15}/> Add 
       </DialogTrigger>
-      <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1">
+      <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1 max-w-[400px] w-full">
         <DialogHeader>
           <DialogTitle>Add Promo Code Content</DialogTitle>
           <DialogDescription>Fill out the form below.</DialogDescription>
