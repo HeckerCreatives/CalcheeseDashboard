@@ -93,7 +93,7 @@ export default function PreloadMain() {
             loading='eager'
           />
 
-          <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4 font-bitbold">
             {(progress < 100 && logo) && (
               <div className="w-[300px] h-3 bg-gray-300 rounded-full overflow-hidden">
                 <div
@@ -104,7 +104,7 @@ export default function PreloadMain() {
             )}
 
             <p
-              className={`text-sm font-spenbeb ${
+              className={`text-sm  ${
                 progress < 100 ? 'text-gray-400' : 'text-blue-400 animate-pulse'
               }`}
             >

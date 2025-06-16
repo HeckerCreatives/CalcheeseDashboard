@@ -93,7 +93,7 @@ export default function LandingPage() {
                                     <TextReveal
                                         // key={tabs[tabNumber].title} 
                                         text={title}
-                                        className="absolute text-[clamp(1rem,4vw,2.5rem)] font-extrabold uppercase text-white outlined-text font-spenbeb"
+                                        className="absolute text-[clamp(1rem,4vw,2.5rem)] font-extrabold uppercase  text-orange-700  font-bitbold"
                                     />
                                     </AnimatePresence>
                                     {/* <h1 className=' absolute text-[clamp(1rem,4vw,2rem)] font-bold uppercase text-white outlined-text'>{title}</h1> */}
@@ -120,7 +120,7 @@ export default function LandingPage() {
                                     <Followus/>
                                 )}
                             
-                                <div className=' hidden absolute z-30 left-0 mb-10 lg:flex flex-col items-center justify-center gap-4 lg:gap-6'>
+                                {/* <div className=' hidden absolute z-30 left-0 mb-10 lg:flex flex-col items-center justify-center gap-4 lg:gap-6'>
                                     {tabs.map((item, index) => (
                                         <CursorFollower key={index}>
                                             <button key={item.value} onClick={() => {setTab(item.value), setTitle(item.title), setTabNumber(index)}}>
@@ -132,9 +132,9 @@ export default function LandingPage() {
 
                                 
                                     
-                                </div>
+                                </div> */}
 
-                                <div className="lg:hidden absolute z-30 bottom-0 mb-10 flex items-center justify-center gap-4 lg:gap-6 translate-y-8">
+                                {/* <div className="lg:hidden absolute z-30 bottom-0 mb-10 flex items-center justify-center gap-4 lg:gap-6 translate-y-8">
                                     {tabs.map((item, index) => {
                                         const yOffsets = ['-translate-y-6', '-translate-y-2', 'translate-y-0', '-translate-y-2', '-translate-y-6']; // Arc pattern
                                         return (
@@ -160,7 +160,7 @@ export default function LandingPage() {
                                     })}
 
                                     
-                                </div>
+                                </div> */}
 
 
                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-6'>
@@ -345,7 +345,7 @@ export default function LandingPage() {
                                     <Followus/>
                                 )}
                             
-                                <div className=' hidden absolute z-30 left-0 mb-10 lg:flex flex-col items-center justify-center gap-4 lg:gap-6'>
+                                {/* <div className=' hidden absolute z-30 left-0 mb-10 lg:flex flex-col items-center justify-center gap-4 lg:gap-6'>
                                     {tabs.map((item, index) => (
                                         <CursorFollower key={index}>
                                             <button key={item.value} onClick={() => {setTab(item.value), setTitle(item.title), setTabNumber(index)}}>
@@ -357,9 +357,9 @@ export default function LandingPage() {
 
                                 
                                     
-                                </div>
+                                </div> */}
 
-                                <div className="lg:hidden absolute z-30 bottom-0 mb-10 flex items-center justify-center gap-4 lg:gap-6 translate-y-8">
+                                {/* <div className="lg:hidden absolute z-30 bottom-0 mb-10 flex items-center justify-center gap-4 lg:gap-6 translate-y-8">
                                     {tabs.map((item, index) => {
                                         const yOffsets = ['-translate-y-6', '-translate-y-2', 'translate-y-0', '-translate-y-2', '-translate-y-6']; // Arc pattern
                                         return (
@@ -385,7 +385,7 @@ export default function LandingPage() {
                                     })}
 
                                     
-                                </div>
+                                </div> */}
 
 
                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-16'>

@@ -38,7 +38,7 @@ export default function page() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Card className="lg:col-span-1 bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-semibold text-orange-500">Chests</CardTitle>
+            <CardTitle className="text-sm font-semibold text-orange-500 font-bitbold">Chests</CardTitle>
             {/* <select className="bg-white border text-xs border-gray-200 rounded-md px-2 py-1">
               <option>This Day</option>
               <option>This Week</option>
@@ -53,7 +53,7 @@ export default function page() {
 
         <Card className="bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-semibold text-orange-500">Chests</CardTitle>
+            <CardTitle className="text-sm font-semibold text-orange-500 font-bitbold">Codes</CardTitle>
                 
           </CardHeader>
           <CardContent className=" bg-transparent">
@@ -63,7 +63,7 @@ export default function page() {
 
         <Card className="lg:col-span-1 bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-semibold text-orange-500"> Geographic</CardTitle>
+            <CardTitle className="text-sm font-semibold text-orange-500 font-bitbold"> Geographic</CardTitle>
             {/* <select className="bg-white border text-xs border-gray-200 rounded-md px-2 py-1">
               <option>This Day</option>
               <option>This Week</option>
@@ -78,7 +78,7 @@ export default function page() {
 
         <Card className=" bg-yellow-50 h-full">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-orange-500">Approved History</CardTitle>
+            <CardTitle className="text-sm font-semibold text-orange-500 font-bitbold">Approved History</CardTitle>
           </CardHeader>
           <CardContent className=" h-full">
             <TransactionsList />
@@ -90,7 +90,7 @@ export default function page() {
       <div className="grid gap-6">
       <Card className="lg:col-span-1 bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-semibold text-orange-500">Redeemed Codes</CardTitle>
+            <CardTitle className="text-sm font-semibold text-orange-500 font-bitbold">Redeemed Codes</CardTitle>
             <Select value={chartTimeframe} onValueChange={setChartTimeframe}>
             <SelectTrigger className=" w-fit">
                 <SelectValue placeholder="Select" className=' text-xs'/>

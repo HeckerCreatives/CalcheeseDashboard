@@ -22,7 +22,7 @@ export default function DashboardCard( prop: CardProps) {
   return (
     <div className={`rounded-lg p-6 ${prop.bgColor} ${prop.textColor} flex items-center justify-between`}>
         <div className=' flex flex-col gap-2'>
-            <h3 className="font-medium text-sm mb-2">{prop.title}</h3>
+            <h3 className="font-medium text-sm mb-2 font-bitbold">{prop.title}</h3>
             {prop.isLoading ? (
             <p className="text-4xl font-bold">---</p>
             ) : (

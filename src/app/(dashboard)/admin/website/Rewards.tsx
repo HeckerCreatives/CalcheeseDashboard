@@ -105,7 +105,7 @@ export default function Rewards() {
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
         <h2 className=' text-lg font-bold'>Promo Codes</h2>
 
-        {/* <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className='mt-4 flex items-center justify-center gap-1 text-white w-fit bg-orange-500 px-3 py-1 rounded-sm'>
         <Plus size={15}/> Add 
       </DialogTrigger>
@@ -130,7 +130,7 @@ export default function Rewards() {
 
         </div>
       </DialogContent>
-    </Dialog> */}
+    </Dialog>
 
 
 

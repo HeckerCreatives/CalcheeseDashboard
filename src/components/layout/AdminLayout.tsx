@@ -112,7 +112,7 @@ export default function Adminlayout({
 
     
   return (
-    <div className=' w-full flex flex-col items-center h-screen'>
+    <div className=' w-full flex flex-col items-center h-screen font-brevia'>
 
       <div className=' relative z-40 w-full flex items-center justify-center  border-b-2 border-orange-100'
       >

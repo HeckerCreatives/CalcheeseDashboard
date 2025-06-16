@@ -23,6 +23,12 @@ import RedeemedCodesRewards from './RedeemedCodesRewards'
 import useRedeemStatePopup from '@/hooks/redeempopup'
 
 
+const rewardItem = [
+  'In-Game Rewards',
+  'Ticket',
+  'Robux',
+]
+
 export default function Rewards() {
     const {data, isLoading} = useGetPromos()
     const [redeem, setRedeem] = useState(false)
@@ -156,7 +162,7 @@ export default function Rewards() {
                 <>
                  <TextRevealOnView
                   text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, deserunt sit voluptas voluptatum consectetur officiis suscipit laudantium eos dolores excepturi commodi neque aspernatur illo, adipisci, natus fugit possimus. Dolorem, ut."
-                  className="text-center text-xs md:text-lg mt-6 font-semibold w-[90%]"
+                  className="text-center text-xs md:text-lg mt-6 font-semibold w-[90%] font-brevia"
                   delay={.6}
                 />
                 <RevealOnScroll delay={1} className=' w-full'>
@@ -182,7 +188,7 @@ export default function Rewards() {
                   <div className=' w-full flex items-center justify-center mt-8 md:mt-8'>
                       <button onClick={() => setState(true)}  className=' relative cursor-pointer flex items-center justify-center'>
                           <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-full' />
-                          <p className=' text-xl md:text-3xl font-bold absolute text-yellow-200'>Redeem Now</p>
+                          <p className=' text-lg md:text-xl font-bold absolute text-yellow-200 font-bitbold'>Redeem Now</p>
                       </button>
                   </div>
                 </RevealOnScroll>

@@ -45,6 +45,8 @@
 
 :root {
   --font-spenbeb: 'Spenbeb';
+  --font-bitbold: 'BitBold';
+  --font-brevia: 'Brevia';
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -83,11 +85,36 @@
   .font-spenbeb {
     font-family: var(--font-spenbeb), sans-serif;
   }
+
+  .font-bitbold {
+    font-family: var(--font-bitbold), sans-serif;
+  }
+
+  .font-brevia {
+    font-family: var(--font-brevia), sans-serif;
+  }
 }
 
 @font-face {
   font-family: 'Spenbeb';
   src: url('/fonts/Spenbeb Game.otf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BitBold';
+  src: url('/fonts/BitBold.ttf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Brevia';
+  src: url('/fonts/Brevia.ttf') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

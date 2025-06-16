@@ -164,10 +164,10 @@ export default function RedeemedCodesRewards() {
                 <div className=' w-full h-full  flex items-center'>
 
                 <div className=' w-full xl:w-[70%] h-full max-h-[90vh] bg-orange-500  rounded-2xl border-4 border-white p-6 lg:p-8 flex flex-col items-center overflow-y-auto'>
-                  <h2 className=' text-white uppercase text-2xl lg:text-4xl font-bold italic'>Claim Your Rewards!</h2>
+                  <h2 className=' text-white uppercase text-xl lg:text-2xl font-bitbold '>Claim Your Rewards!</h2>
 
 
-                  <Tabs defaultValue="robux" className="w-full mt-8">
+                  <Tabs defaultValue="robux" className="w-full mt-8 font-brevia">
                     <TabsList>
                       <TabsTrigger value="robux">Robux</TabsTrigger>
                       <TabsTrigger value="ticket">Ticket</TabsTrigger>
@@ -317,11 +317,11 @@ export default function RedeemedCodesRewards() {
                   </Tabs>
 
               
-                      <button disabled={isPending} onClick={redeemCodeRewards}  className=' relative cursor-pointer flex items-center justify-center mt-8'>
+                      <button disabled={isPending} onClick={redeemCodeRewards}  className=' font-bitbold relative cursor-pointer flex items-center justify-center mt-8'>
                           <img src="/assets/Play BUTTON.png" alt="" className=' w-full max-w-[200px] ' />
                           <div className='absolute flex items-center justify-center gap-2'>
                             {isPending && <Loader type={'loader'}/>}
-                          <p className=' text-lg md:text-lg font-bold  text-yellow-200'>Redeem now</p>
+                          <p className=' text-sm md:text-lg font-bold  text-yellow-200'>Redeem now</p>
                           </div>
                       </button>
                       
