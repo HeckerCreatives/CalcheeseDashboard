@@ -172,7 +172,7 @@ export default function LandingPage() {
                                             <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
                                         </FloatImage>
 
-                                        <FloatImage className=' absolute top-20 right-12' duration={8}>
+                                        <FloatImage className=' absolute top-20 right-4' duration={8}>
                                             <img src="/assets/floating/yum.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
@@ -180,11 +180,11 @@ export default function LandingPage() {
                                         <img src="/assets/floating/CALCIUM.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
-                                        <FloatImage className=' absolute right-12 top-4' duration={7}>
+                                        {/* <FloatImage className=' absolute right-28 top-4' duration={7}>
                                             <img src="/assets/floating/yum.png" alt="triangles" width={60}/>
-                                        </FloatImage>
+                                        </FloatImage> */}
 
-                                        <FloatImage className=' absolute top-16 left-16' duration={10}>
+                                        <FloatImage className=' absolute top-12 left-20' duration={10}>
                                             <img src="/assets/floating/ball.png" alt="triangles" width={70} />
                                         </FloatImage>
                                     </div>
@@ -252,7 +252,7 @@ export default function LandingPage() {
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute top-[40%] left-[5%] transition-all ' duration={9}>
-                        <Image src="/assets/floating/cheese.png" alt="tab" width={150} height={150} priority unoptimized loading='eager' />
+                        <Image src="/assets/floating/Cheese.png" alt="tab" width={150} height={150} priority unoptimized loading='eager' />
                         </FloatImage>
 
                         <FloatImage className=' z-10 absolute bottom-[30%] right-[2%] transition-all ' duration={6} >
@@ -418,13 +418,13 @@ export default function LandingPage() {
                                 </div> */}
 
 
-                               <div className=' absolute z-10 left-0 bottom-0 translate-y-6'>
+                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-12'>
                                     <div className=' relative w-[250px] h-[150px] flex items-center justify-center'>
                                         <FloatImage className=' absolute top-0 left-0' hoverRange={15} floatRange={15} duration={7}>
                                             <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
                                         </FloatImage>
 
-                                        <FloatImage className=' absolute top-20 right-12' duration={8}>
+                                        <FloatImage className=' absolute top-20 right-4' duration={8}>
                                             <img src="/assets/floating/yum.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
@@ -432,15 +432,16 @@ export default function LandingPage() {
                                         <img src="/assets/floating/CALCIUM.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
-                                        <FloatImage className=' absolute right-12 top-4' duration={7}>
+                                        {/* <FloatImage className=' absolute right-28 top-4' duration={7}>
                                             <img src="/assets/floating/yum.png" alt="triangles" width={60}/>
-                                        </FloatImage>
+                                        </FloatImage> */}
 
-                                        <FloatImage className=' absolute top-16 left-16' duration={10}>
+                                        <FloatImage className=' absolute top-12 left-20' duration={10}>
                                             <img src="/assets/floating/ball.png" alt="triangles" width={70} />
                                         </FloatImage>
                                     </div>
                                 </div>
+
 
                             </div>
                 </div>
