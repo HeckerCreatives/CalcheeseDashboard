@@ -9,7 +9,7 @@ import useRedeemCodesStore from '@/hooks/player'
 import { promocodeIcon } from '@/utils/reusables'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import {
   Dialog,
@@ -24,23 +24,61 @@ import useRedeemStatePopup from '@/hooks/redeempopup'
 
 
 const rewardItem = [
-  'In-Game Rewards',
-  'Ticket',
-  'Robux',
+  {title:'In-Game Rewards', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit', img: <img src={'/assets/Neon Headphones ICON.png'} className=''/>},
+  {title:'Ticket', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit', img: <img src={''}/>},
+  {title:'Robux', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit', img: <img src={''}/>},
 ]
 
 export default function Rewards() {
     const {data, isLoading} = useGetPromos()
-    const [redeem, setRedeem] = useState(false)
-    const [code, setCode] = useState('')
-    const [type, setType] = useState('')
-    const [checked, setChecked] = useState('valid')
-    const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const {mutate: checkCode, isPending} = useCheckCode()
-    const {mutate: redeemCode} = useRedeemCode()
-    const {setRedeemcodes, clearRedeemcodes} = useRedeemCodesStore()
     const {state, setState} = useRedeemStatePopup()
+
+     const scrollRef = useRef<HTMLDivElement | null>(null);
+    const isDragging = useRef(false);
+    const startX = useRef(0);
+    const scrollLeft = useRef(0);
+
+    useEffect(() => {
+      const container = scrollRef.current;
+      if (!container) return;
+
+      const handleMouseDown = (e: MouseEvent) => {
+        isDragging.current = true;
+        startX.current = e.pageX - container.offsetLeft;
+        scrollLeft.current = container.scrollLeft;
+        container.classList.add('cursor-grabbing');
+      };
+
+      const handleMouseLeave = () => {
+        isDragging.current = false;
+        container.classList.remove('cursor-grabbing');
+      };
+
+      const handleMouseUp = () => {
+        isDragging.current = false;
+        container.classList.remove('cursor-grabbing');
+      };
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!isDragging.current) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX.current) * 1.5; // speed factor
+        container.scrollLeft = scrollLeft.current - walk;
+      };
+
+      container.addEventListener('mousedown', handleMouseDown);
+      container.addEventListener('mouseleave', handleMouseLeave);
+      container.addEventListener('mouseup', handleMouseUp);
+      container.addEventListener('mousemove', handleMouseMove);
+
+      return () => {
+        container.removeEventListener('mousedown', handleMouseDown);
+        container.removeEventListener('mouseleave', handleMouseLeave);
+        container.removeEventListener('mouseup', handleMouseUp);
+        container.removeEventListener('mousemove', handleMouseMove);
+      };
+    }, []);
 
 
  
@@ -50,7 +88,7 @@ export default function Rewards() {
   return (
     <div className=' absolute w-[90%] md:w-[80%] h-[85%] lg:h-[75%] z-30 flex flex-col items-center justify-center'>
 
-     
+    
         
 
               {/* {redeem ? (
@@ -166,22 +204,32 @@ export default function Rewards() {
                   delay={.6}
                 />
                 <RevealOnScroll delay={1} className=' w-full'>
-                    <div className=' w-full h-fit lg:h-full flex md:grid  md:grid-cols-3 gap-4 mt-8 md:mt-12 '>
-                        {data?.data.map((item, index) => (
-                            <div key={item.id} className=' relative w-full h-[210px] bg-orange-500 lg:bg-transparent lg:h-full flex items-center justify-center rounded-2xl'>
-                                <img src={promocodeIcon(item.title)} alt="headphone" width={100} className=' w-[80px] md:w-[90px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' />
-                                <div className=' relative'>
-                                <img src="/assets/TAB.png" alt="" className=' hidden lg:block'/>
-                                <div className=' lg:absolute top-0 w-full h-fit lg:h-full p-4'> 
-                                    <p className=' text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-6'>{item.title}</p>
-                                    <p className='  text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6'>{item.description}</p>
-                                </div>
+                   <div
+                     ref={scrollRef}
+                    className={`custom-scrollbar w-full h-fit lg:h-full flex flex-nowrap gap-2 mt-8 md:mt-8 overflow-x-auto overflow-y-hidden cursor-pointer `}
+                  >
+                    {data?.data.map((item, index) => (
+                      <div
+                        key={index}
+                        className=' min-w-[160px] md:min-w-[260px] relative w-full h-[210px] bg-orange-500 lg:bg-transparent lg:h-full flex items-center justify-center rounded-2xl mt-6'
+                      >
+                        {/* <img src={promocodeIcon(item.title)} alt="headphone" width={80} className=' w-[80px] md:w-[80px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' /> */}
+                        {promocodeIcon(item.title)}
+                        <div className='relative'>
+                          <img src="/assets/TAB.png" alt="" className='hidden lg:block' />
+                          <div className='lg:absolute top-0 w-full h-fit lg:h-full p-4'>
+                            <p className='text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-6'>
+                              {item.title}
+                            </p>
+                            <p className='text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6'>
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-                                </div>
-                            </div>
-                        ))}
-
-                    </div>
                 </RevealOnScroll>
 
                  <RevealOnScroll delay={1.2} className=' w-full mt-4'>

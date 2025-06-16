@@ -301,7 +301,7 @@
   
   /* Style the thumb (draggable part) */
   ::-webkit-scrollbar-thumb {
-    background: #ff9737;
+    background: #ffa755;
     border-radius: 4px;
   }
   
@@ -309,4 +309,23 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+
+
+  /* Scrollbar customization */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px; /* for horizontal scroll */
+  width: 8px;  /* for vertical scroll if needed */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #ffaa64; /* your desired color (e.g., Tailwind orange-400) */
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
 

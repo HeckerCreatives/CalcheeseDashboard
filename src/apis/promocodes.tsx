@@ -82,22 +82,22 @@ export const createPromo = async ( title: string, description: string) => {
   };
 
 
-  export const deleteNews = async (id: string) => {
-    const response = await axiosInstance.post("/section/deletewhatsnewsection", {id });
+  export const deletePromoItems = async (id: string) => {
+    const response = await axiosInstance.post("/section/deletepromocodesection", {id });
     return response.data;
   };
   
-  export const useDeleteNews = () => {
+  export const useDeletePromoItems = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
       mutationFn: ({id}: {id: string }) =>
-        deleteNews(id),
+        deletePromoItems(id),
         onError: (error) => {
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["tabs"] });
+            queryClient.invalidateQueries({ queryKey: ["promos"] });
           }
     
     });

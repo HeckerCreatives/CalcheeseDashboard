@@ -12,11 +12,10 @@ export const socialsIcon = (data: string) => {
 export const promocodeIcon = (data: string) => {
     console.log(data)
     if(data === 'In-Game Rewards'){
-        return '/assets/Neon Headphones ICON.png'
+        return <img src='/assets/Neon Headphones ICON.png' alt="" className="  w-[80px] md:w-[90px] z-10 -translate-y-6 md:-translate-y-6 absolute top-0" />
     } else if (data === 'Ticket'){
-        return '/assets/Ticket ICON.png'
+        return <img src='/assets/Ticket ICON.png' alt="" className="  w-[80px] md:w-[90px] z-10 -translate-y-6 md:-translate-y-6 absolute top-0" />
     } else {
-        return '/assets/Robux ICON.png'
-
+        return <img src='/assets/Robux ICON.png' alt="" className="  w-[80px] md:w-[75px] z-10 -translate-y-6 md:-translate-y-6 absolute top-0" /> 
     }
 }

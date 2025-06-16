@@ -27,7 +27,7 @@ import toast from 'react-hot-toast'
 import { Textarea } from '@/components/ui/textarea'
 import { useCreateNewTab, useDeleteNews, useEditNews, usegetNewtab } from '@/apis/whatsnew'
 import PaginitionComponent from '@/components/common/Pagination'
-import { useCreatePromo, useEditPromos, useGetPromos } from '@/apis/promocodes'
+import { useCreatePromo, useDeletePromoItems, useEditPromos, useGetPromos } from '@/apis/promocodes'
   
   
 export default function Rewards() {
@@ -40,7 +40,7 @@ export default function Rewards() {
     const [totalpage, setTotalpage] = useState(0)
 
     const {data, isLoading} = useGetPromos()
-    const {mutate: deleteNews} = useDeleteNews()
+    const {mutate: deletePromoItems} = useDeletePromoItems()
     const {mutate: editPromo} = useEditPromos()
     const [tab, setTab] = useState('')
     const [description, setDescription] = useState('')
@@ -61,10 +61,10 @@ export default function Rewards() {
       
     }
 
-    const deletenewsdata = (data: string) => {
-        deleteNews({id: data},{
+    const deletePromo = (data: string) => {
+        deletePromoItems({id: data},{
                 onSuccess: () => {
-                  toast.success(`News data deleted successfully.`);
+                  toast.success(`Data deleted successfully.`);
                   setOpen2(false)
                 },
             })
@@ -163,18 +163,18 @@ export default function Rewards() {
                             </TableCell>
                             <TableCell className=''>
                               <div className=' flex items-center gap-2'>
-                              {/* <Dialog open={open2} onOpenChange={setOpen2}>
+                              <Dialog open={open2} onOpenChange={setOpen2}>
                               <DialogTrigger className=' flex items-center justify-center gap-1 text-white w-fit bg-red-500 p-1 rounded-sm'>
                                   <Trash size={15}/>
                               </DialogTrigger>
-                              <DialogContent className="p-6 bg-yellow-50">
+                              <DialogContent className="p-6 bg-yellow-50 max-w-[400px] w-full">
                                   <DialogHeader>
-                                  <DialogTitle>Delete News</DialogTitle>
-                                  <DialogDescription>Are you sure you want to delete this news?</DialogDescription>
+                                  <DialogTitle>Delete Data</DialogTitle>
+                                  <DialogDescription>Are you sure you want to delete this data?</DialogDescription>
                                   </DialogHeader>
 
-                                  <div className=' flex items-end justify-end'>
-                                      <Button disabled={isPending} onClick={() => deletenewsdata(item.id)}>
+                                  <div className=' flex items-end justify-end mt-4'>
+                                      <Button disabled={isPending} onClick={() => deletePromo(item.id)}>
                                           {isPending && (
                                               <Loader type={'loader'}/>
                                           )}
@@ -182,13 +182,13 @@ export default function Rewards() {
 
                                   </div>
                               </DialogContent>
-                              </Dialog> */}
+                              </Dialog>
 
                               <Dialog open={open3} onOpenChange={setOpen3}>
                               <DialogTrigger onClick={() =>{ setId(item.id), setTab(item.title),setDescription(item.description)}} className=' flex items-center justify-center gap-1 text-white w-fit bg-orange-500 p-1 rounded-sm'>
                                   <Pen size={15}/>
                               </DialogTrigger>
-                              <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1">
+                              <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1 max-w-[400px] w-full">
                                   <DialogHeader>
                                   <DialogTitle>Edit Content</DialogTitle>
                                   <DialogDescription>Fill out the form below.</DialogDescription>
