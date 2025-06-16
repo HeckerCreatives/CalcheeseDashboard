@@ -167,7 +167,7 @@ export default function LandingPage() {
 
 
                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-6'>
-                                    <div className=' relative w-[250px] h-[150px] flex items-center justify-center'>
+                                    <div className=' relative w-[300px] h-[150px] flex items-center justify-center'>
                                         <FloatImage className=' absolute top-0 left-0' hoverRange={15} floatRange={15} duration={7}>
                                             <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
                                         </FloatImage>
@@ -176,7 +176,7 @@ export default function LandingPage() {
                                             <img src="/assets/floating/yum.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
-                                        <FloatImage className=' absolute top-20 left-2' duration={9} >
+                                        <FloatImage className=' absolute top-24 left-10' duration={9} >
                                         <img src="/assets/floating/CALCIUM.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
@@ -184,7 +184,7 @@ export default function LandingPage() {
                                             <img src="/assets/floating/yum.png" alt="triangles" width={60}/>
                                         </FloatImage> */}
 
-                                        <FloatImage className=' absolute top-12 left-20' duration={10}>
+                                        <FloatImage className=' absolute top-8 left-28' duration={10}>
                                             <img src="/assets/floating/ball.png" alt="triangles" width={70} />
                                         </FloatImage>
                                     </div>
@@ -418,8 +418,8 @@ export default function LandingPage() {
                                 </div> */}
 
 
-                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-12'>
-                                    <div className=' relative w-[250px] h-[150px] flex items-center justify-center'>
+                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-16'>
+                                    <div className=' relative w-[300px] h-[150px] flex items-center justify-center'>
                                         <FloatImage className=' absolute top-0 left-0' hoverRange={15} floatRange={15} duration={7}>
                                             <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
                                         </FloatImage>
@@ -428,7 +428,7 @@ export default function LandingPage() {
                                             <img src="/assets/floating/yum.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
-                                        <FloatImage className=' absolute top-20 left-2' duration={9} >
+                                        <FloatImage className=' absolute top-24 left-10' duration={9} >
                                         <img src="/assets/floating/CALCIUM.png" alt="triangles" width={70}/>
                                         </FloatImage>
 
@@ -436,7 +436,7 @@ export default function LandingPage() {
                                             <img src="/assets/floating/yum.png" alt="triangles" width={60}/>
                                         </FloatImage> */}
 
-                                        <FloatImage className=' absolute top-12 left-20' duration={10}>
+                                        <FloatImage className=' absolute top-8 left-28' duration={10}>
                                             <img src="/assets/floating/ball.png" alt="triangles" width={70} />
                                         </FloatImage>
                                     </div>
