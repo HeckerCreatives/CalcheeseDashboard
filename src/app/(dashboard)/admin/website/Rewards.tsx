@@ -105,32 +105,39 @@ export default function Rewards() {
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
         <h2 className=' text-lg font-bold'>Promo Codes</h2>
 
-        <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className='mt-4 flex items-center justify-center gap-1 text-white w-fit bg-orange-500 px-3 py-1 rounded-sm'>
-        <Plus size={15}/> Add 
-      </DialogTrigger>
-      <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1 max-w-[400px] w-full">
-        <DialogHeader>
-          <DialogTitle>Add Promo Code Content</DialogTitle>
-          <DialogDescription>Fill out the form below.</DialogDescription>
-        </DialogHeader>
+        <div className=' flex flex-col gap-2 mt-4'>
+          <p className=' text-xs'>Description</p>
+          <Textarea placeholder='Description' className=' max-w-[400px]'/>
 
-        <label htmlFor="" className=' text-xs mt-4'>Title</label>
-        <Input placeholder='Title' type='text' value={tab} onChange={(e) => setTab(e.target.value)}/>
-
-        <label htmlFor="" className=' text-xs mt-2'>Description</label>
-        <Textarea placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)}/>
-
-        <div className=' flex items-end justify-end mt-4'>
-            <Button disabled={isPending} onClick={addNewTab}>
-                {isPending && (
-                    <Loader type={'loader'}/>
-                )}
-                Save</Button>
-
+          <Button className=' w-fit text-xs'>Save</Button>
         </div>
-      </DialogContent>
-    </Dialog>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger className='mt-4 flex items-center justify-center gap-1 text-white w-fit bg-orange-500 px-3 py-1 rounded-sm mt-4'>
+          <Plus size={15}/> Add 
+        </DialogTrigger>
+        <DialogContent className="p-6 bg-yellow-50 flex flex-col gap-1 max-w-[400px] w-full">
+          <DialogHeader>
+            <DialogTitle>Add Promo Code Content</DialogTitle>
+            <DialogDescription>Fill out the form below.</DialogDescription>
+          </DialogHeader>
+
+          <label htmlFor="" className=' text-xs mt-4'>Title</label>
+          <Input placeholder='Title' type='text' value={tab} onChange={(e) => setTab(e.target.value)}/>
+
+          <label htmlFor="" className=' text-xs mt-2'>Description</label>
+          <Textarea placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)}/>
+
+          <div className=' flex items-end justify-end mt-4'>
+              <Button disabled={isPending} onClick={addNewTab}>
+                  {isPending && (
+                      <Loader type={'loader'}/>
+                  )}
+                  Save</Button>
+
+          </div>
+        </DialogContent>
+      </Dialog>
 
 
 

@@ -11,15 +11,14 @@ import Rewards from './Rewards'
 export default function page() {
   return (
     <Adminlayout>
-      <Tabs defaultValue="welcome" className=" w-full">
-      <TabsList>
+      <Tabs defaultValue="rewards" className=" w-full">
+      {/* <TabsList>
         <TabsTrigger value="welcome">CalCheese</TabsTrigger>
         <TabsTrigger value="news">News</TabsTrigger>
         <TabsTrigger value="minigame">Mini Games</TabsTrigger>
-        {/* <TabsTrigger value="rewards">Rewards</TabsTrigger> */}
         <TabsTrigger value="socials">Socials</TabsTrigger>
         <TabsTrigger value="rewards">Promo Codes</TabsTrigger>
-      </TabsList>
+      </TabsList> */}
 
       <TabsContent value="welcome">
         <Welcome/>

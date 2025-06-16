@@ -200,13 +200,13 @@ export default function Rewards() {
                 <>
                  <TextRevealOnView
                   text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, deserunt sit voluptas voluptatum consectetur officiis suscipit laudantium eos dolores excepturi commodi neque aspernatur illo, adipisci, natus fugit possimus. Dolorem, ut."
-                  className="text-center text-xs md:text-lg mt-6 font-semibold w-[90%] font-brevia"
+                  className="text-center text-xs md:text-sm mt-6 font-semibold w-[90%] font-brevia"
                   delay={.6}
                 />
                 <RevealOnScroll delay={1} className=' w-full'>
                    <div
                      ref={scrollRef}
-                    className={`custom-scrollbar w-full h-fit lg:h-full flex flex-nowrap gap-2 mt-8 md:mt-8 overflow-x-auto overflow-y-hidden cursor-pointer `}
+                    className={`custom-scrollbar w-full h-fit pt-4 lg:h-full flex flex-nowrap gap-2 mt-8 md:mt-6 overflow-x-auto overflow-y-hidden cursor-pointer `}
                   >
                     {data?.data.map((item, index) => (
                       <div
@@ -221,7 +221,7 @@ export default function Rewards() {
                             <p className='text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-6'>
                               {item.title}
                             </p>
-                            <p className='text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6'>
+                            <p className='text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6 px-2'>
                               {item.description}
                             </p>
                           </div>
