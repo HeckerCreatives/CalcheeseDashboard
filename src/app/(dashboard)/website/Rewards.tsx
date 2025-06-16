@@ -24,9 +24,9 @@ import useRedeemStatePopup from '@/hooks/redeempopup'
 
 
 const rewardItem = [
-  {title:'In-Game Rewards', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit', img: <img src={'/assets/Neon Headphones ICON.png'} className=''/>},
-  {title:'Ticket', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit', img: <img src={''}/>},
-  {title:'Robux', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit', img: <img src={''}/>},
+  {title:'In-Game Rewards', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit'},
+  {title:'Ticket', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit'},
+  {title:'Robux', description:' Lorem ipsum dolor sit amet consectetur, adipisicing elit'},
 ]
 
 export default function Rewards() {
