@@ -25,7 +25,6 @@ export default function MultiSelect({
     onChange(updated);
   };
 
-  console.log(data)
 
   return (
     <div className="border p-2 bg-white w-full rounded-md mt-1">
@@ -39,7 +38,7 @@ export default function MultiSelect({
             <input
               type="checkbox"
               value={item.id}
-              checked={selectedIds.includes(item.id)}
+              checked={selectedIds?.includes(item.id)}
               onChange={() => toggleSelection(item.id)}
             />
             {item.itemname}

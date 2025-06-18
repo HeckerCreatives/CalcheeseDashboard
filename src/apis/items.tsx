@@ -12,6 +12,7 @@ interface Item {
   quantity: number
   createdAt: string;
   category: string
+  rarity: string
 }
 
 interface ItemResponse {
@@ -22,25 +23,25 @@ interface ItemResponse {
 
   
 
-export const getItemList = async (page: number, limit: number, category?: string): Promise<ItemResponse> => { 
+export const getItemList = async (page: number, limit: number, category?: string, rarity?:string): Promise<ItemResponse> => { 
     const response = await axiosInstance.get(
       "/item/getitems",
-      {params:{page, limit, category}}
+      {params:{page, limit, category, rarity}}
     );
     return response.data
   };
   
   
-export const useGetItemsList = (page: number, limit: number, category?: string) => {
+export const useGetItemsList = (page: number, limit: number, category?: string, rarity?:string) => {
     return useQuery({
-      queryKey: ["items",page, limit, category ],
-      queryFn: () => getItemList(page, limit, category),
+      queryKey: ["items",page, limit, category, rarity ],
+      queryFn: () => getItemList(page, limit, category, rarity),
      
     });
 };
   
-export const createItems = async (itemid: string, itemname: string, quantity: number, category: string) => { 
-    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity, category});
+export const createItems = async (itemid: string, itemname: string, quantity: number, category: string, rarity: string) => { 
+    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity, category, rarity});
     return response.data;
   };
   
@@ -48,8 +49,8 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ itemid, itemname, quantity, category }: { itemid: string, itemname: string, quantity: number, category: string }) =>
-        createItems(itemid, itemname, quantity, category),
+      mutationFn: ({ itemid, itemname, quantity, category, rarity }: { itemid: string, itemname: string, quantity: number, category: string, rarity: string }) =>
+        createItems(itemid, itemname, quantity, category, rarity),
         onError: (error) => {
             handleApiError(error);
         },
@@ -61,8 +62,8 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
   };
 
 
-  export const editItems = async (id: string,itemid: string, itemname: string,quantity: number , category: string) => { 
-    const response = await axiosInstance.post("/item/edititem", { id, itemid, itemname, quantity, category });
+  export const editItems = async (id: string,itemid: string, itemname: string,quantity: number , category: string, rarity: string) => { 
+    const response = await axiosInstance.post("/item/edititem", { id, itemid, itemname, quantity, category, rarity });
     return response.data;
   };
   
@@ -70,8 +71,8 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ id, itemid, itemname, quantity, category}: {id: string,itemid: string, itemname: string, quantity: number, category: string }) =>
-        editItems(id, itemid, itemname, quantity, category),
+      mutationFn: ({ id, itemid, itemname, quantity, category, rarity}: {id: string,itemid: string, itemname: string, quantity: number, category: string, rarity: string }) =>
+        editItems(id, itemid, itemname, quantity, category, rarity),
         onError: (error) => {
             handleApiError(error);
         },

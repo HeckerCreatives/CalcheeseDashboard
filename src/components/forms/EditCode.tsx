@@ -45,6 +45,7 @@ export interface Item {
   itemid: string;
   itemname: string;
   quantity: number;
+  rarity: string
 }
 
 export interface Chest {
@@ -63,6 +64,7 @@ export interface CodeData {
   type: 'ingame' | string;
   isUsed: boolean;
   claimdate: string;
+  rarity: string
 }
 
 interface Props {
@@ -71,15 +73,42 @@ interface Props {
   chestid: string,
   type: string
   status: string,
+  length: string
+  rarity: string
 }
 
 
 export default function EditCodeForm(prop: Props) {
+
+     const {
+        register,
+        handleSubmit,
+        setValue,
+        trigger,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm<EditCodes>({
+        resolver: zodResolver(editCodesvalidations),
+        defaultValues: {
+            // chesttype: prop.codes[0]?.chest?.id,
+            expiration: prop.codes[0]?.expiration,
+            type: prop.type,
+            status: prop.status
+
+        },
+    })
+
+
+  const selectedType = watch('type');
+
     const [open, setOpen] = useState(false)
+        const [rarity, setRarity] = useState('')
+    
     // const {data} = useGetTicketTypeList()
-    const {data: items} = useGetItemsList(0, 100, '')
+    const {data: items} = useGetItemsList(0, 100)
     const {data: chest} = useGetChestList()
-    const {data} = useGetItemsList(0, 100)
+    const {data} = useGetItemsList(0, 100, selectedType, rarity)
     const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
     const {mutate: updateCodes, isPending} = useUpdateCodes()
 
@@ -88,27 +117,10 @@ export default function EditCodeForm(prop: Props) {
     
     
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    trigger,
-    reset,
-    formState: { errors },
-  } = useForm<EditCodes>({
-    resolver: zodResolver(editCodesvalidations),
-    defaultValues: {
-        chesttype: prop.codes[0]?.chest?.id,
-        expiration: prop.codes[0]?.expiration,
-        type: prop.type,
-        status: prop.status
-
-    },
-  })
-
+ 
 
   const onSubmit = (data: EditCodes) => {
-      updateCodes({ids: prop.ids, type: data.type, chest: data.chesttype, items: selectedItemIds, expiration: data.expiration, status: data.status },{
+      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: data.status },{
           onSuccess: () => {
             toast.success(`Code updated successfully`);
             setOpen(false)
@@ -119,12 +131,15 @@ export default function EditCodeForm(prop: Props) {
   useEffect(() => {
     if(prop){
         reset({
-           chesttype: prop.codes[0]?.chest?.id,
+        //    chesttype: prop.codes[0]?.chest?.id,
            expiration: prop.codes[0]?.expiration,
            type: prop.type,
            status: prop.status
         })
     }
+
+    setRarity(prop.codes[0]?.items[0]?.rarity)
+    setRarity(prop.codes[0].rarity)
     
   },[prop])
 
@@ -134,7 +149,6 @@ export default function EditCodeForm(prop: Props) {
         setSelectedItemIds(ids);
     }, [prop]);
 
-console.log(errors)
 
 
 
@@ -151,8 +165,8 @@ console.log(errors)
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-           <div className="w-full flex flex-col gap-1">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 mt-4">
+           {/* <div className="w-full flex flex-col gap-1">
               <label className="text-xs text-zinc-400">Chest</label>
               <Select defaultValue={prop.codes[0]?.chest?.id} onValueChange={(val) => setValue('chesttype', val)}>
                             <SelectTrigger className="w-full">
@@ -192,9 +206,67 @@ console.log(errors)
                                 {errors.type && (
                                   <p className="form-error">{errors.type.message}</p>
                                 )}
-                              </div>
+                              </div> */}
 
-                               <div className=" flex flex-col gap-1 w-full">
+                              {/* <div className="w-full flex flex-col gap-1">
+                                          <label className="text-xs text-zinc-400">No. of Characters</label>
+                                          <Select onValueChange={(val) => setValue('length', val)}>
+                                            <SelectTrigger className="w-full">
+                                              <SelectValue placeholder="Select" className="text-xs" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value={'7'} className="text-xs">7</SelectItem>
+                                                <SelectItem value={'8'} className="text-xs">8</SelectItem>
+                                                <SelectItem value={'9'} className="text-xs">9</SelectItem>
+                                                <SelectItem value={'10'} className="text-xs">10</SelectItem>
+                                                <SelectItem value={'11'} className="text-xs">11</SelectItem>
+                                                <SelectItem value={'12'} className="text-xs">12</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                          {errors.length && (
+                                            <p className="form-error">{errors.length.message}</p>
+                                          )}
+                                        </div> */}
+
+            <div className="w-full flex flex-col gap-1">
+                                <label className="text-xs text-zinc-400">Reward Type</label>
+                                <Select defaultValue={prop.type} onValueChange={(val) => setValue('type', val)}>
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue placeholder=" Type" className="text-xs" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem  value='chest' className="text-xs">Chest</SelectItem>
+                                    <SelectItem  value='ingame' className="text-xs">Ingame</SelectItem>
+                                    <SelectItem  value='exclusive' className="text-xs">Exclusive Items</SelectItem>
+                                    <SelectItem  value='robux' className="text-xs">Robux</SelectItem>
+                                    <SelectItem  value='ticket' className="text-xs">Tickets</SelectItem>
+                                   
+                                  </SelectContent>
+                                </Select>
+                                {errors.type && (
+                                  <p className="form-error">{errors.type.message}</p>
+                                )}
+            </div>
+
+             <div className=" flex flex-col gap-1">
+                         <label className="text-xs text-zinc-400">Rarity</label>
+                         <Select value={rarity} onValueChange={setRarity} >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder=" Select" className="text-xs" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem  value='common' className="text-xs">Common</SelectItem>
+                            <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
+                            <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
+                            <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
+                            <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
+                        
+                        </SelectContent>
+                        </Select>
+                     </div>
+            
+
+                               {/* <div className=" flex flex-col gap-1 w-full">
                                           <label className="text-xs text-zinc-400">Status</label>
                                           <Select defaultValue={prop.status} onValueChange={(val) => setValue('status', val)} >
                                           <SelectTrigger className="w-full">
@@ -222,7 +294,14 @@ console.log(errors)
                                           {errors.status && (
                                             <p className="form-error">{errors.status.message}</p>
                                             )}
-                                        </div>
+                                        </div> */}
+
+                                            <div className="w-full flex flex-col gap-1">
+                                                <label className="text-xs text-zinc-400">Items</label>
+                                                <MultiSelect
+                                                    data={data?.data}
+                                                    onChange={(ids) => setSelectedItemIds(ids)} selectedIds={selectedItemIds}/>
+                                            </div>
 
         
 
@@ -245,12 +324,7 @@ console.log(errors)
           </div>
 
           
-                                           <div className="w-full flex flex-col gap-1">
-                                                <label className="text-xs text-zinc-400">Items</label>
-                                                <MultiSelect
-                                                    data={data?.data}
-                                                    onChange={(ids) => setSelectedItemIds(ids)} selectedIds={selectedItemIds}/>
-                                            </div>
+                                       
 
          
           <div className="w-full flex justify-end gap-2">

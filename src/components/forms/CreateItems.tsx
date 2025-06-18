@@ -73,7 +73,7 @@ export default function CreateItemsForm() {
 
 
   const onSubmit = (data: CreateItems) => {
-   createItems({itemid: '', itemname: data.itemname, quantity: data.quantity, category: data.type},{
+   createItems({itemid: '', itemname: data.itemname, quantity: data.quantity, category: data.type, rarity: data.rarity},{
        onSuccess: () => {
          toast.success(`Item created successfully`);
          setOpen(false)
@@ -178,6 +178,26 @@ export default function CreateItemsForm() {
             </Select>
             {errors.type && (
               <p className="form-error">{errors.type.message}</p>
+            )}
+          </div>
+
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-xs text-zinc-400">Rarity</label>
+            <Select onValueChange={(val) => setValue('rarity', val)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder=" Type" className="text-xs" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem  value='common' className="text-xs">Common</SelectItem>
+                <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
+                <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
+                <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
+                <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
+               
+              </SelectContent>
+            </Select>
+            {errors.rarity && (
+              <p className="form-error">{errors.rarity.message}</p>
             )}
           </div>
 

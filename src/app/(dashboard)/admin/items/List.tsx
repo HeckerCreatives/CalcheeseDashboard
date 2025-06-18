@@ -15,24 +15,18 @@ import CreateRobuxCodeForm from '@/components/forms/CreateRobuxCode'
 import { useGetRobuxList } from '@/apis/robux'
 import PaginitionComponent from '@/components/common/Pagination'
 import Loader from '@/components/common/Loader'
-import EditRobuxCodeForm from '@/components/forms/EditRobuxCode'
-import DeleteRobuxCodeForm from '@/components/forms/DeleteRobuxCode'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
-import statusColor, { statusData } from '@/lib/reusable'
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-  } from "@/components/ui/hover-card"
 import CreateItemsForm from '@/components/forms/CreateItems'
 import { useGetItemsList } from '@/apis/items'
 import EditItemsForm from '@/components/forms/EditItems'
 import DeleteItemForm from '@/components/forms/DeleteItems'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
   
   
  const typeOptions = [
@@ -52,7 +46,8 @@ export default function List() {
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const [value, setValue] = useState('')
-    const {data, isLoading} = useGetItemsList(currentPage, 10, tab)
+    const [rarity, setRarity] = useState('')
+    const {data, isLoading} = useGetItemsList(currentPage, 10, tab, rarity)
 
 
     
@@ -86,6 +81,8 @@ export default function List() {
 
          <CreateItemsForm/>
 
+        
+
         </div>
 
         <Tabs value={tab} onValueChange={setTab} className="w-full mt-4">
@@ -102,6 +99,23 @@ export default function List() {
         <TabsContent value="password">Change your password here.</TabsContent>
         </Tabs>
 
+         <div className=" flex flex-col gap-1 mt-4">
+             <label className="text-xs text-zinc-400">Rarity</label>
+             <Select value={rarity} onValueChange={setRarity} >
+            <SelectTrigger className="w-fit">
+                <SelectValue placeholder=" Select" className="text-xs" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem  value='common' className="text-xs">Common</SelectItem>
+                <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
+                <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
+                <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
+                <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
+            
+            </SelectContent>
+            </Select>
+         </div>
+
        
         <Table className=' text-sm mt-8'>
             {data?.data.length === 0 && (
@@ -117,6 +131,7 @@ export default function List() {
             {/* <TableHead className="">Item Code</TableHead> */}
             <TableHead className="">Item Name</TableHead>
             <TableHead className="">Category</TableHead>
+            <TableHead className="">Rarity</TableHead>
             <TableHead className="">Quantity</TableHead>
             
             <TableHead className="">Action</TableHead>
@@ -128,11 +143,12 @@ export default function List() {
                     {/* <TableCell>{item.itemid}</TableCell> */}
                     <TableCell>{item.itemname}</TableCell>
                     <TableCell>{item.category}</TableCell>
+                    <TableCell>{item.rarity}</TableCell>
                     <TableCell>{item.quantity.toLocaleString()}</TableCell>
                    
                     <TableCell className=' flex items-center gap-2'>
         
-                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname} quantity={item.quantity} type={item.category}/>
+                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname} quantity={item.quantity} type={item.category} rarity={item.rarity}/>
                         <DeleteItemForm id={item.id}/>
                     </TableCell>
                 </TableRow>

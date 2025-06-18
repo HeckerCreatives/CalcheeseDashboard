@@ -59,6 +59,7 @@ export const createItemvalidations = z.object({
     // quantity: z.number().min(1,'Quantity is required.'),
     type: z.string().nonempty('Please select a type.'),
     itemname: z.string().nonempty('Item name is empty.'),
+    rarity: z.string().nonempty('Rarity is empty.'),
     quantity: z.number().min(1,'Quantity is required.'),
 
 });
@@ -80,10 +81,12 @@ export const createCodesvalidations = z.object({
 
 
 export const editCodesvalidations = z.object({
-    chesttype: z.string().nonempty('Select a chest type'),
+    // chesttype: z.string().nonempty('Select a chest type'),
     type: z.string().nonempty('Select a type'),
     expiration: z.string().nonempty('Expiration date is empty'),
     status: z.string().nonempty('Please select a status'),
+    // length: z.string().nonempty('Select character length'),
+
     // items: z
     //   .array(
     //     z.object({

@@ -41,6 +41,7 @@ interface Props {
     itemname: string,
     quantity: number
     type: string
+    rarity: string
 }
 
 export default function EditItemsForm( prop: Props) {
@@ -60,13 +61,14 @@ export default function EditItemsForm( prop: Props) {
       // itemcode: prop.itemcode,
       itemname: prop.itemname,
       quantity: prop.quantity,
-      type: prop.type
+      type: prop.type,
+      rarity: prop.rarity
     },
   })
 
 
   const onSubmit = (data: CreateItems) => {
-     editItems({id: prop.id, itemname: data.itemname, itemid:'', quantity: data.quantity, category: data.type},{
+     editItems({id: prop.id, itemname: data.itemname, itemid:'', quantity: data.quantity, category: data.type, rarity: data.rarity},{
          onSuccess: () => {
            toast.success(`Item updated successfully`);
            setOpen(false)
@@ -80,7 +82,9 @@ export default function EditItemsForm( prop: Props) {
         //  itemcode: prop.itemcode,
         itemname: prop.itemname,
         quantity: prop.quantity,
-      type: prop.type
+      type: prop.type,
+      rarity: prop.rarity
+
 
       })
     }
@@ -186,6 +190,26 @@ export default function EditItemsForm( prop: Props) {
                       <p className="form-error">{errors.type.message}</p>
                     )}
                   </div>
+
+                  <div className="w-full flex flex-col gap-1">
+                              <label className="text-xs text-zinc-400">Rarity</label>
+                              <Select defaultValue={prop.rarity} onValueChange={(val) => setValue('rarity', val)}>
+                                <SelectTrigger className="w-full">
+                                  <SelectValue placeholder=" Type" className="text-xs" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem  value='common' className="text-xs">Common</SelectItem>
+                                  <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
+                                  <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
+                                  <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
+                                  <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
+                                 
+                                </SelectContent>
+                              </Select>
+                              {errors.rarity && (
+                                <p className="form-error">{errors.rarity.message}</p>
+                              )}
+                </div>
         
                   <div className="flex items-center gap-4">
                     <div className="w-full flex flex-col gap-1">

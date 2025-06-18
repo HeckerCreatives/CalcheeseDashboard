@@ -304,7 +304,7 @@ export default function Generate() {
             {isPending && <Loader type={'loader'} />}
           <Download size={15}/> Csv</Button>
 
-          <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} />
+          <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
 
 
          <Dialog open={open} onOpenChange={setOpen}>
