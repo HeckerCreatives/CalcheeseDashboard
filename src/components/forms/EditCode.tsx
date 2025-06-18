@@ -139,7 +139,7 @@ export default function EditCodeForm(prop: Props) {
     }
 
     setRarity(prop.codes[0]?.items[0]?.rarity)
-    setRarity(prop.codes[0].rarity)
+    setRarity(prop.codes[0]?.rarity)
     
   },[prop])
 
