@@ -111,6 +111,7 @@ export default function GenerateCodesForm() {
       setOpen(false);
       setProgress(null);
       setProgressStatus(null);
+      reset()
     },
     onError: () => {
       reset();

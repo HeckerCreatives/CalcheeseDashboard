@@ -124,6 +124,7 @@ export default function EditCodeForm(prop: Props) {
           onSuccess: () => {
             toast.success(`Code updated successfully`);
             setOpen(false)
+            reset()
           },
         })
   }
@@ -139,7 +140,7 @@ export default function EditCodeForm(prop: Props) {
     }
 
     setRarity(prop.codes[0]?.items[0]?.rarity)
-    setRarity(prop.codes[0]?.rarity)
+    // setRarity(prop.codes[0]?.rarity)
     
   },[prop])
 
@@ -148,6 +149,8 @@ export default function EditCodeForm(prop: Props) {
         const ids = prop.codes[0]?.items.map(item => item.id);
         setSelectedItemIds(ids);
     }, [prop]);
+
+    console.log(prop)
 
 
 
