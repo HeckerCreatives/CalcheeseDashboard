@@ -117,6 +117,10 @@ export default function Generate() {
 
            console.log(selectedCodeData)
 
+           useEffect(() =>{
+            setCurrentpage(0)
+           },[search])
+
         
 
   return (
