@@ -60,6 +60,10 @@ export default function List() {
     setTotalpage(data?.totalPages || 0)
   },[data])
 
+  useEffect(() => {
+    setRarity('')
+  },[tab])
+
 
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
