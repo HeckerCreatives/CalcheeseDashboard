@@ -348,6 +348,11 @@ export default function Generate() {
          
 
         </div>
+
+        <div className=' flex items-center gap-4 mt-6 text-xs'>
+          <p>Total Data: {data?.totalDocs.toLocaleString()}</p>
+          <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p>
+        </div>
         
        
         <Table className=' text-sm mt-8'>
