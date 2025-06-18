@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/dialog"
 import toast from 'react-hot-toast'
 import { useGetDashboardCount } from '@/apis/dashboard'
+import EditCodeForm from '@/components/forms/EditCode'
 
 
   
@@ -61,6 +62,7 @@ export default function Generate() {
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+    const [selectedCodeData, setSelectedCodeData] = useState<any[]>([]);
 
     
 
@@ -113,6 +115,8 @@ export default function Generate() {
            }
 
 
+           console.log(selectedCodeData)
+
         
 
   return (
@@ -133,7 +137,13 @@ export default function Generate() {
 
           <div className=' flex items-end flex-wrap gap-4'>
 
-             <div className=" flex flex-col gap-1">
+           
+            <div className=' relative w-fit flex items-center justify-center mt-4'>
+              <Search size={15} className=' absolute left-2'/>
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Search' className=' w-fit pl-7'/>
+            </div>
+
+            <div className=" flex flex-col gap-1">
                 <label className="text-xs text-zinc-400">No. of data</label>
                 <Select value={pagination} onValueChange={setPagination} >
                 <SelectTrigger className="w-fit">
@@ -155,10 +165,6 @@ export default function Generate() {
                 
                 </SelectContent>
               </Select> 
-            </div>
-            <div className=' relative w-fit flex items-center justify-center mt-4'>
-              <Search size={15} className=' absolute left-2'/>
-              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Search' className=' w-fit pl-7'/>
             </div>
 
           <div className=" flex flex-col gap-1">
@@ -238,9 +244,6 @@ export default function Generate() {
           </Select> 
           </div>
 
-         
-
-          
 
           <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
 
@@ -299,7 +302,10 @@ export default function Generate() {
 
           <Button disabled={isPending}  onClick={exportCsv} className=' flex items-center p-2'>
             {isPending && <Loader type={'loader'} />}
-            <Download size={15}/> Csv</Button>
+          <Download size={15}/> Csv</Button>
+
+          <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} />
+
 
          <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
@@ -361,9 +367,12 @@ export default function Generate() {
               onChange={(e) => {
                 if (e.target.checked) {
                   const allIds = data?.data.map((item) => item.id) || [];
+                  const allItems = data?.data || [];
                   setSelectedCodes(allIds);
+                  setSelectedCodeData(allItems);
                 } else {
                   setSelectedCodes([]);
+                  setSelectedCodeData([]);
                 }
               }}
             />
@@ -384,13 +393,13 @@ export default function Generate() {
                     <input
                       type='checkbox'
                       checked={selectedCodes.includes(item.id)}
-                      onChange={(e) => {
+                       onChange={(e) => {
                         if (e.target.checked) {
                           setSelectedCodes((prev) => [...prev, item.id]);
+                          setSelectedCodeData((prev) => [...prev, item]);
                         } else {
-                          setSelectedCodes((prev) =>
-                            prev.filter((id) => id !== item.id)
-                          );
+                          setSelectedCodes((prev) => prev.filter((id) => id !== item.id));
+                          setSelectedCodeData((prev) => prev.filter((code) => code.id !== item.id));
                         }
                       }}
                     />

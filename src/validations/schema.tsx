@@ -73,6 +73,22 @@ export const createCodesvalidations = z.object({
 });
 
 
+export const editCodesvalidations = z.object({
+    chesttype: z.string().nonempty('Select a chest type'),
+    type: z.string().nonempty('Select a type'),
+    expiration: z.string().nonempty('Expiration date is empty'),
+    status: z.string().nonempty('Please select a status'),
+    // items: z
+    //   .array(
+    //     z.object({
+    //       itemtype: z.string().nonempty('Type is required'),
+    //       quantity: z.number().min(1, 'Quantity must be at least 1'),
+    //     })
+    //   )
+    //   .min(1, 'Items is empty'),
+})
+
+
 export type RegisterUser = z.infer<typeof registerValidations>
 export type GenerateCodesvalidation = z.infer<typeof generateCodesvalidations>
 export type CreateRobuxCode = z.infer<typeof createRobuxvalidations>
@@ -80,3 +96,4 @@ export type CreateTicketCode = z.infer<typeof createTicketvalidations>
 export type CreateItems = z.infer<typeof createItemvalidations>
 export type CreateChests = z.infer<typeof createChestvalidations>
 export type GenerateCodes = z.infer<typeof createCodesvalidations>
+export type EditCodes = z.infer<typeof editCodesvalidations>

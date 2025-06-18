@@ -223,6 +223,30 @@ export const useDeleteCodes = () => {
     
     });
   };
+
+
+  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string) => { 
+    const response = await axiosInstance.post("/code/editmultiplecodes", { ids, type,chest, items, expiration, status});
+    return response.data;
+  };
+  
+export const useUpdateCodes = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({ ids, type, chest, items, expiration, status } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string}) =>
+        updateCodes( ids, type, chest, items, expiration, status),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+            queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
+          }
+    
+    });
+  };
+  
   
 
 
