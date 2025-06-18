@@ -95,6 +95,8 @@ export default function GenerateCodesForm() {
     return;
   }
 
+  console.log(data)
+
   generateCodeslist({
     chest: '',
     expiration: data.expiration,
@@ -102,7 +104,7 @@ export default function GenerateCodesForm() {
     type: data.type || '',
     items: selectedItemIds,
     socketid: socket.id,
-    length: Number(data.length)
+    length: data.nocharacters
   }, {
     onSuccess: () => {
       toast.success(`Codes generated successfully`);
@@ -258,7 +260,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
            <div className="w-full flex flex-col gap-1">
             <label className="text-xs text-zinc-400">No. of Characters</label>
-            <Select onValueChange={(val) => setValue('length', val)}>
+            <Select onValueChange={(val) => setValue('nocharacters', Number(val))}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select" className="text-xs" />
               </SelectTrigger>
@@ -271,8 +273,8 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   <SelectItem value={'12'} className="text-xs">12</SelectItem>
               </SelectContent>
             </Select>
-            {errors.length && (
-              <p className="form-error">{errors.length.message}</p>
+            {errors.nocharacters && (
+              <p className="form-error">{errors.nocharacters.message}</p>
             )}
           </div>
 

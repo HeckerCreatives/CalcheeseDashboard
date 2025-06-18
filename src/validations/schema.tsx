@@ -75,7 +75,7 @@ export const createCodesvalidations = z.object({
     expiration: z.string().nonempty('Expiration is empty.'),
     codeamount: z.number().min(1,'Code quantity should atleast 1.'),
     type: z.string().optional(), // <- now optional
-    length: z.string().nonempty('Select character length'),
+    nocharacters: z.number().min(1,'Select character length'),
    
 });
 
