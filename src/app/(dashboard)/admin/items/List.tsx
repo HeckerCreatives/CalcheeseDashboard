@@ -132,7 +132,7 @@ export default function List() {
                    
                     <TableCell className=' flex items-center gap-2'>
         
-                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname} quantity={item.quantity}/>
+                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname} quantity={item.quantity} type={item.category}/>
                         <DeleteItemForm id={item.id}/>
                     </TableCell>
                 </TableRow>

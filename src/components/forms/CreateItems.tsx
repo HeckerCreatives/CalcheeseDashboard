@@ -68,7 +68,6 @@ export default function CreateItemsForm() {
   } = useForm<CreateItems>({
     resolver: zodResolver(createItemvalidations),
     defaultValues: {
-      
     },
   })
 
