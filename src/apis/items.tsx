@@ -11,6 +11,7 @@ interface Item {
   itemname: string;
   quantity: number
   createdAt: string;
+  category: string
 }
 
 interface ItemResponse {
@@ -21,25 +22,25 @@ interface ItemResponse {
 
   
 
-export const getItemList = async (page: number, limit: number): Promise<ItemResponse> => { 
+export const getItemList = async (page: number, limit: number, category?: string): Promise<ItemResponse> => { 
     const response = await axiosInstance.get(
       "/item/getitems",
-      {params:{page, limit}}
+      {params:{page, limit, category}}
     );
     return response.data
   };
   
   
-export const useGetItemsList = (page: number, limit: number) => {
+export const useGetItemsList = (page: number, limit: number, category?: string) => {
     return useQuery({
-      queryKey: ["items",page, limit ],
-      queryFn: () => getItemList(page, limit),
+      queryKey: ["items",page, limit, category ],
+      queryFn: () => getItemList(page, limit, category),
      
     });
 };
   
-export const createItems = async (itemid: string, itemname: string, quantity: number) => { 
-    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity});
+export const createItems = async (itemid: string, itemname: string, quantity: number, category: string) => { 
+    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity, category});
     return response.data;
   };
   
@@ -47,8 +48,8 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ itemid, itemname, quantity }: { itemid: string, itemname: string, quantity: number }) =>
-        createItems(itemid, itemname, quantity),
+      mutationFn: ({ itemid, itemname, quantity, category }: { itemid: string, itemname: string, quantity: number, category: string }) =>
+        createItems(itemid, itemname, quantity, category),
         onError: (error) => {
             handleApiError(error);
         },

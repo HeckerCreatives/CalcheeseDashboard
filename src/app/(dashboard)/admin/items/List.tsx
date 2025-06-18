@@ -32,17 +32,27 @@ import CreateItemsForm from '@/components/forms/CreateItems'
 import { useGetItemsList } from '@/apis/items'
 import EditItemsForm from '@/components/forms/EditItems'
 import DeleteItemForm from '@/components/forms/DeleteItems'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
   
   
-  
+ const typeOptions = [
+  { name: "All", value: "all" },
+  { name: "Chest", value: "chest" },
+  { name: "Ingame", value: "ingame" },
+  { name: "Exclusive Items", value: "exclusive" },
+  { name: "Robux", value: "robux" },
+  { name: "Tickets", value: "ticket" },
+];
   
 export default function List() {
     const [currentPage, setCurrentpage] = useState(0)
+    const [tab, setTab] = useState('all')
+
     const [totalpage, setTotalpage] = useState(0)
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const [value, setValue] = useState('')
-    const {data, isLoading} = useGetItemsList(currentPage, 10)
+    const {data, isLoading} = useGetItemsList(currentPage, 10, tab)
 
 
     
@@ -77,6 +87,21 @@ export default function List() {
          <CreateItemsForm/>
 
         </div>
+
+        <Tabs value={tab} onValueChange={setTab} className="w-full mt-4">
+        <TabsList className=" lg:w-fit w-full flex items-start justify-start overflow-x-auto whitespace-nowrap no-scrollbar">
+           
+            {typeOptions.map((item, index) => (
+            <TabsTrigger key={index} value={item.value} className="px-3 shrink-0">
+                {item.name}
+            </TabsTrigger>
+            ))}
+        </TabsList>
+
+        <TabsContent value="account">Make changes to your account here.</TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
+        </Tabs>
+
        
         <Table className=' text-sm mt-8'>
             {data?.data.length === 0 && (
@@ -89,8 +114,9 @@ export default function List() {
             ) }
         <TableHeader>
         <TableRow>
-            <TableHead className="">Item Code</TableHead>
-            <TableHead className="">Name</TableHead>
+            {/* <TableHead className="">Item Code</TableHead> */}
+            <TableHead className="">Item Name</TableHead>
+            <TableHead className="">Category</TableHead>
             <TableHead className="">Quantity</TableHead>
             
             <TableHead className="">Action</TableHead>
@@ -99,8 +125,9 @@ export default function List() {
         <TableBody>
             {data?.data.map((item, index) => (
                 <TableRow key={item.id}>
-                    <TableCell>{item.itemid}</TableCell>
+                    {/* <TableCell>{item.itemid}</TableCell> */}
                     <TableCell>{item.itemname}</TableCell>
+                    <TableCell>{item.category}</TableCell>
                     <TableCell>{item.quantity.toLocaleString()}</TableCell>
                    
                     <TableCell className=' flex items-center gap-2'>

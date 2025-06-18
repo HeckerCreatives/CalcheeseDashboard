@@ -44,6 +44,16 @@ interface Item {
 
 const allTypes: ItemType[] = ['robux', 'ticket']
 
+const typeOptions = [
+  { name: "Chest", value: "chest" },
+  { name: "Ingame", value: "ingame" },
+  { name: "Exclusive Items", value: "exclusive" },
+  // { name: "Items", value: "item" },
+  { name: "Robux", value: "robux" },
+  { name: "Tickets", value: "ticket" },
+];
+
+
 export default function CreateItemsForm() {
     const {mutate: createItems, isPending} = useCreateItems()
     const [open, setOpen] = useState(false)
@@ -53,6 +63,7 @@ export default function CreateItemsForm() {
     handleSubmit,
     setValue,
     trigger,
+    reset,
     formState: { errors },
   } = useForm<CreateItems>({
     resolver: zodResolver(createItemvalidations),
@@ -63,12 +74,13 @@ export default function CreateItemsForm() {
 
 
   const onSubmit = (data: CreateItems) => {
-     createItems({itemid: data.itemcode, itemname: data.itemname, quantity: data.quantity},{
-         onSuccess: () => {
-           toast.success(`Item created successfully`);
-           setOpen(false)
-         },
-       })
+   createItems({itemid: '', itemname: data.itemname, quantity: data.quantity, category: data.type},{
+       onSuccess: () => {
+         toast.success(`Item created successfully`);
+         setOpen(false)
+         reset()
+       },
+     })
   }
 
   return (
@@ -85,7 +97,7 @@ export default function CreateItemsForm() {
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        {/* <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         
            <div className="flex items-center gap-4">
             <div className="w-full flex flex-col gap-1">
@@ -100,6 +112,74 @@ export default function CreateItemsForm() {
               )}
             </div>
           
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="w-full flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Item Name</label>
+              <Input
+                placeholder="Item Name"
+                type="text"
+                {...register('itemname')}
+              />
+              {errors.itemname && (
+                <p className="form-error">{errors.itemname.message}</p>
+              )}
+            </div>
+          
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="w-full flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Quantity</label>
+              <Input
+                placeholder="Quantity"
+                type="number"
+                {...register('quantity', {valueAsNumber: true})}
+              />
+              {errors.quantity && (
+                <p className="form-error">{errors.quantity.message}</p>
+              )}
+            </div>
+          
+          </div>
+
+   
+
+          <div className="w-full flex justify-end gap-2">
+            <Button disabled={isPending} className="">
+                            {isPending && (
+                                <Loader type={'loader'}/>
+                            )}
+                          Save
+                        </Button>
+            <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
+              Cancel
+            </button>
+          </div>
+        </form> */}
+
+         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-4">
+      
+
+           <div className="w-full flex flex-col gap-1">
+            <label className="text-xs text-zinc-400">Reward Type</label>
+            <Select onValueChange={(val) => setValue('type', val)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder=" Type" className="text-xs" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem  value='chest' className="text-xs">Chest</SelectItem>
+                <SelectItem  value='ingame' className="text-xs">Ingame</SelectItem>
+                <SelectItem  value='exclusive' className="text-xs">Exclusive Items</SelectItem>
+                <SelectItem  value='robux' className="text-xs">Robux</SelectItem>
+                <SelectItem  value='ticket' className="text-xs">Tickets</SelectItem>
+               
+              </SelectContent>
+            </Select>
+            {errors.type && (
+              <p className="form-error">{errors.type.message}</p>
+            )}
           </div>
 
           <div className="flex items-center gap-4">

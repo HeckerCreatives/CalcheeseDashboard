@@ -32,6 +32,8 @@ export const generateCodesvalidations = z.object({
         })
       )
       .min(1, 'Items is empty'),
+    length: z.string().nonempty('Select character length'),
+
 });
 
 export const createRobuxvalidations = z.object({
@@ -52,10 +54,13 @@ export const createTicketvalidations = z.object({
 });
 
 export const createItemvalidations = z.object({
+    // itemname: z.string().nonempty('Item name is empty.'),
+    // itemcode: z.string().nonempty('Item code is empty.'),
+    // quantity: z.number().min(1,'Quantity is required.'),
+    type: z.string().nonempty('Please select a type.'),
     itemname: z.string().nonempty('Item name is empty.'),
-    itemcode: z.string().nonempty('Item code is empty.'),
     quantity: z.number().min(1,'Quantity is required.'),
-   
+
 });
 
 export const createChestvalidations = z.object({
@@ -65,10 +70,11 @@ export const createChestvalidations = z.object({
 });
 
 export const createCodesvalidations = z.object({
-    chest: z.string().nonempty('Chest is empty.'),
+    // chest: z.string().nonempty('Chest is empty.'),
     expiration: z.string().nonempty('Expiration is empty.'),
     codeamount: z.number().min(1,'Code quantity should atleast 1.'),
     type: z.string().optional(), // <- now optional
+    length: z.string().nonempty('Select character length'),
    
 });
 

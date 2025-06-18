@@ -54,7 +54,7 @@ export default function Generate() {
     const [itemfilter, setItemFilter]= useState('')
     const [status, setStatus]= useState('')
     const [chestfilter, setChestFilter]= useState('')
-    const {data: items} = useGetItemsList(currentPage,100)
+    const {data: items} = useGetItemsList(currentPage,100,'')
     const {data: chests} = useGetChestList()
     const [open, setOpen] = useState(false)
     const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), status, type, itemfilter, chestfilter,search)
@@ -351,7 +351,7 @@ export default function Generate() {
 
         <div className=' flex items-center gap-4 mt-6 text-xs'>
           <p>Total Data: {data?.totalDocs.toLocaleString()}</p>
-          <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p>
+          {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
         </div>
         
        
@@ -383,7 +383,7 @@ export default function Generate() {
             />
           </TableHead>
             <TableHead className="">Code</TableHead>
-            <TableHead>Chest Name</TableHead>
+            <TableHead>Category</TableHead>
             <TableHead>Item Name</TableHead>
             <TableHead>Expiration</TableHead>
             <TableHead>Type</TableHead>
@@ -410,7 +410,7 @@ export default function Generate() {
                     />
                   </TableCell>
                     <TableCell>{item.code}</TableCell>
-                    <TableCell>{item.chest.chestname}</TableCell>
+                    <TableCell className=' uppercase'>{item.type}</TableCell>
                     <TableCell>
                       {item.items.length > 0
                         ? item.items.map((item) => item.itemname).join(', ')
@@ -432,7 +432,7 @@ export default function Generate() {
 
                         <div className=' flex flex-col gap-2 text-amber-950 mt-2'>
                           <p>Code: {item.code}</p>
-                          <p>Chest Name: {item.chest.chestname}</p>
+                          <p>Chest Name: {item.chest?.chestname}</p>
                           <p>Items: {item.items.map((item) => item.itemname).join(',')}</p>
                           <p>Expiration: {item.expiration}</p>
                           <p>Type: {item.type}</p>
@@ -454,7 +454,7 @@ export default function Generate() {
 
                         <div className=' flex flex-col gap-2 text-amber-950 mt-2'>
                           <p>Code: {item.code}</p>
-                          <p>Chest Name: {item.chest.chestname}</p>
+                          <p>Chest Name: {item.chest?.chestname}</p>
                           <p>Items: {item.items.map((item) => item.itemname).join(',')}</p>
                           <p>Expiration: {item.expiration}</p>
                           <p>Type: {item.type}</p>

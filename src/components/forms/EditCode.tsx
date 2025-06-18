@@ -77,7 +77,7 @@ interface Props {
 export default function EditCodeForm(prop: Props) {
     const [open, setOpen] = useState(false)
     // const {data} = useGetTicketTypeList()
-    const {data: items} = useGetItemsList(0, 100)
+    const {data: items} = useGetItemsList(0, 100, '')
     const {data: chest} = useGetChestList()
     const {data} = useGetItemsList(0, 100)
     const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
