@@ -42,7 +42,9 @@ import { useGetDashboardCount } from '@/apis/dashboard'
   
   
 export default function Generate() {
-     const [currentPage, setCurrentpage] = useState(0)
+    const [currentPage, setCurrentpage] = useState(0)
+    const [pagination, setPagination] = useState('10')
+
     const [totalpage, setTotalpage] = useState(0)
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
@@ -53,8 +55,8 @@ export default function Generate() {
     const [chestfilter, setChestFilter]= useState('')
     const {data: items} = useGetItemsList(currentPage,100)
     const {data: chests} = useGetChestList()
-      const [open, setOpen] = useState(false)
-    const {data, isLoading} = useGetCodesList(currentPage, 10, status, type, itemfilter, chestfilter,search)
+    const [open, setOpen] = useState(false)
+    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), status, type, itemfilter, chestfilter,search)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
@@ -96,7 +98,7 @@ export default function Generate() {
             }
 
 
-           const deleteCodeData = () => {
+          const deleteCodeData = () => {
              deleteCodes(
                     { ids: selectedCodes },
                     {
@@ -107,10 +109,9 @@ export default function Generate() {
                         setSelectedCodes([]);
                       },
                     }
-                  );
+              );
            }
 
-            console.log(selectedCodes)
 
         
 
@@ -131,6 +132,30 @@ export default function Generate() {
         
 
           <div className=' flex items-end flex-wrap gap-4'>
+
+             <div className=" flex flex-col gap-1">
+                <label className="text-xs text-zinc-400">No. of data</label>
+                <Select value={pagination} onValueChange={setPagination} >
+                <SelectTrigger className="w-fit">
+                  <SelectValue placeholder="Select" className="text-xs" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={'10'} className="text-xs">10</SelectItem>
+                  <SelectItem value={'20'} className="text-xs">20</SelectItem>
+                  <SelectItem value={'30'} className="text-xs">30</SelectItem>
+                  <SelectItem value={'40'} className="text-xs">40</SelectItem>
+                  <SelectItem value={'50'} className="text-xs">50</SelectItem>
+                  <SelectItem value={'60'} className="text-xs">60</SelectItem>
+                  <SelectItem value={'70'} className="text-xs">70</SelectItem>
+                  <SelectItem value={'80'} className="text-xs">80</SelectItem>
+                  <SelectItem value={'90'} className="text-xs">90</SelectItem>
+                  <SelectItem value={'100'} className="text-xs">100</SelectItem>
+                 
+                  
+                
+                </SelectContent>
+              </Select> 
+            </div>
             <div className=' relative w-fit flex items-center justify-center mt-4'>
               <Search size={15} className=' absolute left-2'/>
               <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Search' className=' w-fit pl-7'/>
@@ -212,6 +237,8 @@ export default function Generate() {
             </SelectContent>
           </Select> 
           </div>
+
+         
 
           
 
