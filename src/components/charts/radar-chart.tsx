@@ -21,7 +21,7 @@ export default function RadarChartComponent() {
 
   // Transform API data into chartData format
   const chartData = data?.data?.map((item: { region: string; count: number }) => ({
-    month: item.region.trim(),   // Remove leading spaces
+    month: item?.region?.trim(),   // Remove leading spaces
     desktop: item.count,
   })) || []
 
