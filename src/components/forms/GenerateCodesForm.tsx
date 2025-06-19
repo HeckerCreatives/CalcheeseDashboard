@@ -83,6 +83,13 @@ export default function GenerateCodesForm() {
     newSocket.on('generate-progress', (data) => {
       if (data.percentage !== undefined) setProgress(data.percentage);
       if (data.status) setProgressStatus(data.status);
+
+      if (data.status == "Complete"){
+        setOpen(false);
+        setProgress(null);
+        setProgressStatus(null);
+        reset()
+      }
     });
 
     return () => {
@@ -110,11 +117,7 @@ export default function GenerateCodesForm() {
     rarity: rarity
   }, {
     onSuccess: () => {
-      toast.success(`Codes generated successfully`);
-      setOpen(false);
-      setProgress(null);
-      setProgressStatus(null);
-      reset()
+      
     },
     onError: () => {
       reset();
