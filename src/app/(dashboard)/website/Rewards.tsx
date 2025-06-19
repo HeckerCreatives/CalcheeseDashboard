@@ -86,117 +86,10 @@ export default function Rewards() {
     
 
   return (
-    <div className=' absolute w-[90%] md:w-[80%] h-[85%] lg:h-[75%] z-30 flex flex-col items-center justify-center'>
+    <div className=' w-full lg:h-[75%] z-30 flex flex-col items-center justify-center'>
 
-    
-        
+  
 
-              {/* {redeem ? (
-                <div className=' w-full flex flex-col items-center justify-center'>
-                  <div className=' w-full'>
-                    <Button onClick={() => setRedeem(false)} className=' flex gap-1 text-xs text-yellow-100'><ArrowLeft size={15}/>Back</Button>
-                  </div>
-
-                  <div className=' flex items-center'>
-                    
-                    <img src='/assets/Neon Headphones ICON.png' alt="headphone" width={200} height={200} className=' h-[70px] w-[80px] translate-x-6' />
-                    <img src='/assets/Robux ICON.png' alt="robux" width={200} height={200} className=' h-auto relative z-10 w-[100px] ' />
-                    <img src='/assets/Ticket ICON.png' alt="ticket" width={200} height={200} className=' h-[80px] w-[80px] -translate-x-6' />
-                      
-                  </div>
-
-                  
-                <TextRevealOnView
-                  text="Redeem Code"
-                  className="text-center md:text-lg mt-6 font-semibold w-[90%]"
-                  delay={.6}
-                />
-
-                <div className=' w-[50%] flex flex-col gap-4'>
-                   <div className="w-full flex flex-col gap-1">
-                        <label className="text-xs text-amber-900">Code</label>
-                        <Input
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                          placeholder="Code"
-                          type="text"
-                        />
-                    </div>
-
-                    {(type === 'ingame' && checked === 'valid') && (
-                      <div className="w-full flex flex-col gap-1">
-                          <label className="text-xs text-amber-900">Username</label>
-                          <Input
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Username"
-                            type="text"
-                          />
-                      </div>
-                    )}
-
-                    {(type === 'robux' && checked === 'valid') && (
-                      <>
-                      <div className="w-full flex flex-col gap-1">
-                          <label className="text-xs text-amber-900">Username</label>
-                          <Input
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Username"
-                            type="text"
-                          />
-                      </div>
-
-                      <div className="w-full flex flex-col gap-1">
-                          <label className="text-xs text-amber-900">Email</label>
-                          <Input
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email"
-                            type="email"
-                          />
-                      </div>
-                      </>
-                      
-                    )}
-
-                    {(checked === 'valid' && type === 'ingame' || type === 'robux' || type === 'ticket') ? (
-                      <p className='text-green-400 text-xs'>Code is valid, Please fill the aditional information.</p>
-                    ) : (
-                      <p className='text-red-500 text-xs'>Code is invalid.</p>
-
-                    )}
-
-                    
-                 
-                </div>
-
-                {checked === 'valid' ? (
-                   <RevealOnScroll delay={.2} className=' w-full mt-4'>
-                    <div className=' w-full flex items-center justify-center mt-8 md:mt-8'>
-                        <button onClick={redeemCodeRewards} className=' relative cursor-pointer flex items-center justify-center'>
-                            <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-[80%]' />
-                            <p className=' text-lg md:text-xl font-bold absolute text-yellow-200'>Redeem Code</p>
-                        </button>
-                    </div>
-                  </RevealOnScroll>
-                ) : (
-                  <RevealOnScroll delay={.2} className=' w-full mt-4'>
-                    <div className=' w-full flex items-center justify-center mt-8 md:mt-8'>
-                        <button onClick={validateCode} className=' relative cursor-pointer flex items-center justify-center'>
-                            <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-[80%]' />
-                            <p className=' text-lg md:text-xl font-bold absolute text-yellow-200'>Check Code</p>
-                        </button>
-                    </div>
-                    </RevealOnScroll>
-
-                 
-                )}
-
-               
-                </div>
-                
-              ) : ( */}
                 <>
                  <TextRevealOnView
                   text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, deserunt sit voluptas voluptatum consectetur officiis suscipit laudantium eos dolores excepturi commodi neque aspernatur illo, adipisci, natus fugit possimus. Dolorem, ut."
@@ -211,17 +104,17 @@ export default function Rewards() {
                     {data?.data.map((item, index) => (
                       <div
                         key={index}
-                        className=' min-w-[160px] md:min-w-[260px] relative w-full h-[210px] bg-orange-500 lg:bg-transparent lg:h-full flex items-center justify-center rounded-2xl mt-6'
+                        className=' min-w-[160px] md:min-w-[220px] lg:min-h-[240px] bg-orange-400 relative w-full h-[180px] lg:h-full flex items-center justify-center rounded-2xl mt-6 p-4'
                       >
                         {/* <img src={promocodeIcon(item.title)} alt="headphone" width={80} className=' w-[80px] md:w-[80px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' /> */}
                         {promocodeIcon(item.title)}
-                        <div className='relative'>
-                          <img src="/assets/TAB.png" alt="" className='hidden lg:block' />
-                          <div className='lg:absolute top-0 w-full h-fit lg:h-full p-4'>
-                            <p className='text-sm md:text-lg text-amber-200 font-bold text-center uppercase mt-6'>
+                        <div className='relative h-full flex items-center justify-center '>
+                          {/* <img src="/assets/TAB.png" alt="" className='hidden lg:block' /> */}
+                          <div className=' top-0 flex flex-col gap-2 w-full h-fit lg:h-full '>
+                            <p className='text-sm md:text-xl text-amber-50 font-bold text-center uppercase'>
                               {item.title}
                             </p>
-                            <p className='text-[.5rem] md:text-xs text-amber-900 font-bold text-center mt-2 md:mt-6 px-2'>
+                            <p className='text-[.5rem] md:text-xs text-amber-100 font-bold text-center  px-2'>
                               {item.description}
                             </p>
                           </div>
