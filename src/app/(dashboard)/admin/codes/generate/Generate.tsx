@@ -71,6 +71,9 @@ export default function Generate() {
     const [selectedCodeData, setSelectedCodeData] = useState<any[]>([]);
     const {data: items} = useGetItemsList(currentPage,100,type, rarity)
 
+    const [codeGenProgress, setCodeGenProgress] = useState<number | null>(null)
+  const [codeGenStatus, setCodeGenStatus] = useState<string | null>(null)
+
     
 
     
@@ -135,6 +138,8 @@ export default function Generate() {
             setSelectedCodes([])
            },[open])
 
+         
+
         
 
   return (
@@ -147,7 +152,14 @@ export default function Generate() {
             </div>
         <div className=' flex items-end gap-4 mt-8'>
           
-          <GenerateCodesForm/>
+          {/* <GenerateCodesForm/> */}
+
+           <GenerateCodesForm
+              progress={codeGenProgress}
+              status={codeGenStatus}
+              setProgress={setCodeGenProgress}
+              setStatus={setCodeGenStatus}
+            />
 
         </div>
 
@@ -430,6 +442,19 @@ export default function Generate() {
         <div className=' flex items-center gap-4 mt-6 text-xs'>
           <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
           {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
+
+           {codeGenProgress !== null && (
+            <div className="mb-4 max-w-md">
+              <div className="text-xs mb-1 text-amber-950">{codeGenStatus}</div>
+              <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <div
+                  className="bg-orange-500 h-full transition-all"
+                  style={{ width: `${codeGenProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
         </div>
         
        
