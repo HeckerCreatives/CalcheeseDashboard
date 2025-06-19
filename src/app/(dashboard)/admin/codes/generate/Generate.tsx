@@ -58,11 +58,13 @@ export default function Generate() {
     const [chestfilter, setChestFilter]= useState('')
     const {data: chests} = useGetChestList()
     const [open, setOpen] = useState(false)
+    const [editopen, setEditOpen] = useState(false)
     const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+    const [editselectedCodes, setEditSelectedCodes] = useState<string[]>([]);
     const [selectedCodeData, setSelectedCodeData] = useState<any[]>([]);
     const {data: items} = useGetItemsList(currentPage,100,type, rarity)
 
@@ -529,14 +531,14 @@ export default function Generate() {
 
                     <button 
                     onClick={() => {
-                      setSelectedCodes((prev) => [...prev, item.id]);
-                      setSelectedCodeData((prev) => [...prev, item]);
-                      setOpen(false)
+                     setEditSelectedCodes([item.id]); // Replace, not append
+                      setSelectedCodeData([item]);     // Replace, not append
+                      setOpen(false);
                       
                     }}
 
                     >
-                    <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
+                    <EditCodeForm ids={editselectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
 
                     </button>
 
