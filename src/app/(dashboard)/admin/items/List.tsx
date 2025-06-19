@@ -16,7 +16,7 @@ import { useGetRobuxList } from '@/apis/robux'
 import PaginitionComponent from '@/components/common/Pagination'
 import Loader from '@/components/common/Loader'
 import CreateItemsForm from '@/components/forms/CreateItems'
-import { useGetItemsList } from '@/apis/items'
+import { useDeleteMultipleItem, useGetItemsList } from '@/apis/items'
 import EditItemsForm from '@/components/forms/EditItems'
 import DeleteItemForm from '@/components/forms/DeleteItems'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -27,6 +27,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button'
+import toast from 'react-hot-toast'
   
   
  const typeOptions = [
@@ -48,6 +58,45 @@ export default function List() {
     const [value, setValue] = useState('')
     const [rarity, setRarity] = useState('')
     const {data, isLoading} = useGetItemsList(currentPage, 10, tab, rarity)
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const {mutate: deleteMultipleItem, isPending} = useDeleteMultipleItem()
+    const [open, setOpen] = useState(false)
+
+    const isAllSelected = (data?.data ?? []).length > 0 && selectedIds.length === (data?.data ?? []).length;
+
+
+    const toggleSelectAll = () => {
+    if (isAllSelected) {
+        setSelectedIds([]);
+    } else {
+        const allIds = data?.data.map(item => item.id.toString()) || [];
+        setSelectedIds(allIds);
+    }
+    };
+
+    const toggleSelectOne = (id: string) => {
+    setSelectedIds(prev =>
+        prev.includes(id)
+        ? prev.filter(existingId => existingId !== id)
+        : [...prev, id]
+    );
+    };
+
+    
+              const deleteMultipleData = () => {
+                 deleteMultipleItem(
+                        { ids: selectedIds },
+                        {
+                          onSuccess: () => {
+                            toast.success('Codes deleted successfully!');
+                           setOpen(false)
+                          },
+                        }
+                  );
+               }
+
+
+
 
 
     
@@ -63,6 +112,7 @@ export default function List() {
   useEffect(() => {
     setRarity('')
   },[tab])
+
 
 
   return (
@@ -84,6 +134,31 @@ export default function List() {
             </Popover> */}
 
          <CreateItemsForm/>
+
+           <Dialog open={open} onOpenChange={setOpen} >
+                   <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
+                     <Trash size={15} />
+                   </DialogTrigger>
+                   <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
+                     <DialogHeader>
+                       <DialogTitle>Delete Codes</DialogTitle>
+                       <DialogDescription>Are you sure you want to delete the selected codes?</DialogDescription>
+                     </DialogHeader>
+         
+         
+                     <div className='w-full flex items-end justify-end mt-4'>
+                       <Button
+                         disabled={isPending}
+                         onClick={() => {
+                          deleteMultipleData()
+                         }}
+                         className='bg-red-600'
+                       >
+                         Continue
+                       </Button>
+                     </div>
+                   </DialogContent>
+                 </Dialog>
 
         
 
@@ -133,6 +208,14 @@ export default function List() {
         <TableHeader>
         <TableRow>
             {/* <TableHead className="">Item Code</TableHead> */}
+            <TableHead className="w-[30px]">
+            <input
+                type="checkbox"
+                checked={isAllSelected}
+                onChange={toggleSelectAll}
+            />
+            </TableHead>
+
             <TableHead className="">Item Name</TableHead>
             <TableHead className="">Category</TableHead>
             <TableHead className="">Rarity</TableHead>
@@ -142,23 +225,39 @@ export default function List() {
         </TableRow>
         </TableHeader>
         <TableBody>
-            {data?.data.map((item, index) => (
-                <TableRow key={item.id}>
-                    {/* <TableCell>{item.itemid}</TableCell> */}
-                    <TableCell>{item.itemname}</TableCell>
-                    <TableCell>{item.category}</TableCell>
-                    <TableCell>{item.rarity}</TableCell>
-                    <TableCell>{item.quantity.toLocaleString()}</TableCell>
-                   
-                    <TableCell className=' flex items-center gap-2'>
-        
-                       <EditItemsForm id={item.id} itemcode={item.itemid} itemname={item.itemname} quantity={item.quantity} type={item.category} rarity={item.rarity}/>
-                        <DeleteItemForm id={item.id}/>
-                    </TableCell>
-                </TableRow>
-            ))}
-        
+        {data?.data.map((item) => {
+            const itemId = item.id.toString();
+            const isChecked = selectedIds.includes(itemId);
+
+            return (
+            <TableRow key={itemId}>
+                <TableCell className="w-[30px]">
+                <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => toggleSelectOne(itemId)}
+                />
+                </TableCell>
+                <TableCell>{item.itemname}</TableCell>
+                <TableCell>{item.category}</TableCell>
+                <TableCell>{item.rarity}</TableCell>
+                <TableCell>{item.quantity.toLocaleString()}</TableCell>
+                <TableCell className="flex items-center gap-2">
+                <EditItemsForm
+                    id={item.id}
+                    itemcode={item.itemid}
+                    itemname={item.itemname}
+                    quantity={item.quantity}
+                    type={item.category}
+                    rarity={item.rarity}
+                />
+                <DeleteItemForm id={item.id} />
+                </TableCell>
+            </TableRow>
+            );
+        })}
         </TableBody>
+
     </Table>
 
     {data?.data.length !== 0 && (

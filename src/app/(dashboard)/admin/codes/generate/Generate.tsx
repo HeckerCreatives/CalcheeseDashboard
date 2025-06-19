@@ -53,8 +53,9 @@ export default function Generate() {
     const [type, setType]= useState('')
     const [itemfilter, setItemFilter]= useState('')
     const [status, setStatus]= useState('')
+    const [rarity, setRarity] = useState('')
+    
     const [chestfilter, setChestFilter]= useState('')
-    const {data: items} = useGetItemsList(currentPage,100,'')
     const {data: chests} = useGetChestList()
     const [open, setOpen] = useState(false)
     const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), status, type, itemfilter, chestfilter,search)
@@ -63,6 +64,9 @@ export default function Generate() {
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
     const [selectedCodeData, setSelectedCodeData] = useState<any[]>([]);
+    const {data: items} = useGetItemsList(currentPage,100,type, rarity)
+
+    
 
     
 
@@ -85,6 +89,7 @@ export default function Generate() {
           setChestFilter('')
           setStatus('')
           setSearch('')
+          setRarity('')
         }
 
        
@@ -164,6 +169,11 @@ export default function Generate() {
                   <SelectItem value={'80'} className="text-xs">80</SelectItem>
                   <SelectItem value={'90'} className="text-xs">90</SelectItem>
                   <SelectItem value={'100'} className="text-xs">100</SelectItem>
+                  <SelectItem value={'1000'} className="text-xs">1000</SelectItem>
+                  <SelectItem value={'10000'} className="text-xs">10,000</SelectItem>
+                  <SelectItem value={'20000'} className="text-xs">20,000</SelectItem>
+                  <SelectItem value={'50000'} className="text-xs">50,000</SelectItem>
+                  <SelectItem value={'100000'} className="text-xs">100,000</SelectItem>
                  
                   
                 
@@ -171,7 +181,59 @@ export default function Generate() {
               </Select> 
             </div>
 
-          <div className=" flex flex-col gap-1">
+             <div className="w-fit flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Reward Type</label>
+              <Select value={type} onValueChange={setType}>
+                <SelectTrigger className="w-fit">
+                  <SelectValue placeholder="Select" className="text-xs" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem  value='chest' className="text-xs">Chest</SelectItem>
+                  <SelectItem  value='ingame' className="text-xs">Ingame</SelectItem>
+                  <SelectItem  value='exclusive' className="text-xs">Exclusive Items</SelectItem>
+                  <SelectItem  value='robux' className="text-xs">Robux</SelectItem>
+                  <SelectItem  value='ticket' className="text-xs">Tickets</SelectItem>
+                 
+                </SelectContent>
+              </Select>
+           
+            </div>
+  
+            <div className="w-fit flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Rarity</label>
+              <Select disabled={type === ''} value={rarity} onValueChange={setRarity}>
+                <SelectTrigger className="w-fit">
+                  <SelectValue placeholder="Select" className="text-xs" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem  value='common' className="text-xs">Common</SelectItem>
+                  <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
+                  <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
+                  <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
+                  <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
+                 
+                </SelectContent>
+              </Select>
+           
+            </div>
+
+            <div className="w-fit flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Items</label>
+              <Select disabled={rarity === ''} value={itemfilter} onValueChange={setItemFilter}>
+                <SelectTrigger className="w-fit">
+                  <SelectValue placeholder="Select" className="text-xs" />
+                </SelectTrigger>
+                <SelectContent>
+                  {items?.data.map((item, index) => (
+                    <SelectItem key={item.id}  value={item.id} className="text-xs">{item.itemname}</SelectItem>
+                  ))}
+                  
+                </SelectContent>
+              </Select>
+           
+            </div>
+
+          {/* <div className=" flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Type</label>
             <Select value={type} onValueChange={setType} >
             <SelectTrigger className="w-fit">
@@ -205,7 +267,7 @@ export default function Generate() {
               ))}
             </SelectContent>
           </Select> 
-          </div>
+          </div> */}
 
            <div className=" flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Status</label>
@@ -230,7 +292,7 @@ export default function Generate() {
           </Select> 
           </div>
 
-          <div className=" flex flex-col gap-1">
+          {/* <div className=" flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Chest</label>
             <Select value={chestfilter} onValueChange={setChestFilter} >
             <SelectTrigger className="w-fit">
@@ -246,7 +308,7 @@ export default function Generate() {
              
             </SelectContent>
           </Select> 
-          </div>
+          </div> */}
 
 
           <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
@@ -354,7 +416,7 @@ export default function Generate() {
         </div>
 
         <div className=' flex items-center gap-4 mt-6 text-xs'>
-          <p>Total Data: {data?.totalDocs.toLocaleString()}</p>
+          <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
           {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
         </div>
         

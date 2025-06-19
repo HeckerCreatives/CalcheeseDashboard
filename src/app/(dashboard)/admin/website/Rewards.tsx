@@ -27,7 +27,7 @@ import toast from 'react-hot-toast'
 import { Textarea } from '@/components/ui/textarea'
 import { useCreateNewTab, useDeleteNews, useEditNews, usegetNewtab } from '@/apis/whatsnew'
 import PaginitionComponent from '@/components/common/Pagination'
-import { useCreatePromo, useDeletePromoItems, useEditPromos, useGetPromos } from '@/apis/promocodes'
+import { useCreatePromo, useDeletePromoItems, useEditPromos, useEditSection, useGetPromos } from '@/apis/promocodes'
   
   
 export default function Rewards() {
@@ -42,8 +42,11 @@ export default function Rewards() {
     const {data, isLoading} = useGetPromos()
     const {mutate: deletePromoItems} = useDeletePromoItems()
     const {mutate: editPromo} = useEditPromos()
+    const {mutate: editSection} = useEditSection()
     const [tab, setTab] = useState('')
     const [description, setDescription] = useState('')
+    const [subtitle, setSubtitle] = useState('')
+    const [section, setSection] = useState('')
 
 
 
@@ -83,6 +86,19 @@ export default function Rewards() {
         
       
     }
+
+      const editSectionData = () => {
+      
+            editSection({ description: subtitle, section: section},{
+                onSuccess: () => {
+                  toast.success(`Content updated successfully.`);
+                  setOpen3(false)
+                },
+            })
+       
+        
+      
+    }
     
 
     useEffect(() => (
@@ -96,6 +112,9 @@ export default function Rewards() {
     
       useEffect(() => {
         setTotalpage(data?.totalpages || 0)
+        setSubtitle(data?.sectionContent.description || '')
+        setSection(data?.sectionContent.section || '')
+
       },[data])
 
 
@@ -107,9 +126,9 @@ export default function Rewards() {
 
         <div className=' flex flex-col gap-2 mt-4'>
           <p className=' text-xs'>Description</p>
-          <Textarea placeholder='Description' className=' max-w-[400px]'/>
+          <Textarea value={subtitle} onChange={(e) => setSubtitle(e.target.value)} placeholder='Description' className=' max-w-[400px]'/>
 
-          <Button className=' w-fit text-xs'>Save</Button>
+          <Button onClick={editSectionData} className=' w-fit text-xs'>Save</Button>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>

@@ -9,6 +9,12 @@ export interface NewTabResponse {
     message: string; 
     data: Newtab[];
     totalpages: number;
+    sectionContent: {
+       
+      section: string,
+      description: string,
+       
+    }
   }
   
   export interface Newtab {
@@ -93,6 +99,29 @@ export const createPromo = async ( title: string, description: string) => {
     return useMutation({
       mutationFn: ({id}: {id: string }) =>
         deletePromoItems(id),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["promos"] });
+          }
+    
+    });
+  };
+
+
+  
+  export const editSection = async (  description: string, section: string) => { 
+    const response = await axiosInstance.post("/section/updatesectioncontent", {  description, section });
+    return response.data;
+  };
+  
+  export const useEditSection = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({description, section}: { description: string, section: string}) =>
+        editSection(description, section),
         onError: (error) => {
             handleApiError(error);
         },

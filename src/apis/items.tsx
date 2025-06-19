@@ -106,6 +106,28 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
   };
 
 
+  export const deleteMultipleItem = async (ids: string[]) => {
+    const response = await axiosInstance.post("/item/deletemultipleitems", {ids });
+    return response.data;
+  };
+  
+  export const useDeleteMultipleItem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({ ids}: {ids: string[] }) =>
+        deleteMultipleItem(ids),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["items"] });
+          }
+    
+    });
+  };
+
+
 
 
 

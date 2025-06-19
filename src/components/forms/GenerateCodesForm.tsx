@@ -61,10 +61,12 @@ export default function GenerateCodesForm() {
 
   // const { data } = useGetChests()
   const selectedType = watch('type');
+  const [rarity, setRarity] = useState('')
+  
 
   const [items, setItems] = useState<Item[]>([])
   const {data: chest} = useGetChestList()
-  const {data} = useGetItemsList(0, 100, selectedType)
+  const {data} = useGetItemsList(0, 100, selectedType, rarity)
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
   const {mutate: generateCodeslist, isPending} = useGenerateCodeslist()
   const [open, setOpen] = useState(false)
@@ -122,19 +124,37 @@ export default function GenerateCodesForm() {
   });
 }
 
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/,/g, '');
-    const numberValue = parseInt(rawValue, 10);
+const MAX_VALUE = 1_000_000;
 
-    if (!isNaN(numberValue)) {
-      const formatted = numberValue.toLocaleString();
-      setFormattedValue(formatted);
-      setValue('codeamount', numberValue);
-    } else {
-      setFormattedValue('');
-      setValue('codeamount', 0);
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const rawValue = e.target.value.replace(/,/g, '');
+  let numberValue = parseInt(rawValue, 10);
+
+  if (!isNaN(numberValue)) {
+    if (numberValue > MAX_VALUE) {
+      numberValue = MAX_VALUE;
     }
-  };
+
+    const formatted = numberValue.toLocaleString();
+    setFormattedValue(formatted);
+    setValue('codeamount', numberValue);
+  } else {
+    setFormattedValue('');
+    setValue('codeamount', 0);
+  }
+};
+
+
+  useEffect(() => {
+    setSelectedItemIds([])
+    setRarity('')
+    reset()
+    setFormattedValue('')
+  },[ open])
+
+  useEffect(() => {
+    setSelectedItemIds([])
+  },[rarity])
 
 
 
@@ -284,7 +304,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                     <label className="text-xs text-zinc-400">Reward Type</label>
                     <Select onValueChange={(val) => setValue('type', val)}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder=" Type" className="text-xs" />
+                        <SelectValue placeholder="Select" className="text-xs" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem  value='chest' className="text-xs">Chest</SelectItem>
@@ -309,6 +329,29 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   </div>
 
                   {selectedType && (
+                    <div className=" flex flex-col gap-1">
+                         <label className="text-xs text-zinc-400">Rarity</label>
+                         <Select value={rarity} onValueChange={setRarity} >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder=" Select" className="text-xs" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem  value='common' className="text-xs">Common</SelectItem>
+                            <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
+                            <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
+                            <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
+                            <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
+                        
+                        </SelectContent>
+                        </Select>
+                    </div>
+                  )}
+
+                
+                             
+                            
+
+                  {(selectedType && rarity) && (
                     <div className="w-full flex flex-col gap-1">
                       <label className="text-xs text-zinc-400">Items</label>
                         <MultiSelect

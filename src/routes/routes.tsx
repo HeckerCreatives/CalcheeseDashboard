@@ -5,8 +5,10 @@ export const admin = [
     path:'/admin/dashboard', subpath:[
 
     ]},
-     {name: 'Generate Codes', icon: <Scan size={15}/>, 
+    {name: 'Generate Codes', icon: <Scan size={15}/>, 
     path:'/admin/codes/generate', subpath:[]},
+    {name: 'Select Item', icon: <Box size={15}/>, 
+    path:'/admin/items', subpath:[]},
     // {name: 'Codes', icon: <TicketCheckIcon size={15}/>, 
     
     // path:'/admin/codes', subpath:[
@@ -52,8 +54,7 @@ export const admin = [
     
       {name: 'Chest', icon: <Boxes size={15}/>, 
     path:'/admin/chests', subpath:[]},
-    {name: 'Select Item', icon: <Box size={15}/>, 
-    path:'/admin/items', subpath:[]},
+    
     {name: 'Website', icon: <Globe size={15}/>, 
     path:'/admin/website', subpath:[]},
     {name: 'Settings', icon: <Settings size={15}/>, 
