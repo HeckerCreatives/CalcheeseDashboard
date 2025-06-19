@@ -104,7 +104,7 @@ export default function Rewards() {
                     {data?.data.map((item, index) => (
                       <div
                         key={index}
-                        className=' min-w-[160px] md:min-w-[220px] lg:min-h-[240px] bg-orange-400 relative w-full h-[180px] lg:h-full flex items-center justify-center rounded-2xl mt-6 p-4'
+                        className=' min-w-[160px] md:min-w-[220px] lg:min-h-[240px] bg-[#FFA30B] relative w-full h-[180px] lg:h-full flex items-center justify-center rounded-2xl mt-6 p-4'
                       >
                         {/* <img src={promocodeIcon(item.title)} alt="headphone" width={80} className=' w-[80px] md:w-[80px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' /> */}
                         {promocodeIcon(item.title)}
@@ -127,9 +127,8 @@ export default function Rewards() {
 
                  <RevealOnScroll delay={1.2} className=' w-full mt-4'>
                   <div className=' w-full flex items-center justify-center mt-8 md:mt-8'>
-                      <button onClick={() => setState(true)}  className=' relative cursor-pointer flex items-center justify-center'>
-                          <img src="/assets/Play BUTTON.png" alt="" className=' w-[200px] md:w-full' />
-                          <p className=' text-lg md:text-xl font-bold absolute text-yellow-200 font-bitbold'>Redeem Now</p>
+                      <button onClick={() => setState(true)}  className=' relative cursor-pointer flex items-center bg-[#FC6E00] justify-center px-12 py-3 rounded-full'>
+                          <p className=' text-sm md:text-xl font-bold text-amber-50 font-bitbold pt-1'>Redeem Now</p>
                       </button>
                   </div>
                 </RevealOnScroll>

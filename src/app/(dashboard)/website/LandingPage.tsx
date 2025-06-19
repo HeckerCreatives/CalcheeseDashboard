@@ -88,7 +88,7 @@ export default function LandingPage() {
                 <div className=' w-full h-full  '>
                 <div className=' w-full h-full relative flex items-center justify-center'>
 
-                            <div className=' relative  flex flex-col items-center justify-center w-[90%] lg:w-[70%] bg-amber-200 p-4 lg:p-16 rounded-2xl lg:rounded-[4rem]'>
+                            <div className=' relative  flex flex-col items-center justify-center w-[90%] lg:w-[70%] bg-[#FFE38B] p-4 lg:p-16 rounded-2xl lg:rounded-[4rem]'>
                                 <div className=' bg-blue-500 absolute z-30 top-0 -translate-y-4 md:-translate-y-2 flex items-center justify-center'>
                                     {/* <Image src="/assets/Title HOLDER.png" alt="title-holder" priority unoptimized loading='eager' width={500} height={500} className=' w-[clamp(200px,80vw,800px)] ' /> */}
                                     {/* <TextReveal text={title} className='absolute text-[clamp(1rem,4vw,2rem)] font-spenbeb font-bold uppercase text-white outlined-text'/> */}
@@ -276,7 +276,7 @@ export default function LandingPage() {
                 <div className=' w-full h-full  '>
                 <div className=' w-full h-full relative flex items-center justify-center'>
 
-                            <div className=' elative  flex flex-col items-center justify-center w-[90%] lg:w-[70%] bg-amber-200 p-4 lg:p-16 rounded-2xl lg:rounded-[4rem]'>
+                            <div className=' elative  flex flex-col items-center justify-center w-[90%] lg:w-[70%] bg-[#FFE38B] p-4 lg:p-16 rounded-2xl lg:rounded-[4rem]'>
                                 <div className=' bg-blue-500 absolute z-30 top-0 -translate-y-1 md:-translate-y-2 flex items-center justify-center'>
                                     {/* <Image src="/assets/Title HOLDER.png" alt="title-holder" priority unoptimized loading='eager' width={500} height={500} className=' w-[clamp(200px,80vw,800px)] ' /> */}
                                     {/* <TextReveal text={title} className='absolute text-[clamp(1rem,4vw,2rem)] font-spenbeb font-bold uppercase text-white outlined-text'/> */}
@@ -284,7 +284,7 @@ export default function LandingPage() {
                                     <TextReveal
                                         // key={tabs[tabNumber].title} 
                                         text={title}
-                                        className="absolute text-[clamp(1rem,4vw,2.2rem)] font-extrabold uppercase  text-orange-50 pt-4  font-bitbold bg-blue-600 py-2 px-16 lg:px-36 rounded-full"
+                                        className="absolute text-[clamp(1rem,4vw,2.2rem)] font-extrabold uppercase  text-orange-50 pt-3  font-bitbold bg-blue-600 py-2 px-16 lg:px-36 rounded-full"
                                     />
                                     </AnimatePresence>
                                     {/* <h1 className=' absolute text-[clamp(1rem,4vw,2rem)] font-bold uppercase text-white outlined-text'>{title}</h1> */}
@@ -297,7 +297,7 @@ export default function LandingPage() {
                              
 
 
-                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-32'>
+                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-36'>
                                     <div className=' relative w-[300px] h-[150px] flex items-center justify-center'>
                                         <FloatImage className=' absolute top-0 left-0' hoverRange={15} floatRange={15} duration={7}>
                                             <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
