@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import {
     Table,
     TableBody,
@@ -58,7 +58,7 @@ export default function Generate() {
     const [chestfilter, setChestFilter]= useState('')
     const {data: chests} = useGetChestList()
     const [open, setOpen] = useState(false)
-    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), status, type, itemfilter, chestfilter,search)
+    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
@@ -125,6 +125,10 @@ export default function Generate() {
            useEffect(() =>{
             setCurrentpage(0)
            },[search])
+
+           useEffect(() => {
+            setSelectedCodes([])
+           },[open])
 
         
 
@@ -279,7 +283,10 @@ export default function Generate() {
                <SelectItem  value='claimed' className="text-xs">
                   Claimed
                 </SelectItem>
-                  <SelectItem  value='approved' className="text-xs">
+                 <SelectItem  value='to-claim' className="text-xs">
+                  Unclaimed
+                </SelectItem>
+                  {/* <SelectItem  value='approved' className="text-xs">
                   Approved
                 </SelectItem>
                  <SelectItem  value='rejected' className="text-xs">
@@ -287,7 +294,7 @@ export default function Generate() {
                 </SelectItem>
                 <SelectItem  value='expired' className="text-xs">
                   Expired
-                </SelectItem>
+                </SelectItem> */}
             </SelectContent>
           </Select> 
           </div>
@@ -450,6 +457,7 @@ export default function Generate() {
           </TableHead>
             <TableHead className="">Code</TableHead>
             <TableHead>Category</TableHead>
+            <TableHead>Rarity</TableHead>
             <TableHead>Item Name</TableHead>
             <TableHead>Expiration</TableHead>
             <TableHead>Type</TableHead>
@@ -477,6 +485,7 @@ export default function Generate() {
                   </TableCell>
                     <TableCell>{item.code}</TableCell>
                     <TableCell className=' uppercase'>{item.type}</TableCell>
+                    <TableCell className=' uppercase'>{item.items[0]?.rarity}</TableCell>
                     <TableCell>
                       {item.items.length > 0
                         ? item.items.map((item) => item.itemname).join(', ')
@@ -488,7 +497,7 @@ export default function Generate() {
                     <TableCell className=' flex gap-2'>
                       <Dialog>
                       <DialogTrigger className=' p-2 bg-orange-500 rounded-sm text-yellow-100'><Eye size={15}/></DialogTrigger>
-                      <DialogContent className=' bg-yellow-50'>
+                      <DialogContent className=' bg-yellow-50 max-w-[400px] w-full'>
                         <DialogHeader>
                           <DialogTitle>Code Details</DialogTitle>
                           <DialogDescription>
@@ -496,17 +505,41 @@ export default function Generate() {
                           </DialogDescription>
                         </DialogHeader>
 
-                        <div className=' flex flex-col gap-2 text-amber-950 mt-2'>
+                        <div className=' flex flex-col gap-2 text-amber-950 mt-2 text-sm'>
                           <p>Code: {item.code}</p>
-                          <p>Chest Name: {item.chest?.chestname}</p>
-                          <p>Items: {item.items.map((item) => item.itemname).join(',')}</p>
+                          <p>Category: <span className=' uppercase'>{item.type}</span></p>
+                          <p>Rarity: <span className=' uppercase'>{item.items[0]?.rarity}</span></p>
+                          <p>Items:</p>
+                          {/* <p>Items: {item.items.map((item) => item.itemname).join(',')}</p> */}
+                          <div className=' w-full fle3x flex-col gap-1'>
+                             {item.items.map((item, index) => (
+                              <div className=' ml-4 flex gap-4 bg-white p-2 text-xs font-bold'>
+                                <p className=' '>Item Name: {item.itemname}</p>
+                                <p className=''>Quantity: {item.quantity}</p>
+                              </div>
+                            ))}
+                          </div>
+                         
                           <p>Expiration: {item.expiration}</p>
-                          <p>Type: {item.type}</p>
                           <p>Status: {item.isUsed ? 'Claimed' : 'UnClaimed'}</p>
 
                         </div>
                       </DialogContent>
                     </Dialog>
+
+                    <button 
+                    onClick={() => {
+                      setSelectedCodes((prev) => [...prev, item.id]);
+                      setSelectedCodeData((prev) => [...prev, item]);
+                      setOpen(false)
+                      
+                    }}
+
+                    >
+                    <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
+
+                    </button>
+
 
                      <Dialog>
                       <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>

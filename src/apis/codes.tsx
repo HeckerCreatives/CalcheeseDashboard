@@ -29,6 +29,8 @@ interface Item {
   id: string;
   itemid: string;
   itemname: string;
+  rarity: string
+  quantity: string
 }
 
 export interface Code {
@@ -89,21 +91,21 @@ export const useGetChests = () => {
   };
 
 
-export const getCodesList = async (page: number, limit: number, status: string, type: string, item: string, chest: string, search: string):Promise<CodeResponse> => { 
+export const getCodesList = async (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string):Promise<CodeResponse> => { 
     const response = await axiosInstance.get(
       "/code/getcodes",
-      {params:{page, limit, status, type, item, chest, search}}
+      {params:{page, limit, type, rarity,item, status, search}}
     );
     return response.data
   };
   
   
-export const useGetCodesList = (page: number, limit: number, status: string, type: string, item: string, chest: string, search: string) => {
+export const useGetCodesList = (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string) => {
 
   const debouncedQuery = useDebounce(search, 500);
     return useQuery({
-      queryKey: ["codeslist",page, limit, status, type, item, chest, debouncedQuery ],
-      queryFn: () => getCodesList(page, limit, status, type, item, chest, debouncedQuery),
+      queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery ],
+      queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery),
       enabled: debouncedQuery !== undefined,
       // staleTime: 5 * 60 * 1000,
       // refetchOnMount: false, 
@@ -112,8 +114,8 @@ export const useGetCodesList = (page: number, limit: number, status: string, typ
 };
 
 
-export const generateCodeslist = async (chest: string, expiration: string,codeamount: number, type: string, items: string[],socketid: string, length: any) => { 
-    const response = await axiosInstance.post("/code/generatecode", { chest, expiration, codeamount, type, items, socketid, length});
+export const generateCodeslist = async (chest: string, expiration: string,codeamount: number, type: string, items: string[],socketid: string, length: any, rarity: string) => { 
+    const response = await axiosInstance.post("/code/generatecode", { chest, expiration, codeamount, type, items, socketid, length, rarity});
     return response.data;
   };
   
@@ -121,8 +123,8 @@ export const generateCodeslist = async (chest: string, expiration: string,codeam
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ chest, expiration, codeamount, type, items, socketid, length }: {chest: string, expiration: string,codeamount: number, type: string, items: string[], socketid: string, length: any}) =>
-        generateCodeslist( chest, expiration, codeamount, type, items, socketid, length),
+      mutationFn: ({ chest, expiration, codeamount, type, items, socketid, length, rarity }: {chest: string, expiration: string,codeamount: number, type: string, items: string[], socketid: string, length: any, rarity: string}) =>
+        generateCodeslist( chest, expiration, codeamount, type, items, socketid, length, rarity),
         onError: (error) => {
             handleApiError(error);
         },

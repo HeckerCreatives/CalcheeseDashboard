@@ -106,7 +106,8 @@ export default function GenerateCodesForm() {
     type: data.type || '',
     items: selectedItemIds,
     socketid: socket.id,
-    length: data.nocharacters
+    length: data.nocharacters,
+    rarity: rarity
   }, {
     onSuccess: () => {
       toast.success(`Codes generated successfully`);
