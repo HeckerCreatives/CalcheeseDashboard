@@ -75,10 +75,13 @@ interface Props {
   status: string,
   length: string
   rarity: string,
+  open: boolean,
+  onCLick?: () => void,
+  onClose?: () => void,
 }
 
 
-export default function EditCodeForm(prop: Props) {
+export default function EditSingleCodeForm(prop: Props) {
 
      const {
         register,
@@ -124,8 +127,9 @@ export default function EditCodeForm(prop: Props) {
       updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: data.status },{
           onSuccess: () => {
             toast.success(`Code updated successfully`);
-            setOpen(false)
+            // setOpen(false)
             reset()
+             prop.onClose?.(); 
           },
         })
   }
@@ -149,6 +153,7 @@ export default function EditCodeForm(prop: Props) {
      
         const ids = prop.codes[0]?.items.map(item => item.id);
         setSelectedItemIds(ids);
+        setOpen(prop.open)
     }, [prop]);
 
 
@@ -156,10 +161,12 @@ export default function EditCodeForm(prop: Props) {
 
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="cursor-pointer p-3 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm">
+    <Dialog open={prop.open} onOpenChange={(val) => {
+  if (!val) prop.onClose?.();
+}}>
+      {/* <DialogTrigger className="cursor-pointer p-3 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm">
         <Pen size={12} />
-      </DialogTrigger>
+      </DialogTrigger> */}
       <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">

@@ -10,7 +10,7 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import { Download, Eye, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
+import { Download, Eye, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
 import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
@@ -37,6 +37,7 @@ import {
 import toast from 'react-hot-toast'
 import { useGetDashboardCount } from '@/apis/dashboard'
 import EditCodeForm from '@/components/forms/EditCode'
+import EditSingleCodeForm from '@/components/forms/EditSingleCode'
 
 
   
@@ -58,7 +59,9 @@ export default function Generate() {
     const [chestfilter, setChestFilter]= useState('')
     const {data: chests} = useGetChestList()
     const [open, setOpen] = useState(false)
-    const [editopen, setEditOpen] = useState(false)
+    const [editFormOpen, setEditFormOpen] = useState(false);
+
+
     const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
@@ -529,18 +532,49 @@ export default function Generate() {
                       </DialogContent>
                     </Dialog>
 
-                    <button 
-                    onClick={() => {
-                     setEditSelectedCodes([item.id]); // Replace, not append
-                      setSelectedCodeData([item]);     // Replace, not append
-                      setOpen(false);
-                      
-                    }}
 
-                    >
-                    <EditCodeForm ids={editselectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
+                    <button
+                        className="p-2 bg-blue-500 rounded-sm text-white text-xs"
+                        onClick={() => {
+                          setEditSelectedCodes([item.id]);
+                          setSelectedCodeData([item]);
+                          setEditFormOpen(true);
+                        }}
+                      >
+                        <Pen size={15} />
+                      </button>
 
-                    </button>
+                      {editFormOpen && selectedCodeData.length > 0 && (
+                        <EditSingleCodeForm
+                          ids={editselectedCodes}
+                          codes={selectedCodeData}
+                          chestid={selectedCodeData[0]?.chest?.chestid}
+                          type={selectedCodeData[0]?.type}
+                          status={selectedCodeData[0]?.status}
+                          length={''}
+                          rarity={selectedCodeData[0]?.items?.[0]?.rarity}
+                          open={editFormOpen}
+                          onClose={() => setEditFormOpen(false)}
+                        />
+                      )}
+
+
+
+
+                       {/* <EditSingleCodeForm
+                        ids={editselectedCodes}
+                        codes={selectedCodeData}
+                        chestid={selectedCodeData[0]?.chest?.chestid}
+                        type={selectedCodeData[0]?.type}
+                        status={selectedCodeData[0]?.status}
+                        length={''}
+                        rarity={selectedCodeData[0]?.items?.[0]?.rarity}
+                        onCLick={() => {setEditSelectedCodes([item.id]);
+                      setSelectedCodeData([item])}}
+                      /> */}
+                  
+
+                
 
 
                      <Dialog>
