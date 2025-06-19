@@ -85,6 +85,7 @@ export default function GenerateCodesForm() {
       if (data.status) setProgressStatus(data.status);
 
       if (data.status == "Complete"){
+        toast.success(`Codes generated successfully`);
         setOpen(false);
         setProgress(null);
         setProgressStatus(null);
@@ -117,7 +118,6 @@ export default function GenerateCodesForm() {
     rarity: rarity
   }, {
     onSuccess: () => {
-      
     },
     onError: () => {
       reset();
