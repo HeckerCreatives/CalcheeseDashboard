@@ -110,7 +110,7 @@ export default function GenerateCodesForm() {
   generateCodeslist({
     chest: '',
     expiration: data.expiration,
-    codeamount: data.codeamount,
+    codeamount: data. codeamount,
     type: data.type || '',
     items: selectedItemIds,
     socketid: socket.id,
