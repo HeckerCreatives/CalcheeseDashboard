@@ -56,7 +56,7 @@ export default function GenerateCodesForm({
   const [socket, setSocket] = useState<any>(null)
   const [formattedValue, setFormattedValue] = useState('')
 
-  const MAX_VALUE = 1_000_000
+  const MAX_VALUE = 100_000_000
 
   useEffect(() => {
     const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
