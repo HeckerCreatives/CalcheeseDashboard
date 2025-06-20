@@ -48,7 +48,7 @@ const allTypes: ItemType[] = ['robux', 'ticket']
 export default function CreateTicketCodeForm() {
     const {mutate: createTicket, isPending} = useCreateTicket()
     const [open, setOpen] = useState(false)
-    const {data: items} = useGetItemsList(0,100)
+    const {data: items} = useGetItemsList(0,100,'ticket')
     
 
   const {
@@ -56,6 +56,7 @@ export default function CreateTicketCodeForm() {
     handleSubmit,
     setValue,
     trigger,
+    reset,
     formState: { errors },
   } = useForm<CreateTicketCode>({
     resolver: zodResolver(createTicketvalidations),
@@ -70,11 +71,11 @@ export default function CreateTicketCodeForm() {
          onSuccess: () => {
            toast.success(`Ticket code created successfully`);
            setOpen(false)
+           reset()
          },
        })
   }
 
-  console.log(errors)
 
 
   return (
@@ -92,7 +93,7 @@ export default function CreateTicketCodeForm() {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-           <div className="w-full flex flex-col gap-1">
+           {/* <div className="w-full flex flex-col gap-1">
                       <label className="text-xs text-zinc-400">Item</label>
                       <Select onValueChange={(val) => setValue('item', val)}>
                       <SelectTrigger className=" w-full">
@@ -113,7 +114,23 @@ export default function CreateTicketCodeForm() {
                         
                       </SelectContent>
                       </Select>
-              </div>
+            </div> */}
+
+            <div className="w-full flex flex-col gap-1">
+              <label className="text-xs text-zinc-400">Items</label>
+              <Select  onValueChange={(val) => setValue('item', val)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select" className="text-xs" />
+                </SelectTrigger>
+                <SelectContent>
+                  {items?.data.map((item, index) => (
+                    <SelectItem key={item.id}  value={item.id} className="text-xs">{item.itemname}</SelectItem>
+                  ))}
+                  
+                </SelectContent>
+              </Select>
+                                   
+          </div>
           <div className="w-full flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Ticket Id</label>
             <Input

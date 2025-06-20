@@ -81,35 +81,6 @@ export default function Adminlayout({
     }
   }
 
-  // useEffect(() => {
-  //   const logout = async () => {
-  //     try {
-  //       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-  //         {
-  //           withCredentials: true,
-  //           headers: {
-  //             'Content-Type': 'application/json'
-  //           }
-  //         }
-  //       )
-  
-  //     } catch (error) {
-  
-  //       if (axios.isAxiosError(error)) {
-  //         const axiosError = error as AxiosError<{ message: string, data: string }>
-  //         if (axiosError.response && axiosError.response.status === 401) {
-  //           toast.error(`${axiosError.response.data.data}`)
-  //           router.push('/')
-  //         }
-  
-  //       }
-  //     }
-  //   }
-  //   logout()
-  // },[])
-
-  console.log(path)
-
     
   return (
     <div className=' w-full flex flex-col items-center h-screen font-brevia'>
@@ -127,34 +98,88 @@ export default function Adminlayout({
                 </h2>
             </div>
 
-            <div className=' hidden  lg:flex items-center rounded-md shadow-sm p-1 bg-orange-100'>
+            <div className="hidden lg:flex items-center rounded-md shadow-sm p-1 bg-orange-100">
                 {admin.map((item, index) => (
                   <div key={index}>
-                  {item.subpath.length === 0 ? (
-                    <a key={index} href={item.path} className={` flex items-center gap-1 px-4 py-3 text-[.8rem] rounded-md font-medium ${path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'}`}>{item.icon}{item.name}</a>
-                  ) : (
-                    <NavigationMenu key={index} className=' w-full'>
-                    <NavigationMenuList className=' w-fit'>
-                      <NavigationMenuItem>
-                        <NavigationMenuTrigger className={` text-[.8rem] flex gap-2 cursor-pointer ${path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'}`}>{item.icon}{item.name}</NavigationMenuTrigger>
-                        <NavigationMenuContent className=' w-[400px]'>
-                          {item.subpath.map((sub, index) => (
-                          <NavigationMenuLink className={`text-xs flex items-center  ${path.includes(sub.path) ? 'bg-gradient text-white' : 'text-black hover:bg-zinc-100 gap-2'}`} href={sub.path}>
-                            <p className=' '>{sub?.icon}</p>
-                            {sub.name}</NavigationMenuLink>
-                          ))}
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                  )}
+                    {item.subpath.length === 0 ? (
+                      <a
+                        href={item.path}
+                        className={`flex items-center gap-1 px-4 py-3 text-[.8rem] rounded-md font-medium ${
+                          path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'
+                        }`}
+                      >
+                        {item.icon}
+                        {item.name}
+                      </a>
+                    ) : (
+                      <NavigationMenu className="w-full">
+                        <NavigationMenuList className="w-fit">
+                          <NavigationMenuItem>
+                            <NavigationMenuTrigger
+                              className={`text-[.8rem] flex gap-2 cursor-pointer ${
+                                path.includes(item.path) ? 'bg-gradient text-white' : 'text-black'
+                              }`}
+                            >
+                              {item.icon}
+                              {item.name}
+                            </NavigationMenuTrigger>
+                            <NavigationMenuContent className="w-[400px] flex flex-col gap-2 p-2">
+                             {item.subpath.map((sub, subIndex) =>
+                                Array.isArray(sub.subpath) && sub.subpath.length > 0 ? (
+                                  <Accordion type="single" collapsible key={subIndex} className="w-full">
+                                    <AccordionItem value={`item-${subIndex}`}>
+                                      <AccordionTrigger className={`text-sm flex items-center gap-2 px-2 ${
+                                      path.includes(sub.path)
+                                        ? 'bg-gradient text-white'
+                                        : 'text-black hover:bg-zinc-100'
+                                    }`}>
+                                        <div className=' flex items-center gap-2'>
+                                          {sub.icon} {sub.name}
+                                        </div>
+                                      </AccordionTrigger>
+                                      <AccordionContent className="pl-4 flex flex-col gap-1">
+                                        {sub.subpath.map((nested, nestedIndex) => (
+                                          <NavigationMenuLink
+                                            key={nestedIndex}
+                                            className={`text-sm flex items-center gap-2 px-2 py-1 rounded ${
+                                              path.includes(nested.path)
+                                                ? ' text-orange-500'
+                                                : 'text-black hover:bg-zinc-100'
+                                            }`}
+                                            href={nested.path}
+                                          >
+                                            {/* {nested.icon} */}
+                                            - {nested.name}
+                                          </NavigationMenuLink>
+                                        ))}
+                                      </AccordionContent>
+                                    </AccordionItem>
+                                  </Accordion>
+                                ) : (
+                                  <NavigationMenuLink
+                                    key={subIndex}
+                                    className={`text-sm flex items-center gap-2 px-2 py-2 rounded ${
+                                      path.includes(sub.path)
+                                        ? 'bg-gradient text-white'
+                                        : 'text-black hover:bg-zinc-100'
+                                    }`}
+                                    href={sub.path}
+                                  >
+                                    {sub.icon}
+                                    {sub.name}
+                                  </NavigationMenuLink>
+                                )
+                              )}
+
+                            </NavigationMenuContent>
+                          </NavigationMenuItem>
+                        </NavigationMenuList>
+                      </NavigationMenu>
+                    )}
                   </div>
                 ))}
+              </div>
 
-               
-
-
-            </div>
 
             <div className=' flex items-center gap-2'>
               <DropdownMenu>

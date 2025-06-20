@@ -1,4 +1,4 @@
-import { Box, Boxes, ChartPie, Gamepad, Globe, List, Scan, Settings, Ticket, TicketCheck, TicketCheckIcon, Users, Wallet } from "lucide-react";
+import { Box, Boxes, ChartPie, Gamepad, Gamepad2, Globe, List, Scan, Settings, Star, Stars, Ticket, TicketCheck, TicketCheckIcon, Users, Wallet } from "lucide-react";
 
 export const admin = [
     {name: 'Dashboard', icon: <ChartPie size={15}/>, 
@@ -9,51 +9,30 @@ export const admin = [
     path:'/admin/codes/generate', subpath:[]},
     {name: 'Select Item', icon: <Box size={15}/>, 
     path:'/admin/items', subpath:[]},
-    // {name: 'Codes', icon: <TicketCheckIcon size={15}/>, 
-    
-    // path:'/admin/codes', subpath:[
-    //     {name: 'Generate', icon: <Scan size={15}/>, 
-    //     path:'/admin/codes/generate'},
-    //     {name: 'List', icon: <List size={15}/>, 
-    //     path:'/admin/codes/list'},
-    //     {name: 'Reward Type', icon: <Ticket size={15}/>, 
-    //     path:'/admin/codes/rewardtype'}
-    // ]},
-    // {name: 'ROBUX', icon: <Box size={15}/>, 
-    // path:'/admin/robux/rewardtype', subpath:[]},
-
-    // {name: 'Tickets', icon: <Ticket size={15}/>, 
-    // path:'/admin/tickets/rewardtype', subpath:[]},
-
-    
-
-     {name: 'ROBUX', icon: <Box size={15}/>, 
-     path:'/admin/robux', subpath:[
-         {name: 'Claiming', icon: <List size={15}/>, 
-         path:'/admin/robux/claiming'},
-         {name: 'Reward Type', icon: <Ticket size={15}/>, 
-         path:'/admin/robux/rewardtype'}
+    {name: 'Claiming', icon: <Ticket size={15}/>, 
+     path:'/admin/claiming',  subpath:[
+        {name: 'Chests', icon: <Box size={15}/>, 
+        path:'/admin/claiming/chest', subpath:[]},
+        {name: 'In-Game', icon: <Gamepad2 size={15}/>, 
+        path:'/admin/claiming/ingame', subpath:[]},
+        {name: 'Exclusive Items', icon: <Stars size={15}/>, 
+        path:'/admin/claiming/exclusiveitem'},
+        {name: 'Robux', icon: <Box size={15}/>, 
+         path:'/admin/claiming/robux', subpath:[
+            {name: 'Redeemed', icon: <Box size={15}/>, 
+            path:'/admin/claiming/robux/redeemed'},
+            {name: 'Claiming', icon: <Box size={15}/>, 
+            path:'/admin/claiming/robux/claiming'},
+         ]},
+         {name: 'Ticket', icon: <Ticket size={15}/>, 
+         path:'/admin/claiming/ticket', subpath:[
+            {name: 'Redeemed', icon: <Box size={15}/>, 
+            path:'/admin/claiming/ticket/redeemed'},
+            {name: 'Claiming', icon: <Box size={15}/>, 
+            path:'/admin/claiming/ticket/claiming'},
+         ]}
      ]},
-     {name: 'Tickets', icon: <Ticket size={15}/>, 
-     path:'/admin/tickets',  subpath:[
-         {name: 'Claiming', icon: <List size={15}/>, 
-         path:'/admin/tickets/claiming'},
-         {name: 'Reward Type', icon: <Ticket size={15}/>, 
-         path:'/admin/tickets/rewardtype'}
-     ]},
-    //   {name: 'In-Game', icon: <Gamepad size={15}/>, 
-    //  path:'/admin/ingame', subpath:[
-    //      {name: 'Claiming', icon: <List size={15}/>, 
-    //      path:'/admin/ingame/claiming'},
-    //      {name: 'Reward Type', icon: <Ticket size={15}/>, 
-    //      path:'/admin/ingame/rewardtype'}
-    //  ]},
 
-     {name: 'In Game', icon: <Gamepad size={15}/>, 
-    path:'/admin/ingame/claiming', subpath:[]},
-    
-      {name: 'Chest', icon: <Boxes size={15}/>, 
-    path:'/admin/chests', subpath:[]},
     
     {name: 'Website', icon: <Globe size={15}/>, 
     path:'/admin/website', subpath:[]},
