@@ -115,7 +115,7 @@ export default function Rewardtype() {
               <TableCell>{item.robuxcode}</TableCell>
               <TableCell>{item.item?.itemname}</TableCell>
               <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
-              <TableCell className=' flex items-center gap-2'><EditRobuxCodeForm id={item.id} code={item.robuxcode} item={item.item?.id} name={item.name}/>
+              <TableCell className=' flex items-center gap-2'><EditRobuxCodeForm id={item.id} code={item.robuxcode} item={item.item?.id} name={item.name} status={item.status}/>
               <DeleteRobuxCodeForm id={item.id} code={item.robuxcode}/>
               </TableCell>
 

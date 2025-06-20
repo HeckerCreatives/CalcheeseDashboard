@@ -74,8 +74,8 @@ export const createRobux = async (robuxcode: string, item: string, name: string)
   };
 
 
-  export const editRobux = async (robuxcodeid: string,robuxcode: string, item: string, name: string) => { 
-    const response = await axiosInstance.post("/robuxcode/editrobuxcode", { robuxcode, robuxcodeid, item, name });
+  export const editRobux = async (robuxcodeid: string,robuxcode: string, item: string, name: string, status?: string) => { 
+    const response = await axiosInstance.post("/robuxcode/editrobuxcode", { robuxcode, robuxcodeid, item, name, status });
     return response.data;
   };
   
@@ -83,8 +83,8 @@ export const createRobux = async (robuxcode: string, item: string, name: string)
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ robuxcodeid, robuxcode, item, name}: {robuxcodeid: string, robuxcode: string, item: string, name: string }) =>
-        editRobux(robuxcodeid, robuxcode, item, name),
+      mutationFn: ({ robuxcodeid, robuxcode, item, name, status}: {robuxcodeid: string, robuxcode: string, item: string, name: string, status?: string }) =>
+        editRobux(robuxcodeid, robuxcode, item, name, status),
         onError: (error) => {
             handleApiError(error);
         },

@@ -111,21 +111,22 @@ export default function Generate() {
   
 
          newSocket.on('export-progress', (data) => {
-         
-
+          console.log(data)
           if (data.percentage !== undefined) setProgress(data.percentage)
           if (data.status) setExportStatus(data.status)
+          if (data.file !== undefined) setExportFile(data.file)
+
         })
 
-         newSocket.on('export-complete', (data) => {
-          if (data.percentage !== undefined) setExportFile(data.file)
-        })
+      //   newSocket.on('export-complete', (data) => {
+      //    if (data.file !== undefined) setExportFile(data.file)
+      //  })
 
     
         return () => {
           newSocket.disconnect()
         }
-      }, [exportstatus, progress, exportfile])
+      }, [])
 
     
 
@@ -199,7 +200,6 @@ export default function Generate() {
            }
 
 
-           console.log(selectedCodeData)
 
            useEffect(() =>{
             setCurrentpage(0)
@@ -209,7 +209,6 @@ export default function Generate() {
             setSelectedCodes([])
            },[open])
 
-           console.log('File',exportfile)
 
          
 
@@ -558,7 +557,7 @@ export default function Generate() {
           )}
 
 
-          {progress !== null && (
+          {(progress !== null && exportfile === '' ) && (
           <div className="mb-4 max-w-md">
             <div className="text-xs mb-1 text-amber-950">{exportstatus}</div>
             <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
@@ -568,19 +567,24 @@ export default function Generate() {
               />
             </div>
 
-            {exportfile && (
-              <div className="mt-2">
+          </div>
+        )}
+
+
+          {exportfile && (
+              <div className="mt-2 flex items-center gap-2">
                 <a
                   href={`${process.env.NEXT_PUBLIC_API_URL}${exportfile}`}
                   download
-                  className="inline-block px-4 py-2 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition"
+                  className=" px-4 py-2 text-sm bg-orange-500 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
                 >
-                  Download File
+                  <Download size={15}/>
+                   Codes
                 </a>
+
+                <p className=' text-xs'>{exportfile}</p>
               </div>
             )}
-          </div>
-        )}
 
 
         </div>

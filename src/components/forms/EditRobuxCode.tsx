@@ -37,6 +37,7 @@ interface Props {
     code: string,
     item: string,
     name: string
+    status: string
 }
 
 export default function EditRobuxCodeForm( prop: Props) {
@@ -63,7 +64,7 @@ export default function EditRobuxCodeForm( prop: Props) {
 
 
   const onSubmit = (data: CreateRobuxCode) => {
-    editRobux({robuxcodeid: prop.id, robuxcode: data.code, item: data.item, name: data.name},{
+    editRobux({robuxcodeid: prop.id, robuxcode: data.code, item: data.item, name: data.name, status: ''},{
         onSuccess: () => {
           toast.success(`Robux code updated successfully`);
           setOpen(false)
