@@ -112,6 +112,10 @@ export default function List() {
             
 
         </div>
+
+         <div className=' flex items-center gap-4 mt-6 text-xs'>
+          <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
+        </div>
        
        <Table className=' text-sm mt-8'>
                   {data?.data.length === 0 && (

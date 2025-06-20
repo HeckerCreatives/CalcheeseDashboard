@@ -78,6 +78,8 @@ export default function Rewardtype() {
 
 
         </div>
+
+       
        
         <Table className=' text-sm mt-8'>
             {data?.data.length === 0 && (
