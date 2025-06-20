@@ -39,6 +39,7 @@ import { useGetDashboardCount } from '@/apis/dashboard'
 import EditCodeForm from '@/components/forms/EditCode'
 import EditSingleCodeForm from '@/components/forms/EditSingleCode'
 import { io } from 'socket.io-client'
+import useIsDownloadedStore from '@/hooks/downloadfile'
 
 
   
@@ -75,6 +76,7 @@ export default function Generate() {
     const [exportstatus, setExportStatus] = useState('')
     const [exportfile, setExportFile] = useState('')
     const [exportOpen, setExportOpen] = useState(false)
+    const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
 
 
     const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,6 +117,7 @@ export default function Generate() {
           if (data.percentage !== undefined) setProgress(data.percentage)
           if (data.status) setExportStatus(data.status)
           if (data.file !== undefined) setExportFile(data.file)
+          setIsDownload(data.file)
 
         })
 
@@ -571,10 +574,11 @@ export default function Generate() {
         )}
 
 
-          {exportfile && (
+          {isDownload && (
               <div className="mt-2 flex items-center gap-2">
                 <a
-                  href={`${process.env.NEXT_PUBLIC_API_URL}${exportfile}`}
+                onClick={() => clearIsDownload()}
+                href={`${process.env.NEXT_PUBLIC_API_URL}${isDownload}`}
                   download
                   className=" px-4 py-2 text-sm bg-orange-500 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
                 >
@@ -582,7 +586,7 @@ export default function Generate() {
                    Codes
                 </a>
 
-                <p className=' text-xs'>{exportfile}</p>
+                <p className=' text-xs'>{isDownload}</p>
               </div>
             )}
 
