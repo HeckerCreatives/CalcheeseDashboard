@@ -107,9 +107,9 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
       queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery ],
       queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery),
       enabled: debouncedQuery !== undefined,
-      // staleTime: 5 * 60 * 1000,
-      // refetchOnMount: false, 
-      // refetchOnWindowFocus: false,
+       staleTime: 5 * 60 * 1000,
+       refetchOnMount: false, 
+       refetchOnWindowFocus: false,
     });
 };
 
