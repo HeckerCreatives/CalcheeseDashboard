@@ -42,6 +42,7 @@ interface Props {
     category: string
     tickettype: string
     ticketname: string
+    status: string
 }
 
 
@@ -49,7 +50,9 @@ export default function EditTicketCodeForm(prop: Props) {
     const {mutate: editTicket, isPending} = useEditTicket()
     const [open, setOpen] = useState(false)
     // const {data} = useGetTicketTypeList()
-    const {data: items} = useGetItemsList(0, 100)
+    const {data: items} = useGetItemsList(0,100,'ticket')
+      const [status, setStatus] = useState('')
+    
     
 
   const {
@@ -72,7 +75,7 @@ export default function EditTicketCodeForm(prop: Props) {
 
 
   const onSubmit = (data: CreateTicketCode) => {
-     editTicket({id:prop.id,ticketid: data.ticketid, item: data.item, category: data.tickettype, tickettype: data.tickettype, ticketname: data.ticketname },{
+     editTicket({id:prop.id,ticketid: data.ticketid, item: data.item, category: data.tickettype, tickettype: data.tickettype, ticketname: data.ticketname, status: status },{
          onSuccess: () => {
            toast.success(`Ticket code updated successfully`);
            setOpen(false)
@@ -90,10 +93,14 @@ export default function EditTicketCodeForm(prop: Props) {
             ticketname: prop.ticketname
         })
     }
+
+    setStatus(prop.status)
     
   },[prop])
 
+
   console.log(prop)
+
 
 
 
@@ -111,8 +118,8 @@ export default function EditTicketCodeForm(prop: Props) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-           <div className="w-full flex flex-col gap-1">
-                      <label className="text-xs text-zinc-400">Item</label>
+           {/* <div className="w-full flex flex-col gap-1"> */}
+                      {/* <label className="text-xs text-zinc-400">Item</label>
                       <Select defaultValue={prop.item} onValueChange={(val) => setValue('item', val)}>
                       <SelectTrigger className=" w-full">
                           <SelectValue placeholder="Select" />
@@ -132,6 +139,22 @@ export default function EditTicketCodeForm(prop: Props) {
                         
                       </SelectContent>
                       </Select>
+              </div> */}
+
+               <div className="w-full flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400">Items</label>
+                  <Select defaultValue={prop.item}  onValueChange={(val) => setValue('item', val)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select" className="text-xs" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {items?.data.map((item, index) => (
+                        <SelectItem key={item.id}  value={item.id} className="text-xs">{item.itemname}</SelectItem>
+                      ))}
+                      
+                    </SelectContent>
+                  </Select>
+                                       
               </div>
           <div className="w-full flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Ticket Id</label>
@@ -180,6 +203,27 @@ export default function EditTicketCodeForm(prop: Props) {
                 <p className="form-error">{errors.ticketname.message}</p>
               )}
           </div>
+
+              <div className=" flex flex-col gap-1">
+                                              <label className="text-xs text-zinc-400">Status</label>
+                                              <Select value={status} onValueChange={setStatus} >
+                                              <SelectTrigger className="w-full">
+                                                <SelectValue placeholder=" Status" className="text-xs" />
+                                              </SelectTrigger>
+                                              <SelectContent>
+                                                 <SelectItem  value='claimed' className="text-xs">
+                                                    Claimed
+                                                  </SelectItem>
+                                                   <SelectItem  value='to-claim' className="text-xs">
+                                                    Unclaimed
+                                                  </SelectItem>
+                                                    <SelectItem  value='to-generate' className="text-xs">
+                                                    To-Generate
+                                                  </SelectItem>
+                                               
+                                              </SelectContent>
+                                            </Select> 
+                        </div>
 
          
 

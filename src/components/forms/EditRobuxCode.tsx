@@ -44,6 +44,7 @@ export default function EditRobuxCodeForm( prop: Props) {
     const {mutate: editRobux, isPending} = useEditRobux()
     const [open, setOpen] = useState(false)
   const {data} = useGetItemsList(0,100)
+  const [status, setStatus] = useState('')
     
 
   const {
@@ -64,7 +65,7 @@ export default function EditRobuxCodeForm( prop: Props) {
 
 
   const onSubmit = (data: CreateRobuxCode) => {
-    editRobux({robuxcodeid: prop.id, robuxcode: data.code, item: data.item, name: data.name, status: ''},{
+    editRobux({robuxcodeid: prop.id, robuxcode: data.code, item: data.item, name: data.name, status: status},{
         onSuccess: () => {
           toast.success(`Robux code updated successfully`);
           setOpen(false)
@@ -81,6 +82,8 @@ export default function EditRobuxCodeForm( prop: Props) {
               name: prop.name
           })
       }
+
+      setStatus(prop.status)
       
     },[prop])
 
@@ -151,6 +154,29 @@ export default function EditRobuxCodeForm( prop: Props) {
             </div>
           
           </div>
+
+
+             <div className=" flex flex-col gap-1">
+                                    <label className="text-xs text-zinc-400">Status</label>
+                                    <Select value={status} onValueChange={setStatus} >
+                                    <SelectTrigger className="w-full">
+                                      <SelectValue placeholder=" Status" className="text-xs" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                       <SelectItem  value='claimed' className="text-xs">
+                                          Claimed
+                                        </SelectItem>
+                                         <SelectItem  value='to-claim' className="text-xs">
+                                          Unclaimed
+                                        </SelectItem>
+                                          <SelectItem  value='to-generate' className="text-xs">
+                                          To-Generate
+                                        </SelectItem>
+                                     
+                                    </SelectContent>
+                                  </Select> 
+              </div>
+
 
    
 

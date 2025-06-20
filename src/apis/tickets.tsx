@@ -114,8 +114,8 @@ export const createTicket = async (ticketid: string,item: string,category: strin
   };
 
 
-  export const editTicket = async (id: string,ticketid: string,item: string,category: string, tickettype: string,ticketname: string) => { 
-    const response = await axiosInstance.post("/ticket/editticket", { id, ticketid, item, category,tickettype, ticketname });
+  export const editTicket = async (id: string,ticketid: string,item: string,category: string, tickettype: string,ticketname: string, status?: string) => { 
+    const response = await axiosInstance.post("/ticket/editticket", { id, ticketid, item, category,tickettype, ticketname, status });
     return response.data;
   };
   
@@ -123,8 +123,8 @@ export const createTicket = async (ticketid: string,item: string,category: strin
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ id, ticketid, item, category,tickettype, ticketname}: {id: string,ticketid: string,item: string,category: string, tickettype: string,ticketname: string}) =>
-        editTicket(id, ticketid, item, category,tickettype, ticketname),
+      mutationFn: ({ id, ticketid, item, category,tickettype, ticketname, status}: {id: string,ticketid: string,item: string,category: string, tickettype: string,ticketname: string, status?: string}) =>
+        editTicket(id, ticketid, item, category,tickettype, ticketname, status),
         onError: (error) => {
             handleApiError(error);
         },

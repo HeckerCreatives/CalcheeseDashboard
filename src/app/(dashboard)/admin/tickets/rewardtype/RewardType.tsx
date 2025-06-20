@@ -112,7 +112,7 @@ export default function Rewardtype() {
               <TableCell>{item.item.itemname}</TableCell>
               <TableCell className={` ${statusColor(item.status)}`}>{item.status}</TableCell>
               <TableCell className=' flex items-center gap-2'>
-                <EditTicketCodeForm id={item.id} ticketid={item.ticketid} item={item.item._id} category={item.category} tickettype={item.tickettype} ticketname={item.ticketname}/>
+                <EditTicketCodeForm id={item.id} ticketid={item.ticketid} item={item.item._id} category={item.category} tickettype={item.tickettype} ticketname={item.ticketname} status={item.status}/>
                 <DeleteTicketCodeForm id={item.id} code={item.ticketid}/>
 
               </TableCell>
