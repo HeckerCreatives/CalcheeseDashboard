@@ -584,7 +584,7 @@ export default function Generate() {
                 onClick={() => clearIsDownload()}
                 href={`${process.env.NEXT_PUBLIC_API_URL}${isDownload}`}
                   download
-                  className=" px-4 py-2 text-sm bg-orange-500 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
+                  className=" px-4 py-2 text-sm bg-orange-500 text-white rounded hover:bg-orange-400 transition flex items-center gap-2"
                 >
                   <Download size={15}/>
                    Download
