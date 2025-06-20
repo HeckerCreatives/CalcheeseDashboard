@@ -217,12 +217,12 @@ export default function RedeemedCodesRewards() {
                           </div>
                                    
 
-                              <PhilippinesAddressSelector
+                              {/* <PhilippinesAddressSelector
                               onAddressChange={(address) => {
                                   const addressString = Object.values(address).filter(Boolean).join(', ');
                                   setAddress(addressString);
                               }}
-                            />
+                            /> */}
                                               
                     
                                                 
