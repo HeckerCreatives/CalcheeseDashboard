@@ -129,7 +129,7 @@ export const generateCodeslist = async (chest: string, expiration: string,codeam
             handleApiError(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["codeslist" ] });
+            queryClient.invalidateQueries({ queryKey: ["codeslist"] });
              queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
           }
     
@@ -140,30 +140,30 @@ export const generateCodeslist = async (chest: string, expiration: string,codeam
   
 
 
-export const exportCodeslist = async (type: string) => {
+export const exportCodeslist = async (type: string, start: number, end: number, socketid: any) => {
   const response = await axiosInstance.get("/code/export-csv", {
-    params: { type },
-    responseType: "blob", // <- VERY IMPORTANT
+    params: { type, start, end, socketid },
+    // responseType: "blob",
   });
 
-  const disposition = response.headers["content-disposition"];
-  let filename = "calcheeseworlcodes.zip";
+  // const disposition = response.headers["content-disposition"];
+  // let filename = "calcheeseworlcodes.zip";
 
-  if (disposition && disposition.includes("filename=")) {
-    const match = disposition.match(/filename="?([^"]+)"?/);
-    if (match?.[1]) {
-      filename = match[1];
-    }
-  }
+  // if (disposition && disposition.includes("filename=")) {
+  //   const match = disposition.match(/filename="?([^"]+)"?/);
+  //   if (match?.[1]) {
+  //     filename = match[1];
+  //   }
+  // }
 
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute("download", filename);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.URL.revokeObjectURL(url);
+  // const url = window.URL.createObjectURL(new Blob([response.data]));
+  // const link = document.createElement("a");
+  // link.href = url;
+  // link.setAttribute("download", filename);
+  // document.body.appendChild(link);
+  // link.click();
+  // link.remove();
+  // window.URL.revokeObjectURL(url);
 };
 
   
@@ -171,8 +171,8 @@ export const useExportCodeslist = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({type} : {type: string}) =>
-        exportCodeslist( type),
+      mutationFn: ({type, start, end, socketid} : {type: string, start: number, end: number, socketid: any}) =>
+        exportCodeslist( type, start, end, socketid),
         onError: (error) => {
             handleApiError(error);
         },

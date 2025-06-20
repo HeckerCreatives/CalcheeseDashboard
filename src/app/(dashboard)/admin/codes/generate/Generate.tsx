@@ -38,6 +38,7 @@ import toast from 'react-hot-toast'
 import { useGetDashboardCount } from '@/apis/dashboard'
 import EditCodeForm from '@/components/forms/EditCode'
 import EditSingleCodeForm from '@/components/forms/EditSingleCode'
+import { io } from 'socket.io-client'
 
 
   
@@ -46,18 +47,12 @@ import EditSingleCodeForm from '@/components/forms/EditSingleCode'
 export default function Generate() {
     const [currentPage, setCurrentpage] = useState(0)
     const [pagination, setPagination] = useState('10')
-
     const [totalpage, setTotalpage] = useState(0)
     const [search, setSearch] = useState('')
-    const [filter, setFilter] = useState('')
-    const [value, setValue] = useState('')
     const [type, setType]= useState('')
     const [itemfilter, setItemFilter]= useState('')
     const [status, setStatus]= useState('')
     const [rarity, setRarity] = useState('')
-    
-    const [chestfilter, setChestFilter]= useState('')
-    const {data: chests} = useGetChestList()
     const [open, setOpen] = useState(false)
     const [editFormOpen, setEditFormOpen] = useState(false);
 
@@ -72,7 +67,65 @@ export default function Generate() {
     const {data: items} = useGetItemsList(currentPage,100,type, rarity)
 
     const [codeGenProgress, setCodeGenProgress] = useState<number | null>(null)
-  const [codeGenStatus, setCodeGenStatus] = useState<string | null>(null)
+    const [codeGenStatus, setCodeGenStatus] = useState<string | null>(null)
+    const [start, setStart] = useState('')
+    const [end, setEnd] = useState('')
+    const [socket, setSocket] = useState<any>(null)
+    const [progress, setProgress] = useState<number | null>(null)
+    const [exportstatus, setExportStatus] = useState('')
+    const [exportfile, setExportFile] = useState('')
+    const [exportOpen, setExportOpen] = useState(false)
+
+
+    const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value.replace(/,/g, '')
+        let numberValue = parseInt(rawValue, 10)
+    
+        if (!isNaN(numberValue)) {
+          setStart(numberValue.toLocaleString())
+        } else {
+          setStart('')
+        }
+    }
+
+     const handleEndInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value.replace(/,/g, '')
+        let numberValue = parseInt(rawValue, 10)
+    
+        if (!isNaN(numberValue)) {
+          setEnd(numberValue.toLocaleString())
+        } else {
+          setEnd('')
+        }
+    }
+
+    function parseFormattedNumber(input: string): number {
+      const cleaned = input.replace(/,/g, '');
+      return Number(cleaned);
+    }
+
+
+     useEffect(() => {
+        const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
+        setSocket(newSocket)
+  
+
+         newSocket.on('export-progress', (data) => {
+         
+
+          if (data.percentage !== undefined) setProgress(data.percentage)
+          if (data.status) setExportStatus(data.status)
+        })
+
+         newSocket.on('export-complete', (data) => {
+          if (data.percentage !== undefined) setExportFile(data.file)
+        })
+
+    
+        return () => {
+          newSocket.disconnect()
+        }
+      }, [exportstatus, progress, exportfile])
 
     
 
@@ -94,7 +147,6 @@ export default function Generate() {
         const reset = () => {
           setType('')
           setItemFilter('')
-          setChestFilter('')
           setStatus('')
           setSearch('')
           setRarity('')
@@ -103,13 +155,32 @@ export default function Generate() {
        
 
           const exportCsv = () => {
-              exportCodeslist({type: ''},{
+
+             if (!socket) {
+                toast.error('Socket not connected')
+                return
+              }
+               const mutation = new Promise<void>((resolve, reject) => {
+                 exportCodeslist({type: '', start: parseFormattedNumber(start) ,end: parseFormattedNumber(end), socketid: socket.id},{
                   onSuccess: () => {
-                    toast.success(`Success`);
-                    setOpen(false)
+                    toast.success(`Exporting codes...`);
+                    setExportOpen(false)
                     reset()
+                    resolve()
                   },
+                  onError: () => {
+                    reject()
+                  }
                 })
+
+               })
+             
+
+                //  toast.promise(mutation, {
+                //     loading: `Exporting codes...`,
+                //     success: 'Codes exported successfully!',
+                //     error: 'Failed to export codes',
+                //   })
             }
 
 
@@ -137,6 +208,8 @@ export default function Generate() {
            useEffect(() => {
             setSelectedCodes([])
            },[open])
+
+           console.log('File',exportfile)
 
          
 
@@ -390,9 +463,38 @@ export default function Generate() {
             </DialogContent>
           </Dialog> */}
 
-          <Button disabled={isPending}  onClick={exportCsv} className=' flex items-center p-2'>
-            {isPending && <Loader type={'loader'} />}
-          <Download size={15}/> Csv</Button>
+         
+
+          <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+          <DialogTrigger className='p-[.6rem] bg-orange-500 flex items-center gap-2 rounded-sm text-yellow-100'>
+               <Download size={15}/> Csv
+          </DialogTrigger>
+          <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
+            <DialogHeader>
+              <DialogTitle>Export Codes</DialogTitle>
+              {/* <DialogDescription>Are you sure you want to delete the selected codes?</DialogDescription> */}
+            </DialogHeader>
+
+            <div className='flex flex-col gap-2 text-amber-950 text-sm mt-4 max-h-64 overflow-y-auto px-2'>
+              <label htmlFor="">Start</label>
+              <Input value={start} onChange={handleStartInputChange} placeholder='Start' type='text'/>
+
+              <label htmlFor="">End</label>
+              <Input value={end} onChange={handleEndInputChange} placeholder='Start' type='text'/>
+
+            </div>
+
+             
+
+            <div className='w-full flex items-end justify-end mt-4'>
+            
+
+              <Button disabled={isPending}  onClick={exportCsv} className=' flex items-center p-2'>
+                {isPending && <Loader type={'loader'} />}
+              <Download size={15}/> Export</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
 
           <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
 
@@ -443,7 +545,7 @@ export default function Generate() {
           <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
           {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
 
-           {codeGenProgress !== null && (
+          {codeGenProgress !== null && (
             <div className="mb-4 max-w-md">
               <div className="text-xs mb-1 text-amber-950">{codeGenStatus}</div>
               <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
@@ -454,6 +556,32 @@ export default function Generate() {
               </div>
             </div>
           )}
+
+
+          {progress !== null && (
+          <div className="mb-4 max-w-md">
+            <div className="text-xs mb-1 text-amber-950">{exportstatus}</div>
+            <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+              <div
+                className="bg-orange-500 h-full transition-all"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+
+            {exportfile && (
+              <div className="mt-2">
+                <a
+                  href={`${process.env.NEXT_PUBLIC_API_URL}${exportfile}`}
+                  download
+                  className="inline-block px-4 py-2 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition"
+                >
+                  Download File
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+
 
         </div>
         
