@@ -562,13 +562,17 @@ export default function Generate() {
 
           {(progress !== null && exportfile === '' ) && (
           <div className="mb-4 max-w-md">
-            <div className="text-xs mb-1 text-amber-950">{exportstatus}</div>
-            <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-              <div
-                className="bg-orange-500 h-full transition-all"
-                style={{ width: `${progress}%` }}
-              />
+            {/* <Loader type={'loader'}/> */}
+            <div className=' flex flex-col'>
+                <div className="text-xs mb-1 text-amber-950">{exportstatus}</div>
+                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-orange-500 h-full transition-all"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
             </div>
+          
 
           </div>
         )}
