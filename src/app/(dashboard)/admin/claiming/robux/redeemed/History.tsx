@@ -26,9 +26,14 @@ export default function History() {
         const [search, setSearch] = useState('')
         const [filter, setFilter] = useState('approved')
         const [value, setValue] = useState('All')
+        const [type, setType]= useState('robux')
+        const [itemfilter, setItemFilter]= useState('')
         const [status, setStatus]= useState('')
+        const [rarity, setRarity] = useState('')
+            
+        const {data, isLoading} = useGetCodesList(currentPage, 10, 'robux',rarity, itemfilter, 'approved',search)
         
-        const {data, isLoading} = useGetCodesList(currentPage, 10, filter, 'robux', '', '',search)
+        
         
   
     

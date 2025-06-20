@@ -70,7 +70,7 @@ export default function Rewardtype() {
 
             <CreateTicketCodeForm/>
 
-            <Popover>
+            {/* <Popover>
                 <PopoverTrigger className=' text-xs flex items-center gap-1 cursor-pointer bg-white px-3 py-1 rounded-sm'><ListFilter size={15}/>Status: {value}</PopoverTrigger>
                 <PopoverContent className=' text-xs flex flex-col gap-2'>
                     {statusData.map((item, index) => (
@@ -78,7 +78,7 @@ export default function Rewardtype() {
                     ))}
 
                 </PopoverContent>
-            </Popover>
+            </Popover> */}
 
 
         </div>
