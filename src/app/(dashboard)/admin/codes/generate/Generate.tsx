@@ -583,7 +583,7 @@ export default function Generate() {
                   className=" px-4 py-2 text-sm bg-orange-500 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
                 >
                   <Download size={15}/>
-                   Codes
+                   Download
                 </a>
 
                 <p className=' text-xs'>{isDownload}</p>
