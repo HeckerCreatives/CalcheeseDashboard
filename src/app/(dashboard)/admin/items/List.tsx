@@ -117,25 +117,11 @@ export default function List() {
 
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
-        <div className=' flex flex-wrap items-center gap-4'>
-            {/* <div className=' relative w-fit flex items-center justify-center'>
-                <Search size={15} className=' absolute left-2'/>
-                <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Robux code' className=' w-fit pl-7'/>
-            </div>
 
-            <Popover>
-                <PopoverTrigger className=' text-xs flex items-center gap-1 cursor-pointer bg-white px-3 py-1 rounded-sm'><ListFilter size={15}/>Status: {value}</PopoverTrigger>
-                <PopoverContent className=' text-xs flex flex-col gap-2'>
-                    {statusData.map((item, index) => (
-                    <p key={index} onClick={() =>{ setFilter(item.name), setValue(item.name)}} className={`  p-1 rounded-sm w-full cursor-pointer ${filter === item.value ? 'bg-zinc-100' : 'hover:bg-zinc-50' }`}>{item.name}</p>
-                    ))}
-
-                </PopoverContent>
-            </Popover> */}
-
+      <div className=' flex flex-wrap items-end gap-4'>
          <CreateItemsForm/>
 
-           <Dialog open={open} onOpenChange={setOpen} >
+          <Dialog open={open} onOpenChange={setOpen} >
                    <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
                      <Trash size={15} />
                    </DialogTrigger>
@@ -158,30 +144,12 @@ export default function List() {
                        </Button>
                      </div>
                    </DialogContent>
-                 </Dialog>
+          </Dialog>
 
-        
-
-        </div>
-
-        <Tabs value={tab} onValueChange={setTab} className="w-full mt-4">
-        <TabsList className=" lg:w-fit w-full flex items-start justify-start overflow-x-auto whitespace-nowrap no-scrollbar">
-           
-            {typeOptions.map((item, index) => (
-            <TabsTrigger key={index} value={item.value} className="px-3 shrink-0">
-                {item.name}
-            </TabsTrigger>
-            ))}
-        </TabsList>
-
-        <TabsContent value="account">Make changes to your account here.</TabsContent>
-        <TabsContent value="password">Change your password here.</TabsContent>
-        </Tabs>
-
-         <div className=" flex flex-col gap-1 mt-4">
-             <label className="text-xs text-zinc-400">Rarity</label>
+          <div className=" flex flex-col gap-1 mt-4">
+             <label className="text-[.7rem] text-zinc-400">Rarity</label>
              <Select value={rarity} onValueChange={setRarity} >
-            <SelectTrigger className="w-fit">
+            <SelectTrigger className="w-fit text-xs">
                 <SelectValue placeholder=" Select" className="text-xs" />
             </SelectTrigger>
             <SelectContent>
@@ -195,6 +163,29 @@ export default function List() {
             </Select>
          </div>
 
+        
+
+      </div>
+       
+
+      <Tabs value={tab} onValueChange={setTab} className="w-full mt-4">
+        <TabsList className=" lg:w-fit w-full flex items-start justify-start overflow-x-auto whitespace-nowrap no-scrollbar">
+           
+            {typeOptions.map((item, index) => (
+            <TabsTrigger key={index} value={item.value} className="px-3 shrink-0">
+                {item.name}
+            </TabsTrigger>
+            ))}
+        </TabsList>
+
+        <TabsContent value="account">Make changes to your account here.</TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
+      </Tabs>
+
+        
+
+        
+
        
         <Table className=' text-sm mt-8'>
             {data?.data.length === 0 && (
@@ -207,7 +198,6 @@ export default function List() {
             ) }
         <TableHeader>
         <TableRow>
-            {/* <TableHead className="">Item Code</TableHead> */}
             <TableHead className="w-[30px]">
             <input
                 type="checkbox"
@@ -217,6 +207,9 @@ export default function List() {
             </TableHead>
 
             <TableHead className="">Item Name</TableHead>
+            {tab === 'ticket' && 
+            <TableHead className="">Item Code</TableHead>
+            }
             <TableHead className="">Category</TableHead>
             <TableHead className="">Rarity</TableHead>
             <TableHead className="">Quantity</TableHead>
@@ -239,6 +232,9 @@ export default function List() {
                 />
                 </TableCell>
                 <TableCell>{item.itemname}</TableCell>
+                {tab === 'ticket' && 
+                  <TableCell className="">Item Code</TableCell>
+                }
                 <TableCell>{item.category}</TableCell>
                 <TableCell>{item.rarity}</TableCell>
                 <TableCell>{item.quantity.toLocaleString()}</TableCell>

@@ -52,7 +52,7 @@ export default function History() {
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
         <div className=' flex items-center gap-4'>
-            <p className=' text-lg font-semibold text-orange-500'>Approved History</p>
+            <p className=' text-lg font-semibold text-orange-500'>Redeemed History</p>
 
         </div>
        

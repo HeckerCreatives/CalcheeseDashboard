@@ -40,8 +40,8 @@ export interface Code {
   chest: Chest;
   claimdate: string
   items: Item[];
-  expiration: string; // You can use `Date` if you plan to convert it
-  type: string; // Consider using a union type if values are known: "ingame" | "ticket" | etc.
+  expiration: string; 
+  type: string;
   isUsed: boolean;
   robuxcode: {
       id: string,

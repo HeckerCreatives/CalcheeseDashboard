@@ -47,6 +47,8 @@ interface Props {
 export default function EditItemsForm( prop: Props) {
     const {mutate: editItems, isPending} = useEditItems()
     const [open, setOpen] = useState(false)
+    const [code, setCode] = useState('')
+    
 
   const {
     register,
@@ -54,6 +56,7 @@ export default function EditItemsForm( prop: Props) {
     setValue,
     trigger,
     reset,
+    watch,
     formState: { errors },
   } = useForm<CreateItems>({
     resolver: zodResolver(createItemvalidations),
@@ -90,7 +93,9 @@ export default function EditItemsForm( prop: Props) {
     }
   },[prop])
 
-  console.log(prop)
+  const selectedType = watch('type')
+
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -210,6 +215,24 @@ export default function EditItemsForm( prop: Props) {
                                 <p className="form-error">{errors.rarity.message}</p>
                               )}
                 </div>
+
+                 {selectedType === 'ticket' && (
+                             <div className="flex items-center gap-4">
+                              <div className="w-full flex flex-col gap-1">
+                                <label className="text-xs text-zinc-400">Ticket Code</label>
+                                <Input
+                                  placeholder="Ticket Code"
+                                  type="text"
+                                 value={code}
+                                 onChange={(e) => setCode(e.target.value)}
+                                />
+                                {errors.itemname && (
+                                  <p className="form-error">{errors.itemname.message}</p>
+                                )}
+                              </div>
+                            
+                            </div>
+                          )}
         
                   <div className="flex items-center gap-4">
                     <div className="w-full flex flex-col gap-1">

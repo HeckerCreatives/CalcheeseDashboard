@@ -40,8 +40,8 @@ export const useGetItemsList = (page: number, limit: number, category?: string, 
     });
 };
   
-export const createItems = async (itemid: string, itemname: string, quantity: number, category: string, rarity: string) => { 
-    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity, category, rarity});
+export const createItems = async (itemid: string, itemname: string, quantity: number, category: string, rarity: string, code?:string) => { 
+    const response = await axiosInstance.post("/item/createitem", { itemid, itemname , quantity, category, rarity, code});
     return response.data;
   };
   
@@ -49,8 +49,8 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ itemid, itemname, quantity, category, rarity }: { itemid: string, itemname: string, quantity: number, category: string, rarity: string }) =>
-        createItems(itemid, itemname, quantity, category, rarity),
+      mutationFn: ({ itemid, itemname, quantity, category, rarity, code }: { itemid: string, itemname: string, quantity: number, category: string, rarity: string, code?:string }) =>
+        createItems(itemid, itemname, quantity, category, rarity, code),
         onError: (error) => {
             handleApiError(error);
         },
@@ -62,7 +62,7 @@ export const createItems = async (itemid: string, itemname: string, quantity: nu
   };
 
 
-  export const editItems = async (id: string,itemid: string, itemname: string,quantity: number , category: string, rarity: string) => { 
+  export const editItems = async (id: string,itemid: string, itemname: string,quantity: number , category: string, rarity: string, ) => { 
     const response = await axiosInstance.post("/item/edititem", { id, itemid, itemname, quantity, category, rarity });
     return response.data;
   };

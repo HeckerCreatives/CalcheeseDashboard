@@ -6,7 +6,7 @@ import History from './History'
 export default function page() {
   return (
     <Adminlayout>
-        <List/>
+        {/* <List/> */}
         <History/>
     </Adminlayout>
   )

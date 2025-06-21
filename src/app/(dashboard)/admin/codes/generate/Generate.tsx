@@ -40,6 +40,7 @@ import EditCodeForm from '@/components/forms/EditCode'
 import EditSingleCodeForm from '@/components/forms/EditSingleCode'
 import { io } from 'socket.io-client'
 import useIsDownloadedStore from '@/hooks/downloadfile'
+import CodeDetailsDialog from '@/components/common/Code-Details'
 
 
   
@@ -665,37 +666,9 @@ export default function Generate() {
                     <TableCell>{item.type}</TableCell>
                     <TableCell className={` ${item.isUsed ? 'text-green-500' : 'text-orange-500'}`}>{item.isUsed ? 'Claimed' : 'UnClaimed'}</TableCell>
                     <TableCell className=' flex gap-2'>
-                      <Dialog>
-                      <DialogTrigger className=' p-2 bg-orange-500 rounded-sm text-yellow-100'><Eye size={15}/></DialogTrigger>
-                      <DialogContent className=' bg-yellow-50 max-w-[400px] w-full'>
-                        <DialogHeader>
-                          <DialogTitle>Code Details</DialogTitle>
-                          <DialogDescription>
-                            
-                          </DialogDescription>
-                        </DialogHeader>
+                     
 
-                        <div className=' flex flex-col gap-2 text-amber-950 mt-2 text-sm'>
-                          <p>Code: {item.code}</p>
-                          <p>Category: <span className=' uppercase'>{item.type}</span></p>
-                          <p>Rarity: <span className=' uppercase'>{item.items[0]?.rarity}</span></p>
-                          <p>Items:</p>
-                          {/* <p>Items: {item.items.map((item) => item.itemname).join(',')}</p> */}
-                          <div className=' w-full fle3x flex-col gap-1'>
-                             {item.items.map((item, index) => (
-                              <div className=' ml-4 flex gap-4 bg-white p-2 text-xs font-bold'>
-                                <p className=' '>Item Name: {item.itemname}</p>
-                                <p className=''>Quantity: {item.quantity}</p>
-                              </div>
-                            ))}
-                          </div>
-                         
-                          <p>Expiration: {item.expiration}</p>
-                          <p>Status: {item.isUsed ? 'Claimed' : 'UnClaimed'}</p>
-
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                       <CodeDetailsDialog code={item.code} type={item.type} items={item.items} expiration={item.expiration} isUsed={item.isUsed} status={item.status}/>
 
 
                     <button
@@ -722,25 +695,6 @@ export default function Generate() {
                           onClose={() => setEditFormOpen(false)}
                         />
                       )}
-
-
-
-
-                       {/* <EditSingleCodeForm
-                        ids={editselectedCodes}
-                        codes={selectedCodeData}
-                        chestid={selectedCodeData[0]?.chest?.chestid}
-                        type={selectedCodeData[0]?.type}
-                        status={selectedCodeData[0]?.status}
-                        length={''}
-                        rarity={selectedCodeData[0]?.items?.[0]?.rarity}
-                        onCLick={() => {setEditSelectedCodes([item.id]);
-                      setSelectedCodeData([item])}}
-                      /> */}
-                  
-
-                
-
 
                      <Dialog>
                       <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>

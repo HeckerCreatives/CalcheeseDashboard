@@ -57,6 +57,7 @@ const typeOptions = [
 export default function CreateItemsForm() {
     const {mutate: createItems, isPending} = useCreateItems()
     const [open, setOpen] = useState(false)
+    const [code, setCode] = useState('')
 
   const {
     register,
@@ -64,6 +65,7 @@ export default function CreateItemsForm() {
     setValue,
     trigger,
     reset,
+    watch,
     formState: { errors },
   } = useForm<CreateItems>({
     resolver: zodResolver(createItemvalidations),
@@ -73,7 +75,7 @@ export default function CreateItemsForm() {
 
 
   const onSubmit = (data: CreateItems) => {
-   createItems({itemid: '', itemname: data.itemname, quantity: data.quantity, category: data.type, rarity: data.rarity},{
+   createItems({itemid: '', itemname: data.itemname, quantity: data.quantity, category: data.type, rarity: data.rarity, code: code},{
        onSuccess: () => {
          toast.success(`Item created successfully`);
          setOpen(false)
@@ -81,6 +83,9 @@ export default function CreateItemsForm() {
        },
      })
   }
+
+  const selectedType = watch('type')
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -158,7 +163,7 @@ export default function CreateItemsForm() {
           </div>
         </form> */}
 
-         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-4">
+         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 mt-4">
       
 
            <div className="w-full flex flex-col gap-1">
@@ -200,6 +205,24 @@ export default function CreateItemsForm() {
               <p className="form-error">{errors.rarity.message}</p>
             )}
           </div>
+
+          {selectedType === 'ticket' && (
+             <div className="flex items-center gap-4">
+              <div className="w-full flex flex-col gap-1">
+                <label className="text-xs text-zinc-400">Ticket Code</label>
+                <Input
+                  placeholder="Ticket Code"
+                  type="text"
+                 value={code}
+                 onChange={(e) => setCode(e.target.value)}
+                />
+                {errors.itemname && (
+                  <p className="form-error">{errors.itemname.message}</p>
+                )}
+              </div>
+            
+            </div>
+          )}
 
           <div className="flex items-center gap-4">
             <div className="w-full flex flex-col gap-1">
