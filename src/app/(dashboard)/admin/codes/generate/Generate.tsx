@@ -518,7 +518,7 @@ export default function Generate() {
           <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} archive={selectedCodeData[0]?.archived} />
 
 
-
+{/* 
          <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
             <Trash size={15} />
@@ -554,7 +554,7 @@ export default function Generate() {
               </Button>
             </div>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
 
 
          
@@ -733,7 +733,7 @@ export default function Generate() {
                       </DialogContent>
                     </Dialog>
 
-                     <Dialog>
+                     {/* <Dialog>
                       <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>
                       <DialogContent className=' bg-yellow-50 p-8'>
                         <DialogHeader>
@@ -760,7 +760,7 @@ export default function Generate() {
                         </div>
 
                       </DialogContent>
-                    </Dialog>
+                    </Dialog> */}
 
                     </TableCell>
                   

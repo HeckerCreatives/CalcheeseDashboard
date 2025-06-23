@@ -348,7 +348,7 @@ export default function EditCodeForm(prop: Props) {
                                   </div>
 
 
-                                    <div className=" flex flex-col gap-1">
+                                  <div className=" flex flex-col gap-1">
                                                         <label className="text-xs text-zinc-400">Archine</label>
                                                         <Select value={archive} onValueChange={setArchive} >
                                                         <SelectTrigger className="w-full">
