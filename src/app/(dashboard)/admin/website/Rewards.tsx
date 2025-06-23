@@ -112,8 +112,8 @@ export default function Rewards() {
     
       useEffect(() => {
         setTotalpage(data?.totalpages || 0)
-        setSubtitle(data?.sectionContent.description || '')
-        setSection(data?.sectionContent.section || '')
+        setSubtitle(data?.sectionContent?.description || '')
+        setSection(data?.sectionContent?.section || '')
 
       },[data])
 
@@ -124,12 +124,12 @@ export default function Rewards() {
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
         <h2 className=' text-lg font-bold'>Promo Codes</h2>
 
-        <div className=' flex flex-col gap-2 mt-4'>
+        {/* <div className=' flex flex-col gap-2 mt-4'>
           <p className=' text-xs'>Description</p>
           <Textarea value={subtitle} onChange={(e) => setSubtitle(e.target.value)} placeholder='Description' className=' max-w-[400px]'/>
 
           <Button onClick={editSectionData} className=' w-fit text-xs'>Save</Button>
-        </div>
+        </div> */}
 
         <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className='mt-4 flex items-center justify-center gap-1 text-white w-fit bg-orange-500 px-3 py-1 rounded-sm mt-4'>
