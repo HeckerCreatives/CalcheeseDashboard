@@ -213,6 +213,11 @@ export default function Generate() {
             setSelectedCodes([])
            },[open])
 
+           useEffect(() => {
+            setSelectedCodes([])
+            setSelectedCodeData([])
+           },[data])
+
 
          
 
@@ -664,7 +669,7 @@ export default function Generate() {
                     </TableCell>
                     <TableCell>{item.expiration}</TableCell>
                     <TableCell>{item.type}</TableCell>
-                    <TableCell className={` ${item.isUsed ? 'text-green-500' : 'text-orange-500'}`}>{item.isUsed ? 'Claimed' : 'UnClaimed'}</TableCell>
+                    <TableCell className={` ${item.status === 'claimed' ? 'text-green-500' : 'text-orange-500'}`}>{item.status}</TableCell>
                     <TableCell className=' flex gap-2'>
                      
 

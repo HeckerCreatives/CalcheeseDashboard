@@ -114,6 +114,8 @@ export default function EditSingleCodeForm(prop: Props) {
     const {data} = useGetItemsList(0, 100, selectedType, rarity)
     const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
     const {mutate: updateCodes, isPending} = useUpdateCodes()
+    const [status, setStatus] = useState('')
+    
 
     
     
@@ -124,7 +126,7 @@ export default function EditSingleCodeForm(prop: Props) {
 
   const onSubmit = (data: EditCodes) => {
     console.log(data)
-      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: data.status },{
+      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status },{
           onSuccess: () => {
             toast.success(`Code updated successfully`);
             // setOpen(false)
@@ -146,6 +148,7 @@ export default function EditSingleCodeForm(prop: Props) {
 
     setRarity(prop.codes[0]?.items[0]?.rarity)
     // setRarity(prop.codes[0]?.rarity)
+    setStatus(prop.codes[0]?.status)
     
   },[prop])
 
@@ -156,6 +159,8 @@ export default function EditSingleCodeForm(prop: Props) {
         setOpen(prop.open)
     }, [prop]);
 
+    console.log(prop)
+
 
 
 
@@ -163,14 +168,14 @@ export default function EditSingleCodeForm(prop: Props) {
   return (
     <Dialog open={prop.open} onOpenChange={(val) => {
   if (!val) prop.onClose?.();
-}}>
+}} >
       {/* <DialogTrigger className="cursor-pointer p-3 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm">
         <Pen size={12} />
       </DialogTrigger> */}
-      <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50">
+      <DialogContent className="w-[95%] md:max-w-[500px] bg-yellow-50 shadow-md ">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Edit Ticket <span className="text-orange-500">Code</span>
+            Edit <span className="text-orange-500">Code</span>
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
@@ -332,6 +337,29 @@ export default function EditSingleCodeForm(prop: Props) {
                 <p className="form-error">{errors.expiration.message}</p>
               )}
           </div>
+
+
+           <div className=" flex flex-col gap-1">
+                                                                  <label className="text-xs text-zinc-400">Status</label>
+                                                                  <Select value={status} onValueChange={setStatus} >
+                                                                  <SelectTrigger className="w-full">
+                                                                    <SelectValue placeholder=" Status" className="text-xs" />
+                                                                  </SelectTrigger>
+                                                                  <SelectContent>
+                                                                     <SelectItem  value='claimed' className="text-xs">
+                                                                        Claimed
+                                                                      </SelectItem>
+                                                                       <SelectItem  value='to-claim' className="text-xs">
+                                                                        Unclaimed
+                                                                      </SelectItem>
+                                                                        {/* <SelectItem  value='to-generate' className="text-xs">
+                                                                        To-Generate
+                                                                      </SelectItem> */}
+                                                                   
+                                                                  </SelectContent>
+                                                                </Select> 
+                                            </div>
+                    
 
           
                                        
