@@ -116,7 +116,7 @@ export default function EditSingleCodeForm(prop: Props) {
     const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
     const {mutate: updateCodes, isPending} = useUpdateCodes()
     const [status, setStatus] = useState('')
-    const [archive, setArchive] = useState('true')
+    const [archive, setArchive] = useState('false')
     
     
 
@@ -129,7 +129,7 @@ export default function EditSingleCodeForm(prop: Props) {
 
   const onSubmit = (data: EditCodes) => {
     console.log(data)
-      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status, archive: Boolean(archive) },{
+      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status},{
           onSuccess: () => {
             toast.success(`Code updated successfully`);
             // setOpen(false)
@@ -364,25 +364,6 @@ export default function EditSingleCodeForm(prop: Props) {
                                             </div>
 
 
-                                              <div className=" flex flex-col gap-1">
-                                                                                                    <label className="text-xs text-zinc-400">Archine</label>
-                                                                                                    <Select value={archive} onValueChange={setArchive} >
-                                                                                                    <SelectTrigger className="w-full">
-                                                                                                      <SelectValue placeholder=" Status" className="text-xs" />
-                                                                                                    </SelectTrigger>
-                                                                                                    <SelectContent>
-                                                                                                       <SelectItem  value='true' className="text-xs">
-                                                                                                          Archived
-                                                                                                        </SelectItem>
-                                                                                                         {/* <SelectItem  value='false' className="text-xs">
-                                                                                                          Unarchived
-                                                                                                        </SelectItem> */}
-                                                                                                         
-                                                                                                     
-                                                                                                    </SelectContent>
-                                                                                                  </Select> 
-                                                                              </div>
-                    
 
           
                                        

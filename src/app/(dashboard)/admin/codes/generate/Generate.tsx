@@ -10,9 +10,9 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import { Download, Eye, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
+import { Download, Eye, Folder, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
-import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList } from '@/apis/codes'
+import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList, useUpdateCodes } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
 import PaginitionComponent from '@/components/common/Pagination'
 import {
@@ -60,7 +60,7 @@ export default function Generate() {
     const [editFormOpen, setEditFormOpen] = useState(false);
 
 
-    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search)
+    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search, false)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
@@ -80,6 +80,8 @@ export default function Generate() {
     const [exportOpen, setExportOpen] = useState(false)
     const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
     const {mutate: resetCode, isPending: resetPending} = useResetCode()
+    const {mutate: updateCodes, isPending: archivePending} = useUpdateCodes()
+    
 
 
     const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -228,6 +230,19 @@ export default function Generate() {
             setSelectedCodes([])
             setSelectedCodeData([])
            },[data])
+
+
+           
+                   const archivedCodes = () => {
+                       updateCodes({ids: selectedCodes, type: '', chest: '', items: [], expiration: '', status: '', archive: true },{
+                           onSuccess: () => {
+                               toast.success(`Code restore successfully`);
+                               setOpen(false)
+                               reset()
+                           },
+                           })
+                   }
+           
 
 
          
@@ -516,6 +531,30 @@ export default function Generate() {
         </Dialog>
 
           <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} archive={selectedCodeData[0]?.archived} />
+
+            <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger className='p-[.6rem] bg-orange-500 rounded-sm text-yellow-100 flex items-center gap-2'>
+                      <Folder size={15} /> Archived
+                    </DialogTrigger>
+                    <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
+                      <DialogHeader>
+                        <DialogTitle>Archive Codes</DialogTitle>
+                        <DialogDescription>Are you sure you want to archive the selected codes?</DialogDescription>
+                      </DialogHeader>
+          
+                      <div className='w-full flex items-end justify-end mt-4'>
+                        <Button
+                          disabled={archivePending}
+                          onClick={() => {
+                           archivedCodes()
+                          }}
+                          className='bg-orange-500'
+                        >
+                          Continue
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
 
 
 {/* 
