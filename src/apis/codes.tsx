@@ -43,6 +43,7 @@ export interface Code {
   expiration: string; 
   type: string;
   isUsed: boolean;
+  archived: boolean
   robuxcode: {
       id: string,
       robuxcode: string

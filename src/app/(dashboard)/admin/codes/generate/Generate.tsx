@@ -515,7 +515,7 @@ export default function Generate() {
           </DialogContent>
         </Dialog>
 
-          <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
+          <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} archive={selectedCodeData[0]?.archived} />
 
 
 
@@ -701,16 +701,15 @@ export default function Generate() {
 
                       {editFormOpen && selectedCodeData.length > 0 && (
                         <EditSingleCodeForm
-                          ids={editselectedCodes}
-                          codes={selectedCodeData}
-                          chestid={selectedCodeData[0]?.chest?.chestid}
-                          type={selectedCodeData[0]?.type}
-                          status={selectedCodeData[0]?.status}
-                          length={''}
-                          rarity={selectedCodeData[0]?.items?.[0]?.rarity}
-                          open={editFormOpen}
-                          onClose={() => setEditFormOpen(false)}
-                        />
+                      ids={editselectedCodes}
+                      codes={selectedCodeData}
+                      chestid={selectedCodeData[0]?.chest?.chestid}
+                      type={selectedCodeData[0]?.type}
+                      status={selectedCodeData[0]?.status}
+                      length={''}
+                      rarity={selectedCodeData[0]?.items?.[0]?.rarity}
+                      open={editFormOpen}
+                      onClose={() => setEditFormOpen(false)} archive={selectedCodeData[0]?.archived}/>
                       )}
 
                        <Dialog>

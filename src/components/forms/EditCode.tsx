@@ -57,7 +57,7 @@ export interface Chest {
 export interface CodeData {
   id: string;
   code: string;
-  status: 'to-claim' | 'claimed' | string; 
+  status: 'to-claim' | 'claimed' | string;
   chest: Chest;
   items: Item[];
   expiration: string;
@@ -75,6 +75,7 @@ interface Props {
   status: string,
   length: string
   rarity: string,
+  archive: any
 }
 
 
@@ -104,7 +105,7 @@ export default function EditCodeForm(prop: Props) {
 
     const [open, setOpen] = useState(false)
         const [rarity, setRarity] = useState('')
-    
+
     // const {data} = useGetTicketTypeList()
     const {data: items} = useGetItemsList(0, 100)
     const {data: chest} = useGetChestList()
@@ -112,18 +113,12 @@ export default function EditCodeForm(prop: Props) {
     const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
     const {mutate: updateCodes, isPending} = useUpdateCodes()
     const [status, setStatus] = useState('')
-    
+    const [archive, setArchive] = useState('false')
 
-    
-    
-    
-    
-
- 
 
   const onSubmit = (data: EditCodes) => {
     console.log(data)
-      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status, archive: false },{
+      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status, archive: Boolean(archive) },{
           onSuccess: () => {
             toast.success(`Code updated successfully`);
             setOpen(false)
@@ -145,14 +140,16 @@ export default function EditCodeForm(prop: Props) {
     setRarity(prop.codes[0]?.items[0]?.rarity)
     // setRarity(prop.codes[0]?.rarity)
     setStatus(prop.status)
-    
+    setArchive(prop.archive)
+
   },[prop])
 
      useEffect(() => {
-     
+
         const ids = prop.codes[0]?.items.map(item => item.id);
         setSelectedItemIds(ids);
     }, [prop]);
+
 
 
 
@@ -246,7 +243,7 @@ export default function EditCodeForm(prop: Props) {
                                     <SelectItem  value='exclusive' className="text-xs">Exclusive Items</SelectItem>
                                     <SelectItem  value='robux' className="text-xs">Robux</SelectItem>
                                     <SelectItem  value='ticket' className="text-xs">Tickets</SelectItem>
-                                   
+
                                   </SelectContent>
                                 </Select>
                                 {errors.type && (
@@ -266,11 +263,11 @@ export default function EditCodeForm(prop: Props) {
                             <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
                             <SelectItem  value='epic' className="text-xs">Epic</SelectItem>
                             <SelectItem  value='legendary' className="text-xs">Legendary</SelectItem>
-                        
+
                         </SelectContent>
                         </Select>
                      </div>
-            
+
 
                                {/* <div className=" flex flex-col gap-1 w-full">
                                           <label className="text-xs text-zinc-400">Status</label>
@@ -295,7 +292,7 @@ export default function EditCodeForm(prop: Props) {
                                                 Expired
                                               </SelectItem>
                                           </SelectContent>
-                                        </Select> 
+                                        </Select>
 
                                           {errors.status && (
                                             <p className="form-error">{errors.status.message}</p>
@@ -309,14 +306,14 @@ export default function EditCodeForm(prop: Props) {
                                                     onChange={(ids) => setSelectedItemIds(ids)} selectedIds={selectedItemIds}/>
                                             </div>
 
-        
 
-        
-       
 
-       
 
-       
+
+
+
+
+
            <div className="w-full flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Expiration</label>
             <Input
@@ -345,16 +342,36 @@ export default function EditCodeForm(prop: Props) {
                                                               {/* <SelectItem  value='to-generate' className="text-xs">
                                                               To-Generate
                                                             </SelectItem> */}
-                                                         
+
                                                         </SelectContent>
-                                                      </Select> 
+                                                      </Select>
                                   </div>
-          
 
-          
-                                       
 
-         
+                                    <div className=" flex flex-col gap-1">
+                                                        <label className="text-xs text-zinc-400">Archine</label>
+                                                        <Select value={archive} onValueChange={setArchive} >
+                                                        <SelectTrigger className="w-full">
+                                                          <SelectValue placeholder=" Status" className="text-xs" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                           <SelectItem  value='true' className="text-xs">
+                                                              Archived
+                                                            </SelectItem>
+                                                             <SelectItem  value='false' className="text-xs">
+                                                              Unarchived
+                                                            </SelectItem>
+
+
+                                                        </SelectContent>
+                                                      </Select>
+                                  </div>
+
+
+
+
+
+
           <div className="w-full flex justify-end gap-2">
             <Button disabled={isPending} >
                 {isPending && (

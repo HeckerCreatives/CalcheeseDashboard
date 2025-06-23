@@ -315,7 +315,7 @@ export default function Archived() {
 
           <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
 
-         <Dialog open={open} onOpenChange={setOpen}>
+         <Dialog >
           <DialogTrigger className='p-[.6rem] bg-orange-500 rounded-sm text-yellow-100 flex items-center gap-2'>
             <RefreshCw size={15} /> Restore
           </DialogTrigger>
@@ -351,6 +351,43 @@ export default function Archived() {
             </div>
           </DialogContent>
         </Dialog>
+
+          <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
+                    <Trash size={15} />
+                  </DialogTrigger>
+                  <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
+                    <DialogHeader>
+                      <DialogTitle>Delete Codes</DialogTitle>
+                      <DialogDescription>Are you sure you want to delete the selected codes?</DialogDescription>
+                    </DialogHeader>
+        
+                    <div className='flex flex-col gap-2 text-amber-950 text-sm mt-4 max-h-64 overflow-y-auto'>
+                      
+        
+                      {selectedCodes.map((id) => {
+                        const selectedItem = data?.data.find((item) => item.id === id);
+                        return (
+                          <label key={id} className='flex items-center gap-2'>
+                            {selectedItem?.code || 'Unknown'}
+                          </label>
+                        );
+                      })}
+                    </div>
+        
+                    <div className='w-full flex items-end justify-end mt-4'>
+                      <Button
+                        disabled={deletePending}
+                        onClick={() => {
+                         deleteCodeData()
+                        }}
+                        className='bg-red-600'
+                      >
+                        Continue
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
 
 
          
