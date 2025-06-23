@@ -34,8 +34,10 @@ export const admin = [
      ]},
 
     
-    {name: 'Website', icon: <Globe size={15}/>, 
+   {name: 'Website', icon: <Globe size={15}/>, 
     path:'/admin/website', subpath:[]},
-    {name: 'Settings', icon: <Settings size={15}/>, 
-    path:'/admin/settings', subpath:[]},
+   {name: 'Archived', icon: <List size={15}/>, 
+    path:'/admin/archive', subpath:[]},
+   {name: 'Settings', icon: <Settings size={15}/>, 
+   path:'/admin/settings', subpath:[]},
 ]

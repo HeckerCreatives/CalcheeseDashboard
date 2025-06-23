@@ -91,21 +91,21 @@ export const useGetChests = () => {
   };
 
 
-export const getCodesList = async (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string):Promise<CodeResponse> => { 
+export const getCodesList = async (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string, archive?: boolean):Promise<CodeResponse> => { 
     const response = await axiosInstance.get(
       "/code/getcodes",
-      {params:{page, limit, type, rarity,item, status, search}}
+      {params:{page, limit, type, rarity,item, status, search, archive}}
     );
     return response.data
   };
   
   
-export const useGetCodesList = (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string) => {
+export const useGetCodesList = (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string, archive?: boolean) => {
 
   const debouncedQuery = useDebounce(search, 500);
     return useQuery({
-      queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery ],
-      queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery),
+      queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery, archive ],
+      queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery, archive),
       enabled: debouncedQuery !== undefined,
       staleTime: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
       refetchOnMount: false,
@@ -117,9 +117,9 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
 export const generateCodeslist = async (chest: string, expiration: string,codeamount: number, type: string, items: string[],socketid: string, length: any, rarity: string) => { 
     const response = await axiosInstance.post("/code/generatecode", { chest, expiration, codeamount, type, items, socketid, length, rarity});
     return response.data;
-  };
+};
   
-  export const useGenerateCodeslist = () => {
+export const useGenerateCodeslist = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -134,7 +134,7 @@ export const generateCodeslist = async (chest: string, expiration: string,codeam
           }
     
     });
-  };
+};
 
 
   
@@ -227,8 +227,8 @@ export const useDeleteCodes = () => {
   };
 
 
-  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string) => { 
-    const response = await axiosInstance.post("/code/editmultiplecodes", { ids, type,chest, items, expiration, status});
+  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive: boolean) => { 
+    const response = await axiosInstance.post("/code/editmultiplecodes", { ids, type,chest, items, expiration, status, archive});
     return response.data;
   };
   
@@ -236,8 +236,8 @@ export const useUpdateCodes = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ ids, type, chest, items, expiration, status } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string}) =>
-        updateCodes( ids, type, chest, items, expiration, status),
+      mutationFn: ({ ids, type, chest, items, expiration, status, archive } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive: boolean}) =>
+        updateCodes( ids, type, chest, items, expiration, status, archive),
         onError: (error) => {
             handleApiError(error);
         },

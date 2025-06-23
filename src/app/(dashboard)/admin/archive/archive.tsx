@@ -10,9 +10,9 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import { Download, Eye, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
+import { Download, Eye, Pen, RefreshCcw, RefreshCw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
-import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList } from '@/apis/codes'
+import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList, useUpdateCodes } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
 import PaginitionComponent from '@/components/common/Pagination'
 import {
@@ -47,7 +47,7 @@ import { useResetCode } from '@/apis/redeemcode'
   
   
   
-export default function Generate() {
+export default function Archived() {
     const [currentPage, setCurrentpage] = useState(0)
     const [pagination, setPagination] = useState('10')
     const [totalpage, setTotalpage] = useState(0)
@@ -60,8 +60,7 @@ export default function Generate() {
     const [editFormOpen, setEditFormOpen] = useState(false);
 
 
-    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search)
-    const {mutate: exportCodeslist, isPending} = useExportCodeslist()
+    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search, true)
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
@@ -80,6 +79,8 @@ export default function Generate() {
     const [exportOpen, setExportOpen] = useState(false)
     const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
     const {mutate: resetCode, isPending: resetPending} = useResetCode()
+    const {mutate: updateCodes, isPending} = useUpdateCodes()
+    
 
 
     const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,22 +125,12 @@ export default function Generate() {
 
         })
 
-      //   newSocket.on('export-complete', (data) => {
-      //    if (data.file !== undefined) setExportFile(data.file)
-      //  })
-
     
         return () => {
           newSocket.disconnect()
         }
       }, [])
 
-    
-
-    
-
-      
-      
           
          //paginition
          const handlePageChange = (page: number) => {
@@ -160,37 +151,6 @@ export default function Generate() {
         }
 
        
-
-          const exportCsv = () => {
-
-             if (!socket) {
-                toast.error('Socket not connected')
-                return
-              }
-               const mutation = new Promise<void>((resolve, reject) => {
-                 exportCodeslist({type: '', start: parseFormattedNumber(start) ,end: parseFormattedNumber(end), socketid: socket.id},{
-                  onSuccess: () => {
-                    toast.success(`Exporting codes...`);
-                    setExportOpen(false)
-                    reset()
-                    resolve()
-                  },
-                  onError: () => {
-                    reject()
-                  }
-                })
-
-               })
-             
-
-                //  toast.promise(mutation, {
-                //     loading: `Exporting codes...`,
-                //     success: 'Codes exported successfully!',
-                //     error: 'Failed to export codes',
-                //   })
-            }
-
-
           const deleteCodeData = () => {
              deleteCodes(
                     { ids: selectedCodes },
@@ -205,24 +165,25 @@ export default function Generate() {
               );
            }
 
-            const resetCodeData = (id: string) => {
-             resetCode(
-                    { id: id },
-                    {
-                      onSuccess: () => {
-                        toast.success('Code reset successfully!');
-                       
-                      },
-                    }
-              );
-           }
+
+        const restoreCodes = () => {
+            updateCodes({ids: selectedCodes, type: '', chest: '', items: [], expiration: '', status: '', archive: false },{
+                onSuccess: () => {
+                    toast.success(`Code restore successfully`);
+                    setOpen(false)
+                    reset()
+                },
+                })
+        }
 
 
+         
 
            useEffect(() =>{
             setCurrentpage(0)
            },[search])
 
+        
 
            useEffect(() => {
             setSelectedCodes([])
@@ -236,27 +197,7 @@ export default function Generate() {
 
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-4'>
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-             <DashboardCard title="Total Codes" value={codes?.data.totalcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-            <DashboardCard title="Total Claimed Codes" value={codes?.data.totalusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-            <DashboardCard title="Total Unclaimed Codes" value={codes?.data.totalunusedcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-            <DashboardCard title="Total Expired Codes" value={codes?.data.totalexpiredcodes ?? 0} bgColor="bg-orange-500" textColor="text-white" isLoading={isLoading} />
-            </div>
-        <div className=' flex items-end gap-4 mt-8'>
-          
-          {/* <GenerateCodesForm/> */}
-
-           <GenerateCodesForm
-              progress={codeGenProgress}
-              status={codeGenStatus}
-              setProgress={setCodeGenProgress}
-              setStatus={setCodeGenStatus}
-            />
-
-        </div>
-
-        
-
+   
           <div className=' flex items-end flex-wrap gap-4'>
 
            
@@ -346,42 +287,6 @@ export default function Generate() {
            
             </div>
 
-          {/* <div className=" flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Type</label>
-            <Select value={type} onValueChange={setType} >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder=" Type" className="text-xs" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem  value='robux' className="text-xs">
-                  Robux
-                </SelectItem>
-                  <SelectItem  value='ticket' className="text-xs">
-                  Ticket
-                </SelectItem>
-                 <SelectItem  value='ingame' className="text-xs">
-                  In Game
-                </SelectItem>
-            </SelectContent>
-          </Select> 
-          </div>
-
-           <div className=" flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Items</label>
-            <Select value={itemfilter} onValueChange={setItemFilter} >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder=" Items" className="text-xs" />
-            </SelectTrigger>
-            <SelectContent>
-              {items?.data.map((item, index) => (
-                 <SelectItem key={index} value={item.id} className="text-xs">
-                  {item.itemname}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> 
-          </div> */}
-
            <div className=" flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Status</label>
             <Select value={status} onValueChange={setStatus} >
@@ -408,127 +313,18 @@ export default function Generate() {
           </Select> 
           </div>
 
-          {/* <div className=" flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Chest</label>
-            <Select value={chestfilter} onValueChange={setChestFilter} >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder=" Chest" className="text-xs" />
-            </SelectTrigger>
-            <SelectContent>
-              {chests?.data.map((item, index) => (
-                <SelectItem key={index} value={item.id} className="text-xs">
-                  {item.chestname}
-                </SelectItem>
-              ))}
-               
-             
-            </SelectContent>
-          </Select> 
-          </div> */}
-
-
           <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
 
-          {/* <Dialog>
-            <DialogTrigger className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={19}/></DialogTrigger>
-            <DialogContent className=' bg-yellow-50'>
-              <DialogHeader>
-                <DialogTitle>Delete Codes</DialogTitle>
-                <DialogDescription>
-                  
-                </DialogDescription>
-              </DialogHeader>
-              <div className=' flex flex-col gap-2 text-amber-950'>
-                <div className="w-full flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400">Type</label>
-                  <Select >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder=" Type" className="text-xs" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem  value='robux' className="text-xs">
-                          Robux
-                        </SelectItem>
-                          <SelectItem  value='ticket' className="text-xs">
-                          Ticket
-                        </SelectItem>
-                         <SelectItem  value='ingame' className="text-xs">
-                          In Game
-                        </SelectItem>
-                    </SelectContent>
-                  </Select>
-                                   
-                </div>
-
-                <div className="w-full flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400">No. of code to delete</label>
-                  <Input
-                    placeholder="Quantity"
-                    type="number"
-                  />
-                                   
-                </div>
-
-                <div className="w-full flex justify-end gap-2">
-              
-                  <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
-                    Cancel
-                  </button>
-                </div>
-               
-              </div>
-
-              
-            </DialogContent>
-          </Dialog> */}
-
-         
-
-          <Dialog open={exportOpen} onOpenChange={setExportOpen}>
-          <DialogTrigger className='p-[.6rem] bg-orange-500 flex items-center gap-2 rounded-sm text-yellow-100'>
-               <Download size={15}/> Csv
-          </DialogTrigger>
-          <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
-            <DialogHeader>
-              <DialogTitle>Export Codes</DialogTitle>
-              {/* <DialogDescription>Are you sure you want to delete the selected codes?</DialogDescription> */}
-            </DialogHeader>
-
-            <div className='flex flex-col gap-2 text-amber-950 text-sm mt-4 max-h-64 overflow-y-auto px-2'>
-              <label htmlFor="">Start</label>
-              <Input value={start} onChange={handleStartInputChange} placeholder='Start' type='text'/>
-
-              <label htmlFor="">End</label>
-              <Input value={end} onChange={handleEndInputChange} placeholder='Start' type='text'/>
-
-            </div>
-
-             
-
-            <div className='w-full flex items-end justify-end mt-4'>
-            
-
-              <Button disabled={isPending}  onClick={exportCsv} className=' flex items-center p-2'>
-                {isPending && <Loader type={'loader'} />}
-              <Download size={15}/> Export</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-          <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
-
-
-
          <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
-            <Trash size={15} />
+          <DialogTrigger className='p-[.6rem] bg-orange-500 rounded-sm text-yellow-100 flex items-center gap-2'>
+            <RefreshCw size={15} /> Restore
           </DialogTrigger>
           <DialogContent className='bg-yellow-50 p-6 min-w-sm'>
             <DialogHeader>
-              <DialogTitle>Delete Codes</DialogTitle>
-              <DialogDescription>Are you sure you want to delete the selected codes?</DialogDescription>
+              <DialogTitle>Restore Codes</DialogTitle>
+              <DialogDescription>Are you sure you want to restore the selected codes?</DialogDescription>
             </DialogHeader>
-
+            { /* 
             <div className='flex flex-col gap-2 text-amber-950 text-sm mt-4 max-h-64 overflow-y-auto'>
               
 
@@ -540,15 +336,15 @@ export default function Generate() {
                   </label>
                 );
               })}
-            </div>
+            </div> */}
 
             <div className='w-full flex items-end justify-end mt-4'>
               <Button
-                disabled={deletePending}
+                disabled={isPending}
                 onClick={() => {
-                 deleteCodeData()
+                 restoreCodes()
                 }}
-                className='bg-red-600'
+                className='bg-orange-500'
               >
                 Continue
               </Button>
@@ -683,58 +479,10 @@ export default function Generate() {
                     <TableCell>{item.type}</TableCell>
                     <TableCell className={` ${item.status === 'claimed' ? 'text-green-500' : 'text-orange-500'}`}>{item.status}</TableCell>
                     <TableCell className=' flex gap-2'>
-                     
 
-                       <CodeDetailsDialog code={item.code} type={item.type} items={item.items} expiration={item.expiration} isUsed={item.isUsed} status={item.status}/>
+                    <CodeDetailsDialog code={item.code} type={item.type} items={item.items} expiration={item.expiration} isUsed={item.isUsed} status={item.status}/>
 
-
-                    <button
-                        className="p-2 bg-blue-500 rounded-sm text-white text-xs"
-                        onClick={() => {
-                          setEditSelectedCodes([item.id]);
-                          setSelectedCodeData([item]);
-                          setEditFormOpen(true);
-                        }}
-                      >
-                        <Pen size={15} />
-                      </button>
-
-                      {editFormOpen && selectedCodeData.length > 0 && (
-                        <EditSingleCodeForm
-                          ids={editselectedCodes}
-                          codes={selectedCodeData}
-                          chestid={selectedCodeData[0]?.chest?.chestid}
-                          type={selectedCodeData[0]?.type}
-                          status={selectedCodeData[0]?.status}
-                          length={''}
-                          rarity={selectedCodeData[0]?.items?.[0]?.rarity}
-                          open={editFormOpen}
-                          onClose={() => setEditFormOpen(false)}
-                        />
-                      )}
-
-                       <Dialog>
-                      <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-orange-500 rounded-sm text-yellow-100'><RefreshCcw size={15}/></DialogTrigger>
-                      <DialogContent className=' bg-yellow-50 p-8 max-w-[400px] w-full'>
-                        <DialogHeader>
-                          <DialogTitle>Reset Code</DialogTitle>
-                          <DialogDescription>
-                            Are you sure you want to reset this codes?
-                          </DialogDescription>
-                        </DialogHeader>
-
-                        
-
-                        <div className=' w-full flex items-end justify-end mt-6'>
-                          <Button disabled={resetPending} onClick={() => resetCodeData(item.id)} className=' bg-orange-500 flex items-center justify-center gap-2 '>
-                            
-                          {deletePending &&  <Loader type={'loader-secondary'}/>}Continue</Button>
-                        </div>
-
-                      </DialogContent>
-                    </Dialog>
-
-                     <Dialog>
+                     {/* <Dialog>
                       <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>
                       <DialogContent className=' bg-yellow-50 p-8'>
                         <DialogHeader>
@@ -761,7 +509,7 @@ export default function Generate() {
                         </div>
 
                       </DialogContent>
-                    </Dialog>
+                    </Dialog> */}
 
                     </TableCell>
                   
