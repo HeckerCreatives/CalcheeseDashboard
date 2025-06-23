@@ -227,7 +227,7 @@ export const useDeleteCodes = () => {
   };
 
 
-  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive: boolean) => { 
+  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive?: boolean) => { 
     const response = await axiosInstance.post("/code/editmultiplecodes", { ids, type,chest, items, expiration, status, archive});
     return response.data;
   };
@@ -236,7 +236,7 @@ export const useUpdateCodes = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ ids, type, chest, items, expiration, status, archive } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive: boolean}) =>
+      mutationFn: ({ ids, type, chest, items, expiration, status, archive } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive?: boolean}) =>
         updateCodes( ids, type, chest, items, expiration, status, archive),
         onError: (error) => {
             handleApiError(error);

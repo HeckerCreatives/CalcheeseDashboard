@@ -126,7 +126,7 @@ export default function EditSingleCodeForm(prop: Props) {
 
   const onSubmit = (data: EditCodes) => {
     console.log(data)
-      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status },{
+      updateCodes({ids: prop.ids, type: data.type, chest: '', items: selectedItemIds, expiration: data.expiration, status: status, archive: false },{
           onSuccess: () => {
             toast.success(`Code updated successfully`);
             // setOpen(false)
