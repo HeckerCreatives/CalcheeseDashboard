@@ -375,7 +375,7 @@ export default function Archived() {
                       })}
                     </div>
         
-                    <div className='w-full flex items-end justify-end mt-4'>
+                    <div className='w-full flex items-end justify-end mt-4 gap-4'>
                       <Button
                         disabled={deletePending}
                         onClick={() => {
@@ -383,7 +383,17 @@ export default function Archived() {
                         }}
                         className='bg-red-600'
                       >
-                        Continue
+                        Yes
+                      </Button>
+
+                       <Button
+                        // disabled={deletePending}
+                        onClick={() => {
+                         setOpen(false)
+                        }}
+                        className='bg-orange-50 text-black'
+                      >
+                        No
                       </Button>
                     </div>
                   </DialogContent>
