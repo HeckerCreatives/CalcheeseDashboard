@@ -41,6 +41,7 @@ import EditSingleCodeForm from '@/components/forms/EditSingleCode'
 import { io } from 'socket.io-client'
 import useIsDownloadedStore from '@/hooks/downloadfile'
 import CodeDetailsDialog from '@/components/common/Code-Details'
+import { useResetCode } from '@/apis/redeemcode'
 
 
   
@@ -78,6 +79,7 @@ export default function Generate() {
     const [exportfile, setExportFile] = useState('')
     const [exportOpen, setExportOpen] = useState(false)
     const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
+    const {mutate: resetCode, isPending: resetPending} = useResetCode()
 
 
     const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,6 +200,18 @@ export default function Generate() {
                         setOpen(false);
                         setOpen(false)
                         setSelectedCodes([]);
+                      },
+                    }
+              );
+           }
+
+            const resetCodeData = (id: string) => {
+             resetCode(
+                    { id: id },
+                    {
+                      onSuccess: () => {
+                        toast.success('Code reset successfully!');
+                       
                       },
                     }
               );
@@ -507,6 +521,7 @@ export default function Generate() {
           <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} />
 
 
+
          <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className='p-[.6rem] bg-red-600 rounded-sm text-yellow-100'>
             <Trash size={15} />
@@ -701,11 +716,32 @@ export default function Generate() {
                         />
                       )}
 
+                       <Dialog>
+                      <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-orange-500 rounded-sm text-yellow-100'><RefreshCcw size={15}/></DialogTrigger>
+                      <DialogContent className=' bg-yellow-50 p-8 max-w-[400px] w-full'>
+                        <DialogHeader>
+                          <DialogTitle>Reset Code</DialogTitle>
+                          <DialogDescription>
+                            Are you sure you want to reset this codes?
+                          </DialogDescription>
+                        </DialogHeader>
+
+                        
+
+                        <div className=' w-full flex items-end justify-end mt-6'>
+                          <Button disabled={resetPending} onClick={() => resetCodeData(item.id)} className=' bg-orange-500 flex items-center justify-center gap-2 '>
+                            
+                          {deletePending &&  <Loader type={'loader-secondary'}/>}Continue</Button>
+                        </div>
+
+                      </DialogContent>
+                    </Dialog>
+
                      <Dialog>
                       <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>
                       <DialogContent className=' bg-yellow-50 p-8'>
                         <DialogHeader>
-                          <DialogTitle>Are you sure you want to delete this codes?</DialogTitle>
+                          <DialogTitle>Are you sure you want to delete this code?</DialogTitle>
                           <DialogDescription>
                             
                           </DialogDescription>

@@ -62,7 +62,7 @@ export const checkCode = async (code: string): Promise<RewardData> => {
   };
 
 
-  export const redeemCode = async (code: string, email: string, name: string, picture: File | null, guardian: string, contact: number, address: string) => { 
+  export const redeemCode = async (code: string, email: string, robloxid: string, picture: File | null, guardian: string, contact: number, address: string) => { 
     const response = await axiosInstanceFormData.post("/code/redeemcode",{code, email, name, picture, guardian, contact,address});
     return response.data;
   };
@@ -71,8 +71,8 @@ export const checkCode = async (code: string): Promise<RewardData> => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ code, email, name, picture, guardian, contact,address}: {code: string, email: string, name: string, picture: File | null, guardian: string, contact: number, address: string}) =>
-        redeemCode(code, email, name, picture, guardian, contact,address),
+      mutationFn: ({ code, email, robloxid, picture, guardian, contact,address}: {code: string, email: string, robloxid: string, picture: File | null, guardian: string, contact: number, address: string}) =>
+        redeemCode(code, email, robloxid, picture, guardian, contact,address),
         onError: (error) => {
             handleApiError(error);
         },
@@ -84,6 +84,32 @@ export const checkCode = async (code: string): Promise<RewardData> => {
     
     });
   };
+
+
+    export const resetCode = async (id: string) => { 
+    const response = await axiosInstance.post("/code/resetcode",{id});
+    return response.data;
+  };
+  
+  export const useResetCode = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({id}:{ id: string}) =>
+        resetCode(id),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            // queryClient.invalidateQueries({ queryKey: [""] });
+             queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
+             queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+
+          }
+    
+    });
+  };
+
 
 
 
