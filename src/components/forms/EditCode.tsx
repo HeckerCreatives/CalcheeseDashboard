@@ -358,9 +358,9 @@ export default function EditCodeForm(prop: Props) {
                                                            <SelectItem  value='true' className="text-xs">
                                                               Archived
                                                             </SelectItem>
-                                                             <SelectItem  value='false' className="text-xs">
+                                                             {/* <SelectItem  value='false' className="text-xs">
                                                               Unarchived
-                                                            </SelectItem>
+                                                            </SelectItem> */}
 
 
                                                         </SelectContent>
