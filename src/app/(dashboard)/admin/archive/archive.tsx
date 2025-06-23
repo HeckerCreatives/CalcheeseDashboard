@@ -519,7 +519,7 @@ export default function Archived() {
 
                     <CodeDetailsDialog code={item.code} type={item.type} items={item.items} expiration={item.expiration} isUsed={item.isUsed} status={item.status}/>
 
-                     {/* <Dialog>
+                     <Dialog>
                       <DialogTrigger onClick={() => selectedCodes.push(item.id)} className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={15}/></DialogTrigger>
                       <DialogContent className=' bg-yellow-50 p-8'>
                         <DialogHeader>
@@ -546,7 +546,7 @@ export default function Archived() {
                         </div>
 
                       </DialogContent>
-                    </Dialog> */}
+                    </Dialog>
 
                     </TableCell>
                   
