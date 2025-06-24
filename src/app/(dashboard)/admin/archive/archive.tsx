@@ -172,6 +172,7 @@ export default function Archived() {
                     toast.success(`Code restore successfully`);
                     setOpen(false)
                     reset()
+                    setEditFormOpen(false)
                 },
                 })
         }
@@ -315,7 +316,7 @@ export default function Archived() {
 
           <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
 
-         <Dialog >
+         <Dialog open={editFormOpen} onOpenChange={setEditFormOpen}>
           <DialogTrigger className='p-[.6rem] bg-orange-500 rounded-sm text-yellow-100 flex items-center gap-2'>
             <RefreshCw size={15} /> Restore
           </DialogTrigger>

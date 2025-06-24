@@ -92,7 +92,7 @@ export default function Rewards() {
 
                 <>
                  <TextRevealOnView
-                  text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, deserunt sit voluptas voluptatum consectetur officiis suscipit laudantium eos dolores excepturi commodi neque aspernatur illo, adipisci, natus fugit possimus. Dolorem, ut."
+                  text={data?.titledata?.description || ''}
                   className="text-center text-xs md:text-sm mt-6 font-semibold w-[90%] font-brevia"
                   delay={.6}
                 />

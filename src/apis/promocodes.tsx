@@ -15,6 +15,11 @@ export interface NewTabResponse {
       description: string,
        
     }
+     titledata: {
+        id: string,
+        title: string
+        description: string
+    }
   }
   
   export interface Newtab {
