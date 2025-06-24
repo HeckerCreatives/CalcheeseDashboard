@@ -1,4 +1,4 @@
-import { Box, Boxes, ChartPie, Gamepad, Gamepad2, Globe, List, Scan, Settings, Star, Stars, Ticket, TicketCheck, TicketCheckIcon, Users, Wallet } from "lucide-react";
+import { Box, Boxes, ChartPie, Cog, Gamepad, Gamepad2, Globe, List, Scan, Settings, Star, Stars, Ticket, TicketCheck, TicketCheckIcon, Users, Wallet } from "lucide-react";
 
 export const admin = [
     {name: 'Dashboard', icon: <ChartPie size={15}/>, 
@@ -38,6 +38,8 @@ export const admin = [
     path:'/admin/website', subpath:[]},
    {name: 'Archived', icon: <List size={15}/>, 
     path:'/admin/archive', subpath:[]},
+     {name: 'Maintenance', icon: <Cog size={15}/>, 
+    path:'/admin/maintenance', subpath:[]},
    {name: 'Settings', icon: <Settings size={15}/>, 
    path:'/admin/settings', subpath:[]},
 ]
