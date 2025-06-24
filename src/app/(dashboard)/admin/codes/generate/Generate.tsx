@@ -503,7 +503,7 @@ export default function Generate() {
 
          
 
-          {/* <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+          <Dialog open={exportOpen} onOpenChange={setExportOpen}>
           <DialogTrigger className='p-[.6rem] bg-orange-500 flex items-center gap-2 rounded-sm text-yellow-100'>
                <Download size={15}/> Csv
           </DialogTrigger>
@@ -531,7 +531,7 @@ export default function Generate() {
               <Download size={15}/> Export</Button>
             </div>
           </DialogContent>
-        </Dialog> */}
+        </Dialog>
 
           <EditCodeForm ids={selectedCodes} codes={selectedCodeData} chestid={selectedCodeData[0]?.chest?.chestid} type={selectedCodeData[0]?.type} status={selectedCodeData[0]?.status} length={''} rarity={selectedCodeData[0]?.items?.rarity} archive={selectedCodeData[0]?.archived} />
 
