@@ -206,7 +206,7 @@ export default function CreateItemsForm() {
             )}
           </div>
 
-          {/* {selectedType === 'ticket' && (
+          {selectedType === 'ticket' && (
              <div className="flex items-center gap-4">
               <div className="w-full flex flex-col gap-1">
                 <label className="text-xs text-zinc-400">Ticket Code</label>
@@ -222,7 +222,7 @@ export default function CreateItemsForm() {
               </div>
             
             </div>
-          )} */}
+          )}
 
           <div className="flex items-center gap-4">
             <div className="w-full flex flex-col gap-1">

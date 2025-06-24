@@ -70,7 +70,7 @@ export default function History() {
                   <TableHead className="">Code</TableHead>
                   <TableHead className="">Rarity</TableHead>
                   <TableHead className="">Item</TableHead>
-                  <TableHead className="">Username</TableHead>
+                  <TableHead className="">Roblox Id</TableHead>
                   <TableHead className="">Email</TableHead>
                 
                   <TableHead className=" ">Claim Status</TableHead>

@@ -7,7 +7,6 @@ export default function page() {
   return (
     <Adminlayout>
         <List/>
-        <History/>
     </Adminlayout>
   )
 }

@@ -158,7 +158,7 @@ export default function GenerateCodesForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="cursor-pointer px-4 py-2 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm">
+      <DialogTrigger disabled className="cursor-pointer px-4 py-2 text-xs bg-orange-500 text-white flex items-center gap-1 rounded-sm">
         <Scan size={15} />
         Generate
       </DialogTrigger>

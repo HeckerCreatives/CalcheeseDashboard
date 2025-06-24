@@ -208,7 +208,7 @@ export default function List() {
 
             <TableHead className="">Item Name</TableHead>
             {tab === 'ticket' && 
-            <TableHead className="">Item Code</TableHead>
+            <TableHead className="">Code</TableHead>
             }
             <TableHead className="">Category</TableHead>
             <TableHead className="">Rarity</TableHead>
@@ -233,7 +233,7 @@ export default function List() {
                 </TableCell>
                 <TableCell>{item.itemname}</TableCell>
                 {tab === 'ticket' && 
-                  <TableCell className="">Item Code</TableCell>
+                  <TableCell className="">Code</TableCell>
                 }
                 <TableCell>{item.category}</TableCell>
                 <TableCell>{item.rarity}</TableCell>

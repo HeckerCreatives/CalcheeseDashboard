@@ -74,7 +74,7 @@ export default function List() {
 
   return (
     <div className=' w-full flex flex-col text-sm bg-yellow-50 border-[1px] border-zinc-100 rounded-md p-8'>
-        <p className=' text-lg font-semibold text-orange-500'>Ticket Code Lists</p>
+        <p className=' text-lg font-semibold text-orange-500'>Ticket Code Claiming Lists</p>
         <div className=' flex flex-wrap items-end gap-4 mt-4'>
 
             <div className=' relative w-fit flex items-center justify-center'>
@@ -140,7 +140,7 @@ export default function List() {
         </div>
 
          <div className=' flex items-center gap-4 mt-6 text-xs'>
-          <p>Total Number of Redeemed Codes: {data?.totalDocs.toLocaleString()}</p>
+          <p>Total Number of Claimed Codes: {data?.totalDocs.toLocaleString()}</p>
         </div>
        
        <Table className=' text-sm mt-8'>
@@ -157,7 +157,7 @@ export default function List() {
                   <TableHead className=""> Code</TableHead>
                   <TableHead className="">Rarity</TableHead>
                   <TableHead className="">Item</TableHead>
-                  <TableHead className="">Username</TableHead>
+                  <TableHead className="">Roblox Id</TableHead>
                   <TableHead className="">Email</TableHead>
                 
                   <TableHead className=" ">Claim Status</TableHead>
