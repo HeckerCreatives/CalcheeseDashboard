@@ -162,7 +162,14 @@ export default function EditSingleCodeForm(prop: Props) {
         setOpen(prop.open)
     }, [prop]);
 
-    console.log(prop)
+
+    useEffect(() => {
+      if(selectedType !== prop.type){
+      setSelectedItemIds([])
+
+      }
+    },[selectedType])
+
 
 
 
@@ -184,67 +191,7 @@ export default function EditSingleCodeForm(prop: Props) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 mt-4">
-           {/* <div className="w-full flex flex-col gap-1">
-              <label className="text-xs text-zinc-400">Chest</label>
-              <Select defaultValue={prop.codes[0]?.chest?.id} onValueChange={(val) => setValue('chesttype', val)}>
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Chest" className="text-xs" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {chest?.data.map((item) => (
-                                <SelectItem key={item.id} value={item.id} className="text-xs">
-                                  {item.chestname}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          {errors.chesttype && (
-                            <p className="form-error">{errors.chesttype.message}</p>
-                          )}
-            </div>
-
-             <div className="w-full flex flex-col gap-1">
-                                <label className="text-xs text-zinc-400">Type</label>
-                                <Select defaultValue={prop.type} onValueChange={(val) => setValue('type', val)}>
-                                  <SelectTrigger className="w-full">
-                                    <SelectValue placeholder=" Type" className="text-xs" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                      <SelectItem  value='robux' className="text-xs">
-                                        Robux
-                                      </SelectItem>
-                                        <SelectItem  value='ticket' className="text-xs">
-                                        Ticket
-                                      </SelectItem>
-                                       <SelectItem  value='ingame' className="text-xs">
-                                        In Game
-                                      </SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                {errors.type && (
-                                  <p className="form-error">{errors.type.message}</p>
-                                )}
-                              </div> */}
-
-                              {/* <div className="w-full flex flex-col gap-1">
-                                          <label className="text-xs text-zinc-400">No. of Characters</label>
-                                          <Select onValueChange={(val) => setValue('length', val)}>
-                                            <SelectTrigger className="w-full">
-                                              <SelectValue placeholder="Select" className="text-xs" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value={'7'} className="text-xs">7</SelectItem>
-                                                <SelectItem value={'8'} className="text-xs">8</SelectItem>
-                                                <SelectItem value={'9'} className="text-xs">9</SelectItem>
-                                                <SelectItem value={'10'} className="text-xs">10</SelectItem>
-                                                <SelectItem value={'11'} className="text-xs">11</SelectItem>
-                                                <SelectItem value={'12'} className="text-xs">12</SelectItem>
-                                            </SelectContent>
-                                          </Select>
-                                          {errors.length && (
-                                            <p className="form-error">{errors.length.message}</p>
-                                          )}
-                                        </div> */}
+          
 
             <div className="w-full flex flex-col gap-1">
                                 <label className="text-xs text-zinc-400">Reward Type</label>
@@ -284,35 +231,6 @@ export default function EditSingleCodeForm(prop: Props) {
                      </div>
             
 
-                               {/* <div className=" flex flex-col gap-1 w-full">
-                                          <label className="text-xs text-zinc-400">Status</label>
-                                          <Select defaultValue={prop.status} onValueChange={(val) => setValue('status', val)} >
-                                          <SelectTrigger className="w-full">
-                                            <SelectValue placeholder=" Status" className="text-xs" />
-                                          </SelectTrigger>
-                                          <SelectContent>
-                                             <SelectItem  value='claimed' className="text-xs">
-                                                Claimed
-                                              </SelectItem>
-                                               <SelectItem  value='to-claim' className="text-xs">
-                                                Unclaimed
-                                              </SelectItem>
-                                                <SelectItem  value='approved' className="text-xs">
-                                                Approved
-                                              </SelectItem>
-                                               <SelectItem  value='rejected' className="text-xs">
-                                                Rejected
-                                              </SelectItem>
-                                              <SelectItem  value='expired' className="text-xs">
-                                                Expired
-                                              </SelectItem>
-                                          </SelectContent>
-                                        </Select> 
-
-                                          {errors.status && (
-                                            <p className="form-error">{errors.status.message}</p>
-                                            )}
-                                        </div> */}
 
                                             <div className="w-full flex flex-col gap-1">
                                                 <label className="text-xs text-zinc-400">Items</label>
@@ -370,13 +288,13 @@ export default function EditSingleCodeForm(prop: Props) {
 
          
           <div className="w-full flex justify-end gap-2">
-            <Button disabled={isPending} >
+            <Button disabled={isPending} className=' cursor-pointer' >
                 {isPending && (
                     <Loader type={'loader'}/>
                 )}
               Save
             </Button>
-            <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
+            <button onClick={() => prop.onClose?.() } type="button" className="ghost-btn cursor-pointer">
               Cancel
             </button>
           </div>
