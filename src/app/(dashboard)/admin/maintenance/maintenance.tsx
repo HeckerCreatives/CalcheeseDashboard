@@ -162,7 +162,7 @@ export default function MaintenanceCard() {
           </div>
           <div className="flex items-center gap-4 mt-4">
             <div className="text-sm text-muted-foreground">
-              {activeCount} of {totalCount} tasks enabled
+              {activeCount} of {totalCount} tasks disabled
             </div>
             <div className="flex-1 bg-secondary rounded-full h-2">
               <div
