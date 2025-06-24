@@ -228,8 +228,8 @@ export const useDeleteCodes = () => {
   };
 
 
-  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive?: boolean) => { 
-    const response = await axiosInstance.post("/code/editmultiplecodes", { ids, type,chest, items, expiration, status, archive});
+  export const updateCodes = async (ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive?: boolean, rarity?: string) => { 
+    const response = await axiosInstance.post("/code/editmultiplecodes", { ids, type,chest, items, expiration, status, archive, rarity});
     return response.data;
   };
   
@@ -237,8 +237,8 @@ export const useUpdateCodes = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ ids, type, chest, items, expiration, status, archive } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive?: boolean}) =>
-        updateCodes( ids, type, chest, items, expiration, status, archive),
+      mutationFn: ({ ids, type, chest, items, expiration, status, archive, rarity } : {ids: string[], type:string, chest:string, items: string[], expiration: string, status: string, archive?: boolean, rarity?: string}) =>
+        updateCodes( ids, type, chest, items, expiration, status, archive, rarity),
         onError: (error) => {
             handleApiError(error);
         },
