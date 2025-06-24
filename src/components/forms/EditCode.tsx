@@ -150,6 +150,13 @@ export default function EditCodeForm(prop: Props) {
         setSelectedItemIds(ids);
     }, [prop]);
 
+      useEffect(() => {
+          if(selectedType !== prop.type){
+          setSelectedItemIds([])
+    
+          }
+        },[selectedType])
+
 
 
 
