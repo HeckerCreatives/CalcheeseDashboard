@@ -24,9 +24,9 @@ export default function DashboardCard( prop: CardProps) {
         <div className=' flex flex-col gap-2'>
             <h3 className="font-medium text-sm mb-2 font-bitbold">{prop.title}</h3>
             {prop.isLoading ? (
-            <p className="text-4xl font-bold">---</p>
+            <p className="text-3xl font-bold">---</p>
             ) : (
-            <p className="text-4xl font-bold">{prop.value.toLocaleString()}</p>
+            <p className="text-3xl font-bold">{prop.value.toLocaleString()}</p>
             )}
         </div>
 

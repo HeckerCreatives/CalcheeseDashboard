@@ -21,18 +21,22 @@ const transactions: Transaction[] = [
 ]
 
 export function TransactionsList() {
-  const [tab, setTab] = useState('ingame')
-  const {data, isLoading} = useGetCodesList(0, 6, 'approved', tab, '', '','')
+  const [tab, setTab] = useState('chest')
+  const {data, isLoading} = useGetCodesList(0, 6, 'claimed', tab, '', '','')
   const router = useRouter()
 
 
   const viewHistory = () => {
     if(tab === 'ingame'){
-      router.push('/admin/ingame/claiming')
-    } else if (tab === 'robux'){
-      router.push('/admin/robux/claiming')
+      router.push('/admin/claiming/ingame')
+    }else if (tab === 'chest'){
+      router.push('/admin/claiming/chest')
+    } else if (tab === 'exclusive'){
+      router.push('/admin/claiming/exclusiveitem')
+    }else if (tab === 'robux'){
+      router.push('/admin/claiming/robux/claiming')
     } else {
-      router.push('/admin/tickets/claiming')
+      router.push('/admin/claiming/ticket/claiming')
 
     }
   }
@@ -41,7 +45,9 @@ export function TransactionsList() {
   return (
     <div className=" h-full flex flex-col gap-2">
       <div className=" flex items-center gap-1 p-1 bg-white w-fit rounded-full">
+        <button onClick={() => setTab("chest")} className={` cursor-pointer px-4 py-1  text-[.6rem] ${tab === 'chest' && 'bg-orange-500 text-white border-2  border-orange-500 rounded-full'}`}>Chest</button>
         <button onClick={() => setTab("ingame")} className={` cursor-pointer px-4 py-1  text-[.6rem] ${tab === 'ingame' && 'bg-orange-500 text-white border-2  border-orange-500 rounded-full'}`}>In-Game</button>
+        <button onClick={() => setTab("exclusive")} className={` cursor-pointer px-4 py-1  text-[.6rem] ${tab === 'exclusive' && 'bg-orange-500 text-white border-2  border-orange-500 rounded-full'}`}>Exclusive</button>
         <button onClick={() => setTab("robux")} className={`  cursor-pointer px-4 py-1  text-[.6rem] ${tab === 'robux' && 'bg-orange-500 text-white border-2 border-orange-500 rounded-full'}`}>ROBUX</button>
         <button onClick={() => setTab("ticket")} className={` cursor-pointer px-4 py-1  text-[.6rem] ${tab === 'ticket' && 'bg-orange-500 text-white border-2  border-orange-500 rounded-full'}`}>Tickets</button>
 

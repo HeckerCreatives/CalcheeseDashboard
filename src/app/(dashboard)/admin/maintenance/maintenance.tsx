@@ -148,8 +148,8 @@ export default function MaintenanceCard() {
   const totalCount = maintenanceItems.length
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
-      <Card>
+    <div className="w-full max-w-4xl mx-auto p-4 ">
+      <Card className=" bg-yellow-50">
         <CardHeader>
           <div className="flex items-center gap-2">
             <Settings className="h-6 w-6" />
@@ -166,7 +166,7 @@ export default function MaintenanceCard() {
             </div>
             <div className="flex-1 bg-secondary rounded-full h-2">
               <div
-                className="bg-red-500 h-2 rounded-full transition-all duration-300"
+                className="bg-orange-500 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(activeCount / totalCount) * 100}%` }}
               />
             </div>

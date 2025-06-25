@@ -22,6 +22,20 @@ export interface GeoCountResponse {
 }
 
 
+export interface CodeDistributionItem {
+  type: string
+  total: number
+  claimed: number
+  unclaimed: number
+}
+
+export interface GetCodeDistributionResponse {
+  success: boolean
+  data: CodeDistributionItem[]
+}
+
+
+
 
 export const getDashboardCount = async (): Promise<CodeStatsResponse | null> => { 
   const response = await axiosInstance.get(
@@ -83,6 +97,49 @@ export const  useGetRegionAnalytics = () => {
       
 });
 }
+
+
+export const getCodeDistribution = async (): Promise<GetCodeDistributionResponse | null> => { 
+  const response = await axiosInstance.get(
+    "/dashboard/getcodedistribution",
+  );
+  return response.data
+  
+};
+
+
+export const useGetCodeDistribution = () => {
+  return useQuery({
+    queryKey: ["codedistribution", ],
+    queryFn: () => getCodeDistribution(),
+    
+    // staleTime: 5 * 60 * 1000,
+    // refetchOnMount: false, 
+    // refetchOnWindowFocus: false,
+    
+  });
+  };
+
+export const getCodeRedemption = async (): Promise<GetCodeDistributionResponse | null> => { 
+  const response = await axiosInstance.get(
+    "/dashboard/getcoderedemption",
+  );
+  return response.data
+  
+};
+
+
+export const useGetCodeRedemption = () => {
+  return useQuery({
+    queryKey: ["coderedemption", ],
+    queryFn: () => getCodeRedemption(),
+    
+    // staleTime: 5 * 60 * 1000,
+    // refetchOnMount: false, 
+    // refetchOnWindowFocus: false,
+    
+  });
+  };
 
 
 
