@@ -36,30 +36,41 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+
+const dummyData = [
+  { type: "chest", value: 30000, fill: "var(--chart-1)" },
+  { type: "ingame", value: 10000, fill: "var(--chart-2)" },
+  { type: "exclusive", value: 5000, fill: "var(--chart-3)" },
+  { type: "robux", value: 20000, fill: "var(--chart-4)" },
+  { type: "ticket", value: 8000, fill: "var(--chart-5)" },
+]
+
+
 export function TotalCodesPieChart() {
   const { data: responseData } = useGetCodeDistribution()
 
-  const chartData = responseData?.data
-    ? Object.entries(responseData.data).map(([type, value]) => ({
-        label: chartConfig[type as keyof typeof chartConfig]?.label ?? type,
-        value: value.total,
-        fill: chartConfig[type as keyof typeof chartConfig]?.color ?? "gray",
-      }))
-    : []
+   const chartData = responseData?.data
+     ? Object.entries(responseData.data).map(([type, value]) => ({
+         type: chartConfig[type as keyof typeof chartConfig]?.label.toLocaleLowerCase(),
+         value: value.total,
+         fill: chartConfig[type as keyof typeof chartConfig]?.color ?? "gray",
+       }))
+     : []
+
+    console.log(chartData)
 
   return (
     <ChartContainer
       config={chartConfig}
-      className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square max-h-[320px] pb-0"
+       className=" mx-auto aspect-square max-h-[320px] pb-0"
     >
       <PieChart>
-        <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-        <Pie data={chartData} dataKey="value" label nameKey="label" />
+        <Pie data={chartData} dataKey="value" nameKey="type" />
         <ChartLegend
-          content={<ChartLegendContent nameKey="label" />}
-          className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+            content={<ChartLegendContent nameKey="type" />}
+            className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
         />
-      </PieChart>
+        </PieChart>
     </ChartContainer>
   )
 }
