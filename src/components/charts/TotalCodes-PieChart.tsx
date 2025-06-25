@@ -65,6 +65,9 @@ export function TotalCodesPieChart() {
        className=" mx-auto aspect-square max-h-[320px] pb-0"
     >
       <PieChart>
+         <ChartTooltip
+              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
+            />
         <Pie data={chartData} dataKey="value" nameKey="type" />
         <ChartLegend
             content={<ChartLegendContent nameKey="type" />}
