@@ -14,6 +14,7 @@ interface CodeStatsResponse {
 export interface GeoCount {
   region: string;
   count: number;
+  area: string
 }
 
 export interface GeoCountResponse {

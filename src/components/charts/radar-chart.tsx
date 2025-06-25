@@ -10,30 +10,31 @@ import { useGetRegionAnalytics } from "@/apis/dashboard"
 import { ChartConfig } from "@/components/ui/chart"
 
 const chartConfig = {
-  desktop: {
-    label: "Reports",
-    color: "#facc15",
+  count: {
+    label: "Claimed Codes",
+    color: "#facc15", // Yellow-ish
   },
 } satisfies ChartConfig
 
 export default function RadarChartComponent() {
   const { data } = useGetRegionAnalytics()
 
-  // Transform API data into chartData format
-  const chartData = data?.data?.map((item: { region: string; count: number }) => ({
-    month: item?.region?.trim(),   // Remove leading spaces
-    desktop: item.count,
+  // Transform API data to chartData format
+  const chartData = data?.data?.map((item: { area: string; count: number }) => ({
+    region: item.area.trim(),
+    count: item.count,
   })) || []
 
   return (
     <ChartContainer config={chartConfig} className="mx-auto mt-12">
       <RadarChart data={chartData}>
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <PolarAngleAxis dataKey="month" />
+        <PolarAngleAxis dataKey="region" />
         <PolarGrid />
         <Radar
-          dataKey="desktop"
-          fill="var(--color-desktop)"
+          dataKey="count"
+          fill="#facc15"
+          stroke="#facc15"
           fillOpacity={0.6}
           dot={{ r: 4, fillOpacity: 1 }}
         />
