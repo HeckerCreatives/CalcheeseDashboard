@@ -414,10 +414,10 @@ export default function Generate() {
                  <SelectItem  value='to-claim' className="text-xs">
                   Unclaimed
                 </SelectItem>
-                  {/* <SelectItem  value='approved' className="text-xs">
+                  <SelectItem  value='approved' className="text-xs">
                   Approved
                 </SelectItem>
-                 <SelectItem  value='rejected' className="text-xs">
+                 {/* <SelectItem  value='rejected' className="text-xs">
                   Rejected
                 </SelectItem>
                 <SelectItem  value='expired' className="text-xs">
