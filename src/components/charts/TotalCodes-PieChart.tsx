@@ -1,12 +1,6 @@
-import { Pie, PieChart } from "recharts"
+"use client"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Pie, PieChart } from "recharts"
 import {
   ChartConfig,
   ChartContainer,
@@ -43,13 +37,15 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function TotalCodesPieChart() {
- const { data: responseData } = useGetCodeDistribution()
-    const chartData = (responseData?.data ?? []).map(({ type, total }) => ({
-    browser: type,
-    visitors: total,
-    fill: chartConfig[type as keyof typeof chartConfig]?.color ?? "gray",
-    }))
+  const { data: responseData } = useGetCodeDistribution()
 
+  const chartData = responseData?.data
+    ? Object.entries(responseData.data).map(([type, value]) => ({
+        label: chartConfig[type as keyof typeof chartConfig]?.label ?? type,
+        value: value.total,
+        fill: chartConfig[type as keyof typeof chartConfig]?.color ?? "gray",
+      }))
+    : []
 
   return (
     <ChartContainer
@@ -58,9 +54,9 @@ export function TotalCodesPieChart() {
     >
       <PieChart>
         <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-        <Pie data={chartData} dataKey="visitors" label nameKey="browser" />
+        <Pie data={chartData} dataKey="value" label nameKey="label" />
         <ChartLegend
-          content={<ChartLegendContent nameKey="browser" />}
+          content={<ChartLegendContent nameKey="label" />}
           className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
         />
       </PieChart>

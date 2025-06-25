@@ -1,16 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, Legend, XAxis } from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
@@ -32,7 +22,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-// Optional: Pretty labels for your types
 const typeLabelMap: Record<string, string> = {
   chest: "Chest",
   ingame: "Ingame",
@@ -45,11 +34,13 @@ export function ClaimingAnalytics() {
   const { data: response } = useGetCodeRedemption()
 
   const chartData =
-    response?.data?.map(({ type, claimed, unclaimed }) => ({
-      month: typeLabelMap[type] ?? type, // Display-friendly name
-      claimed: claimed ?? 0,
-      unclaimed: unclaimed ?? 0,
-    })) ?? []
+    response?.data
+      ? Object.entries(response.data).map(([type, counts]) => ({
+          month: typeLabelMap[type] ?? type,
+          claimed: counts.claimed ?? 0,
+          unclaimed: counts.unclaimed ?? 0,
+        }))
+      : []
 
   return (
     <ChartContainer config={chartConfig} className="">
@@ -66,7 +57,12 @@ export function ClaimingAnalytics() {
           content={<ChartTooltipContent indicator="dashed" />}
         />
         <Bar dataKey="claimed" name="Claimed" fill="var(--chart-1)" radius={4} />
-        <Bar dataKey="unclaimed" name="Unclaimed" fill="var(--chart-3)" radius={4} />
+        <Bar
+          dataKey="unclaimed"
+          name="Unclaimed"
+          fill="var(--chart-3)"
+          radius={4}
+        />
         <Legend className="mt-6" />
       </BarChart>
     </ChartContainer>

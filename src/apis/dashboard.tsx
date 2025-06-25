@@ -34,6 +34,26 @@ export interface GetCodeDistributionResponse {
   data: CodeDistributionItem[]
 }
 
+export interface CodeTypeStats {
+  claimed: number
+  unclaimed: number
+  total: number
+}
+
+export interface CodeRedemptionByType {
+  robux: CodeTypeStats
+  ticket: CodeTypeStats
+  exclusive: CodeTypeStats
+  chest: CodeTypeStats
+  ingame: CodeTypeStats
+}
+
+export interface GetCodeRedemptionResponse {
+  message: string
+  data: CodeRedemptionByType
+}
+
+
 
 
 
@@ -101,7 +121,7 @@ export const  useGetRegionAnalytics = () => {
 
 export const getCodeDistribution = async (): Promise<GetCodeDistributionResponse | null> => { 
   const response = await axiosInstance.get(
-    "/dashboard/getcodedistribution",
+    "/dashboard/getpiechartanalytics",
   );
   return response.data
   
@@ -120,9 +140,9 @@ export const useGetCodeDistribution = () => {
   });
   };
 
-export const getCodeRedemption = async (): Promise<GetCodeDistributionResponse | null> => { 
+export const getCodeRedemption = async (): Promise<GetCodeRedemptionResponse | null> => { 
   const response = await axiosInstance.get(
-    "/dashboard/getcoderedemption",
+    "/dashboard/gettypeclaimbarchart",
   );
   return response.data
   
