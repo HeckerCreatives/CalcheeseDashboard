@@ -63,7 +63,7 @@ export const checkCode = async (code: string): Promise<RewardData> => {
 
 
   export const redeemCode = async (code: string, email: string, robloxid: string, picture: File | null, guardian: string, contact: number, address: string) => { 
-    const response = await axiosInstanceFormData.post("/code/redeemcode",{code, email, name, picture, guardian, contact,address});
+    const response = await axiosInstanceFormData.post("/code/redeemcode",{code, email, picture, guardian, contact,address, robloxid});
     return response.data;
   };
   
