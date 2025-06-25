@@ -22,7 +22,9 @@ const transactions: Transaction[] = [
 
 export function TransactionsList() {
   const [tab, setTab] = useState('chest')
-  const {data, isLoading} = useGetCodesList(0, 6, 'claimed', tab, '', '','')
+  const {data, isLoading} = useGetCodesList(0, 6, tab, '', '', 'claimed','', false)
+  
+  // const {data, isLoading} = useGetCodesList(0, 6, 'claimed', tab, '', '','')
   const router = useRouter()
 
 
