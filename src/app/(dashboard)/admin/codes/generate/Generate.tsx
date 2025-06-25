@@ -417,6 +417,9 @@ export default function Generate() {
                   <SelectItem  value='approved' className="text-xs">
                   Approved
                 </SelectItem>
+                 <SelectItem  value='pre-claimed' className="text-xs">
+                  Pre-Claimed
+                </SelectItem>
                  {/* <SelectItem  value='rejected' className="text-xs">
                   Rejected
                 </SelectItem>
