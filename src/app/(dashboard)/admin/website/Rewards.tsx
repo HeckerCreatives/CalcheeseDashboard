@@ -128,7 +128,7 @@ export default function Rewards() {
         setTotalpage(data?.totalpages || 0)
         setSubtitle(data?.titledata?.description || '')
         setSection(data?.sectionContent?.section || '')
-        setId(data?.titledata.id || '')
+        setId(data?.titledata?.id || '')
 
       },[data])
 

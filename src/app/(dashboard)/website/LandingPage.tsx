@@ -127,13 +127,9 @@ export default function LandingPage() {
 
                                 <div className=' absolute z-10 left-0 bottom-0 translate-y-36 -translate-x-12'>
                                     <div className=' relative w-[300px] h-[150px] flex items-center justify-center'>
-                                        <FloatImage className=' absolute top-0 left-0' hoverRange={15} floatRange={15} duration={7}>
-                                            <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
-                                        </FloatImage>
+                                            <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} className=' absolute top-0 left-0'/>
 
-                                        <FloatImage className=' absolute top-4 right-4' duration={8}>
-                                            <img src="/assets/floating/yum.png" alt="triangles" width={70}/>
-                                        </FloatImage>
+                                            <img src="/assets/floating/yum.png" alt="triangles" width={70} className='absolute top-4 right-4'/>
 
                                         {/* <FloatImage className=' absolute top-24 left-10' duration={9} >
                                         <img src="/assets/floating/CALCIUM.png" alt="triangles" width={70}/>
@@ -143,9 +139,7 @@ export default function LandingPage() {
                                             <img src="/assets/floating/yum.png" alt="triangles" width={60}/>
                                         </FloatImage> */}
 
-                                        <FloatImage className=' absolute top-8 left-28' duration={10}>
-                                            <img src="/assets/floating/ball.png" alt="triangles" width={70} />
-                                        </FloatImage>
+                                            <img src="/assets/floating/ball.png" alt="triangles" width={70} className='absolute top-8 left-28'/>
                                     </div>
                                 </div>
 
@@ -170,35 +164,21 @@ export default function LandingPage() {
               
                 
                 <div className=' relative w-full h-screen container '>
-                        <FloatImage className=' z-10 absolute bottom-32 left-0 -translate-x-24 item6'>
-                            <Image src="/assets/Wafer.png" alt="tab"  width={500} height={500} priority unoptimized loading='eager' className=' '/>
-                        </FloatImage>
+                            <Image src="/assets/Wafer.png" alt="tab"  width={500} height={500} priority unoptimized loading='eager' className=' z-10 absolute bottom-32 left-0 -translate-x-24 item6'/>
                        
 
-                        <FloatImage className=' z-10 absolute top-[6%] right-[40%] transition-all ' duration={7}>
-                            <Image src="/assets/floating/ball.png"  alt="tab"  width={100} height={100} priority unoptimized loading='eager' />
-                        </FloatImage>
+                            <Image src="/assets/floating/ball.png"  alt="tab"  width={100} height={100} priority unoptimized loading='eager' className='z-10 absolute top-[6%] right-[40%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute top-[10%] right-[5%] transition-all ' duration={8}>
-                            <Image src="/assets/floating/Cheese 2.png" alt="tab" width={100} height={100} priority unoptimized loading='eager'/>
-                        </FloatImage>
+                            <Image src="/assets/floating/Cheese 2.png" alt="tab" width={100} height={100} priority unoptimized loading='eager' className=' z-10 absolute top-[10%] right-[5%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute top-[20%] left-[5%] transition-all ' duration={6}>
-                        <Image src="/assets/floating/VITAMINS.png" alt="tab" width={200} height={200} priority unoptimized loading='eager' />
-                        </FloatImage>
+                        <Image src="/assets/floating/VITAMINS.png" alt="tab" width={200} height={200} priority unoptimized loading='eager' className='z-10 absolute top-[20%] left-[5%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute bottom-[40%] left-[2%] transition-all ' duration={9}>
-                        <Image src="/assets/floating/CALCIUM.png" alt="tab" width={150} height={150} priority unoptimized loading='eager' />
-                        </FloatImage>
+                        <Image src="/assets/floating/CALCIUM.png" alt="tab" width={150} height={150} priority unoptimized loading='eager' className='z-10 absolute bottom-[40%] left-[2%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute bottom-[30%] right-[2%] transition-all ' duration={6} >
-                            <Image src="/assets/floating/Cheese.png" alt="tab" width={120} height={120} priority unoptimized loading='eager'/>
-                        </FloatImage>
+                            <Image src="/assets/floating/Cheese.png" alt="tab" width={120} height={120} priority unoptimized loading='eager' className='z-10 absolute bottom-[30%] right-[2%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute bottom-[17%] right-[12%] transition-all' duration={7}>
-                        <Image src="/assets/floating/yum.png" alt="tab" width={110} height={110} priority unoptimized loading='eager'/>
+                        <Image src="/assets/floating/yum.png" alt="tab" width={110} height={110} priority unoptimized loading='eager' className='z-10 absolute bottom-[17%] right-[12%] transition-all'/>
 
-                        </FloatImage>
 
                 </div>
                 </div>
@@ -238,34 +218,22 @@ export default function LandingPage() {
                 
                 <div className=' relative w-full h-full  container '>
                         <FloatImage className=' z-30 left-8 absolute bottom-0'>
-                            <Image src="/assets/Wafer.png" alt="tab"  width={200} height={200} priority unoptimized loading='eager' className=' w-[180px] '/>
+                            <Image src="/assets/Wafer.png" alt="tab"  width={200} height={200} priority unoptimized loading='eager' className=' w-[180px] z-30 left-8'/>
                         </FloatImage>
                        
 
-                        <FloatImage className=' z-10 absolute top-[12%] right-[40%] transition-all ' duration={7}>
-                            <Image src="/assets/floating/VITAMINS.png"  alt="tab"  width={60} height={60} priority unoptimized loading='eager' />
-                        </FloatImage>
+                            <Image src="/assets/floating/VITAMINS.png"  alt="tab"  width={60} height={60} priority unoptimized loading='eager' className='z-10 absolute top-[12%] right-[40%] transition-all' />
 
-                        <FloatImage className=' z-10 absolute top-[15%] right-[15%] transition-all ' duration={8}>
-                            <Image src="/assets/floating/Cheese 2.png" alt="tab" width={70} height={70} priority unoptimized loading='eager'/>
-                        </FloatImage>
+                            <Image src="/assets/floating/Cheese 2.png" alt="tab" width={70} height={70} priority unoptimized loading='eager' className=' z-10 absolute top-[5%] right-[25%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute top-[2%] left-[15%] transition-all ' duration={6}>
-                        <Image src="/assets/floating/VITAMINS.png" alt="tab" width={80} height={80} priority unoptimized loading='eager' />
-                        </FloatImage>
+                        <Image src="/assets/floating/VITAMINS.png" alt="tab" width={80} height={80} priority unoptimized loading='eager' className='z-10 absolute top-[15%] right-[15%] transition-all' />
 
-                        <FloatImage className=' z-10 absolute top-[30%] left-[10%] transition-all ' duration={9}>
-                        <Image src="/assets/floating/CALCIUM.png" alt="tab" width={70} height={70} priority unoptimized loading='eager' />
-                        </FloatImage>
+                        <Image src="/assets/floating/CALCIUM.png" alt="tab" width={70} height={70} priority unoptimized loading='eager' className=' z-10 absolute top-[30%] left-[10%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute bottom-[30%] right-[10%] transition-all ' duration={6} >
-                            <Image src="/assets/floating/ball.png" alt="tab" width={60} height={60} priority unoptimized loading='eager'/>
-                        </FloatImage>
+                            <Image src="/assets/floating/ball.png" alt="tab" width={60} height={60} priority unoptimized loading='eager' className=' z-10 absolute bottom-[30%] right-[10%] transition-all'/>
 
-                        <FloatImage className=' z-10 absolute bottom-0 right-[20%] transition-all' duration={7}>
-                        <Image src="/assets/floating/yum.png" alt="tab" width={80} height={80} priority unoptimized loading='eager'/>
+                        <Image src="/assets/floating/yum.png" alt="tab" width={80} height={80} priority unoptimized loading='eager' className='z-10 absolute bottom-0 right-[20%] transition-all'/>
 
-                        </FloatImage>
 
                 </div>
                 </div>
@@ -299,19 +267,13 @@ export default function LandingPage() {
 
                                  <div className=' absolute z-10 left-0 bottom-0 translate-y-36'>
                                     <div className=' relative w-[300px] h-[150px] flex items-center justify-center'>
-                                        <FloatImage className=' absolute top-0 left-0' hoverRange={15} floatRange={15} duration={7}>
-                                            <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} />
-                                        </FloatImage>
+                                            <img src="/assets/floating/Cheese 2.png" alt="triangles" width={80} className='absolute top-0 left-0' />
 
-                                        <FloatImage className=' absolute top-12 right-4' duration={8}>
-                                            <img src="/assets/floating/yum.png" alt="triangles" width={70}/>
-                                        </FloatImage>
+                                            <img src="/assets/floating/yum.png" alt="triangles" width={70} className='absolute top-12 right-4'/>
 
                                      
 
-                                        <FloatImage className=' absolute top-8 left-28' duration={10}>
-                                            <img src="/assets/floating/ball.png" alt="triangles" width={70} />
-                                        </FloatImage>
+                                            <img src="/assets/floating/ball.png" alt="triangles" width={70} className='absolute top-8 left-28'/>
                                     </div>
                                 </div>
 
