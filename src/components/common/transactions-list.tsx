@@ -59,29 +59,15 @@ export function TransactionsList() {
         {data?.data.length !== 0 ? (
           <>
            {data?.data.map((transaction, index) => (
-              <div key={index} className=" w-full flex items-center justify-between py-1 bg-yellow-100 p-2 rounded-sm">
+              <div key={index} className=" w-full flex items-center justify-between py-2 bg-yellow-100 p-2 rounded-sm">
                 <div className="flex flex-col gap-1">
                   <span className=" text-xs">{transaction.code}</span>
+
+                </div>
+
                   <p className=" text-[.5rem] text-zinc-400 flex gap-[3px]"><Clock size={10}/>{new Date(transaction.claimdate).toDateString()}</p>
 
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                  <span
-                    className={`text-[.5rem] px-2 py-0.5 rounded ${
-                      transaction.chest.chestname === "Common Chest"
-                        ? " bg-blue-500 text-yellow-50"
-                        :  transaction.chest.chestname === "Uncommon Chest"
-                          ? "bg-green-600 text-white"
-                          :  transaction.chest.chestname === "Rare Chest"
-                            ? "bg-pink-600 text-white"
-                            : "bg-purple-600 text-white"
-                    }`}
-                  >
-                    {transaction.chest.chestname}
-                  </span>
-
-                  {/* <span className="font-medium">{transaction.amount}</span> */}
-                </div>
+              
               </div>
             ))}
           </>
