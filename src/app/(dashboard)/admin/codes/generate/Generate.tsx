@@ -59,15 +59,17 @@ export default function Generate() {
     const [open, setOpen] = useState(false)
     const [editFormOpen, setEditFormOpen] = useState(false);
 
+    const rarityFilter = rarity === 'all' ? "" : rarity
 
-    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search, false)
+
+    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarityFilter, itemfilter, status,search, false)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
     const [editselectedCodes, setEditSelectedCodes] = useState<string[]>([]);
     const [selectedCodeData, setSelectedCodeData] = useState<any[]>([]);
-    const {data: items} = useGetItemsList(currentPage,100,type, rarity)
+    const {data: items} = useGetItemsList(currentPage,100,type, rarityFilter)
 
     const [codeGenProgress, setCodeGenProgress] = useState<number | null>(null)
     const [codeGenStatus, setCodeGenStatus] = useState<string | null>(null)
@@ -81,7 +83,17 @@ export default function Generate() {
     const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
     const {mutate: resetCode, isPending: resetPending} = useResetCode()
     const {mutate: updateCodes, isPending: archivePending} = useUpdateCodes()
-    
+      const [inputPage, setInputPage] = useState(1)
+
+      const handleGo = () => {
+        const page = inputPage || 1
+        setInputPage(page) 
+
+        if(inputPage > 0){
+        setCurrentpage(page - 1)
+        }
+      }
+
 
 
     const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,20 +204,6 @@ export default function Generate() {
                 //   })
             }
 
-
-          const deleteCodeData = () => {
-             deleteCodes(
-                    { ids: selectedCodes },
-                    {
-                      onSuccess: () => {
-                        toast.success('Codes deleted successfully!');
-                        setOpen(false);
-                        setOpen(false)
-                        setSelectedCodes([]);
-                      },
-                    }
-              );
-           }
 
             const resetCodeData = (id: string) => {
              resetCode(
@@ -338,6 +336,7 @@ export default function Generate() {
                   <SelectValue placeholder="Select" className="text-xs" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem  value='all' className="text-xs">All</SelectItem>
                   <SelectItem  value='common' className="text-xs">Common</SelectItem>
                   <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
                   <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
@@ -606,24 +605,25 @@ export default function Generate() {
 
         </div>
 
-        <div className=' flex items-center gap-4 mt-6 text-xs'>
-          <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
-          {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
+        <div className=' flex items-center justify-between gap-4 mt-6 text-xs'>
 
-          {codeGenProgress !== null && (
-            <div className="mb-4 max-w-md">
-              <div className="text-xs mb-1 text-amber-950">{codeGenStatus}</div>
-              <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                <div
-                  className="bg-orange-500 h-full transition-all"
-                  style={{ width: `${codeGenProgress}%` }}
-                />
+          <div className=' flex items-center gap-4'>
+             <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
+            {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
+
+            {codeGenProgress !== null && (
+              <div className="mb-4 max-w-md">
+                <div className="text-xs mb-1 text-amber-950">{codeGenStatus}</div>
+                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-orange-500 h-full transition-all"
+                    style={{ width: `${codeGenProgress}%` }}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-
-          {(progress !== null && exportfile === '' ) && (
+             {(progress !== null && exportfile === '' ) && (
           <div className="mb-4 max-w-md">
             {/* <Loader type={'loader'}/> */}
             <div className=' flex flex-col'>
@@ -644,6 +644,7 @@ export default function Generate() {
           {isDownload && (
               <div className="mt-2 flex items-center gap-2">
                 <a
+                target='_blank'
                 onClick={() => clearIsDownload()}
                 href={`${process.env.NEXT_PUBLIC_API_URL}${isDownload}`}
                   download
@@ -656,6 +657,24 @@ export default function Generate() {
                 <p className=' text-xs'>{isDownload}</p>
               </div>
             )}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <p>Page:</p>
+            <Input
+              type="number"
+              value={inputPage}
+              onChange={(e) => setInputPage(e.target.valueAsNumber)}
+              className="w-24"
+              placeholder="Limit"
+              min={1}
+            />
+            <Button onClick={handleGo}>Go</Button>
+          </div>
+         
+
+
+         
 
 
         </div>
