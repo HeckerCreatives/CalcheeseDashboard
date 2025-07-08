@@ -296,17 +296,7 @@ export default function Generate() {
                   <SelectItem value={'90'} className="text-xs">90</SelectItem>
                   <SelectItem value={'100'} className="text-xs">100</SelectItem>
                   <SelectItem value={'1000'} className="text-xs">1,000</SelectItem>
-                  <SelectItem value={'2000'} className="text-xs">2,000</SelectItem>
-                  <SelectItem value={'3000'} className="text-xs">3,000</SelectItem>
-                  <SelectItem value={'4000'} className="text-xs">4,000</SelectItem>
-                  <SelectItem value={'5000'} className="text-xs">5,000</SelectItem>
-                  <SelectItem value={'10000'} className="text-xs">10,000</SelectItem>
-                  {/* <SelectItem value={'20000'} className="text-xs">20,000</SelectItem>
-                  <SelectItem value={'50000'} className="text-xs">50,000</SelectItem>
-                  <SelectItem value={'100000'} className="text-xs">100,000</SelectItem> */}
-                 
                   
-                
                 </SelectContent>
               </Select> 
             </div>

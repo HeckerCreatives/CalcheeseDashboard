@@ -57,7 +57,7 @@ export default function List() {
     const [filter, setFilter] = useState('')
     const [value, setValue] = useState('')
     const [rarity, setRarity] = useState('')
-    const {data, isLoading} = useGetItemsList(currentPage, 10, tab, rarity)
+    const {data, isLoading} = useGetItemsList(currentPage, 10, tab, rarity === 'all' ? '' : rarity)
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const {mutate: deleteMultipleItem, isPending} = useDeleteMultipleItem()
     const [open, setOpen] = useState(false)
@@ -153,6 +153,7 @@ export default function List() {
                 <SelectValue placeholder=" Select" className="text-xs" />
             </SelectTrigger>
             <SelectContent>
+                <SelectItem  value='all' className="text-xs">All</SelectItem>
                 <SelectItem  value='common' className="text-xs">Common</SelectItem>
                 <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
                 <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
