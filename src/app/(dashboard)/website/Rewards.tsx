@@ -319,7 +319,7 @@ export default function Rewards() {
                     {data?.data.map((item, index) => (
                       <div
                         key={index}
-                        className=' min-w-[160px] md:min-w-[220px] lg:min-h-[240px] bg-[#FFA30B] relative w-full h-[180px] lg:h-full flex flex-col items-center justify-center rounded-2xl mt-6 p-4'
+                        className=' min-w-[160px] md:min-w-[220px] lg:min-h-[265px] bg-[#FFA30B] relative w-full h-[210px] lg:h-full flex flex-col items-center justify-center rounded-2xl mt-6 p-4'
                       >
                         {/* <img src={promocodeIcon(item.title)} alt="headphone" width={80} className=' w-[80px] md:w-[80px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' /> */}
                         {promocodeIcons(item.title)}
