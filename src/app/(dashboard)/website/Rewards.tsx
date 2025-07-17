@@ -314,12 +314,12 @@ export default function Rewards() {
                 <RevealOnScroll delay={1} className=' w-full'>
                    <div
                      ref={scrollRef}
-                    className={`custom-scrollbar w-full h-fit pt-4 lg:h-full flex flex-nowrap gap-2 mt-8 md:mt-6 overflow-x-auto overflow-y-hidden cursor-pointer `}
+                    className={`custom-scrollbar w-full h-fit pt-4 lg:h-full flex flex-nowrap gap-2 mt-8 md:mt-6 overflow-x-auto overflow-y-hidden cursor-pointer`}
                   >
                     {data?.data.map((item, index) => (
                       <div
                         key={index}
-                        className=' min-w-[160px] md:min-w-[220px] lg:min-h-[265px] bg-[#FFA30B] relative w-full h-[210px] lg:h-full flex flex-col items-center justify-center rounded-2xl mt-6 p-4'
+                        className=' min-w-[160px] md:min-w-[220px] bg-[#FFA30B] relative w-full h-auto flex flex-col items-center justify-center rounded-2xl mt-6 p-4'
                       >
                         {/* <img src={promocodeIcon(item.title)} alt="headphone" width={80} className=' w-[80px] md:w-[80px] z-10 -translate-y-6 md:-translate-y-8 absolute top-0' /> */}
                         {promocodeIcons(item.title)}
