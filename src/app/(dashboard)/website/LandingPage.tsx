@@ -187,7 +187,7 @@ export default function LandingPage() {
         </div>
     </main>
 
-    <main className=' block lg:hidden relative w-full max-w-[1920px] h-screen bg-amber-100 overflow-x-hidden overflow-y-hidden  text-amber-900'
+    <main className=' block lg:hidden relative w-full max-w-[1920px] h-screen bg-amber-100 overflow-x-hidden overflow-y-auto  text-amber-900'
     style={{backgroundImage: "url('/assets/floating/bg.png')" , backgroundSize:'cover'}}
 
     >
