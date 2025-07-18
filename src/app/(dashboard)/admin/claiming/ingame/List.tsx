@@ -35,7 +35,7 @@ export default function List() {
       const [search, setSearch] = useState('')
       const [filter, setFilter] = useState('claimed')
       const [value, setValue] = useState('All')
-      const [type, setType]= useState('chest')
+      const [type, setType]= useState('ingame')
       const [itemfilter, setItemFilter]= useState('')
       const [status, setStatus]= useState('claimed')
       const [rarity, setRarity] = useState('')
@@ -80,7 +80,7 @@ export default function List() {
                             <SelectTrigger className="w-fit">
                               <SelectValue placeholder="Select" className="text-xs" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className=' max-h-[220px]'>
                               <SelectItem  value='common' className="text-xs">Common</SelectItem>
                               <SelectItem  value='uncommon' className="text-xs">Uncommon</SelectItem>
                               <SelectItem  value='rare' className="text-xs">Rare</SelectItem>
@@ -98,7 +98,7 @@ export default function List() {
                             <SelectTrigger className="w-fit">
                               <SelectValue placeholder="Select" className="text-xs" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className=' max-h-[220px]'>
                               {items?.data.map((item, index) => (
                                 <SelectItem key={item.id}  value={item.id} className="text-xs">{item.itemname}</SelectItem>
                               ))}

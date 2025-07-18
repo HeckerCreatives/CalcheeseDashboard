@@ -253,7 +253,28 @@ export const useUpdateCodes = () => {
   
 
 
+//assign code
+export const assignCodes = async (manufacturer: string, type: string, rarity: string, itemid: string, codesamount: number, socketid: string) => { 
+    const response = await axiosInstance.post("/code/generateitemsoncode", { manufacturer, type, rarity, itemid, codesamount, socketid});
+    return response.data;
+};
+  
+export const useAssignCodes = () => {
+    const queryClient = useQueryClient();
 
+    return useMutation({
+      mutationFn: ({ manufacturer, type, rarity, itemid, codesamount, socketid }: {manufacturer: string, type: string, rarity: string, itemid: string, codesamount: number, socketid: string}) =>
+        assignCodes( manufacturer, type, rarity, itemid, codesamount, socketid),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+             queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
+          }
+    
+    });
+};
 
 
 

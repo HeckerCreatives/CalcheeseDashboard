@@ -10,7 +10,7 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import { Download, Eye, Folder, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
+import { Download, Eye, Folder, ListFilter, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
 import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList, useUpdateCodes } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
@@ -42,8 +42,22 @@ import { io } from 'socket.io-client'
 import useIsDownloadedStore from '@/hooks/downloadfile'
 import CodeDetailsDialog from '@/components/common/Code-Details'
 import { useResetCode } from '@/apis/redeemcode'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import AssignCodesForm from '@/components/forms/AssignCode'
 
-
+const manufacturers = [
+    { name: 'HBYX', type: "hbyx", index: 7562500, lte: '6855837ebdd1ec953592809f', gt: null },
+    { name: 'DYTH', type: "dyth", index: 13282500, lte: '68558c74bdd1ec9535e9d62a', gt: '6855837ebdd1ec953592809f' },
+    { name: 'HBYX 48g', type: "hbyx2", index: 30106030, lte: '6855a659bdd1ec9535eab284', gt: '68558c74bdd1ec9535e9d62a' },
+    { name: 'AMX 48g', type: "amx", index: 42341913, lte: '685ce0ac6808bd1490a2cf1f', gt: '6855a659bdd1ec9535eab284' }
+];
   
   
   
@@ -53,6 +67,7 @@ export default function Generate() {
     const [totalpage, setTotalpage] = useState(0)
     const [search, setSearch] = useState('')
     const [type, setType]= useState('')
+    const [manufacturer, setManufacturer]= useState('')
     const [itemfilter, setItemFilter]= useState('')
     const [status, setStatus]= useState('')
     const [rarity, setRarity] = useState('')
@@ -171,6 +186,7 @@ export default function Generate() {
           setStatus('')
           setSearch('')
           setRarity('')
+          setManufacturer('')
         }
 
        
@@ -266,6 +282,13 @@ export default function Generate() {
               setStatus={setCodeGenStatus}
             />
 
+            <AssignCodesForm
+             progress={codeGenProgress}
+              status={codeGenStatus}
+              setProgress={setCodeGenProgress}
+              setStatus={setCodeGenStatus}
+            />
+
         </div>
 
         
@@ -301,7 +324,122 @@ export default function Generate() {
               </Select> 
             </div>
 
-             <div className="w-fit flex flex-col gap-1">
+            <DropdownMenu>
+            <DropdownMenuTrigger className=" cursor-pointer flex items-center gap-1 bg-white p-2 rounded-sm border">
+              <ListFilter size={15} /> Filters
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="max-w-[500px] w-full bg-white p-3 space-y-4 max-h-[400px] overflow-y-auto">
+
+              <div className=' w-full flex items-center justify-between'> 
+                <DropdownMenuLabel className=' text-xs'>Select Filters</DropdownMenuLabel>
+                <button onClick={reset} className=' cursor-pointer text-xs flex items-center gap-1 text-white bg-orange-500 px-2 py-1 rounded-sm'><RefreshCcw size={10}/>Reset</button>
+              </div>
+
+              <div>
+                <DropdownMenuLabel className=' text-xs'>Manufacturer</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="grid grid-cols-2 gap-2">
+                  {manufacturers.map((value) => (
+                    <label key={value.type} className="flex items-center gap-2 text-[.65rem] cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={manufacturer === value.type}
+                        onChange={() => setManufacturer(manufacturer === value.type ? "" : value.type)}
+                      />
+                      <span className="capitalize">{value.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+
+              <div>
+                <DropdownMenuLabel className=' text-xs'>Reward Type</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="grid grid-cols-2 gap-2">
+                  {["chest", "ingame", "exclusive", "robux", "ticket"].map((value) => (
+                    <label key={value} className="flex items-center gap-2 text-[.65rem] cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={type === value}
+                        onChange={() => setType(type === value ? "" : value)}
+                      />
+                      <span className="capitalize">{value}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {type && (
+                <div>
+                        <DropdownMenuLabel className=' text-xs'>Rarity</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <div className="grid grid-cols-2 gap-2">
+                          {["all", "common", "uncommon", "rare", "epic", "legendary"].map((value) => (
+                            <label key={value} className="flex items-center gap-2 text-[.65rem] cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={rarity === value}
+                                disabled={!type}
+                                onChange={() => setRarity(rarity === value ? "" : value)}
+                              />
+                              <span className="capitalize">{value}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+              )}
+
+                      
+
+                   {rarity && (
+                    <div>
+                        <DropdownMenuLabel className=' text-xs'>Items</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <div className="grid grid-cols-2 gap-2 max-h-[150px] overflow-auto">
+                          {items?.data.map((item) => (
+                            <label key={item.id} className="flex items-center gap-2 text-[.65rem] cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={itemfilter === item.id}
+                                disabled={!rarity}
+                                onChange={() => setItemFilter(itemfilter === item.id ? "" : item.id)}
+                              />
+                              <span>{item.itemname}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                   )}
+                      
+
+                      <div>
+                        <DropdownMenuLabel className=' text-xs'>Status</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { label: "Claimed", value: "claimed" },
+                            { label: "Unclaimed", value: "to-claim" },
+                            { label: "Approved", value: "approved" },
+                            { label: "Pre-Claimed", value: "pre-claimed" },
+                          ].map((item) => (
+                            <label key={item.value} className="flex items-center gap-2 text-[.65rem] cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={status === item.value}
+                                onChange={() => setStatus(status === item.value ? "" : item.value)}
+                              />
+                              <span>{item.label}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                    </DropdownMenuContent>
+            </DropdownMenu>
+
+
+             {/* <div className="w-fit flex flex-col gap-1">
               <label className="text-xs text-zinc-400">Reward Type</label>
               <Select value={type} onValueChange={setType}>
                 <SelectTrigger className="w-fit">
@@ -354,43 +492,7 @@ export default function Generate() {
            
             </div>
 
-          {/* <div className=" flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Type</label>
-            <Select value={type} onValueChange={setType} >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder=" Type" className="text-xs" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem  value='robux' className="text-xs">
-                  Robux
-                </SelectItem>
-                  <SelectItem  value='ticket' className="text-xs">
-                  Ticket
-                </SelectItem>
-                 <SelectItem  value='ingame' className="text-xs">
-                  In Game
-                </SelectItem>
-            </SelectContent>
-          </Select> 
-          </div>
-
-           <div className=" flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Items</label>
-            <Select value={itemfilter} onValueChange={setItemFilter} >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder=" Items" className="text-xs" />
-            </SelectTrigger>
-            <SelectContent>
-              {items?.data.map((item, index) => (
-                 <SelectItem key={index} value={item.id} className="text-xs">
-                  {item.itemname}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> 
-          </div> */}
-
-           <div className=" flex flex-col gap-1">
+            <div className=" flex flex-col gap-1">
             <label className="text-xs text-zinc-400">Status</label>
             <Select value={status} onValueChange={setStatus} >
             <SelectTrigger className="w-fit">
@@ -409,90 +511,15 @@ export default function Generate() {
                  <SelectItem  value='pre-claimed' className="text-xs">
                   Pre-Claimed
                 </SelectItem>
-                 {/* <SelectItem  value='rejected' className="text-xs">
-                  Rejected
-                </SelectItem>
-                <SelectItem  value='expired' className="text-xs">
-                  Expired
-                </SelectItem> */}
+               
             </SelectContent>
           </Select> 
           </div>
 
-          {/* <div className=" flex flex-col gap-1">
-            <label className="text-xs text-zinc-400">Chest</label>
-            <Select value={chestfilter} onValueChange={setChestFilter} >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder=" Chest" className="text-xs" />
-            </SelectTrigger>
-            <SelectContent>
-              {chests?.data.map((item, index) => (
-                <SelectItem key={index} value={item.id} className="text-xs">
-                  {item.chestname}
-                </SelectItem>
-              ))}
-               
-             
-            </SelectContent>
-          </Select> 
-          </div> */}
+          <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button> */}
 
 
-          <Button onClick={reset} className=' p-2'><RefreshCcw size={15}/></Button>
-
-          {/* <Dialog>
-            <DialogTrigger className=' p-2 bg-red-600 rounded-sm text-yellow-100'><Trash size={19}/></DialogTrigger>
-            <DialogContent className=' bg-yellow-50'>
-              <DialogHeader>
-                <DialogTitle>Delete Codes</DialogTitle>
-                <DialogDescription>
-                  
-                </DialogDescription>
-              </DialogHeader>
-              <div className=' flex flex-col gap-2 text-amber-950'>
-                <div className="w-full flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400">Type</label>
-                  <Select >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder=" Type" className="text-xs" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem  value='robux' className="text-xs">
-                          Robux
-                        </SelectItem>
-                          <SelectItem  value='ticket' className="text-xs">
-                          Ticket
-                        </SelectItem>
-                         <SelectItem  value='ingame' className="text-xs">
-                          In Game
-                        </SelectItem>
-                    </SelectContent>
-                  </Select>
-                                   
-                </div>
-
-                <div className="w-full flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400">No. of code to delete</label>
-                  <Input
-                    placeholder="Quantity"
-                    type="number"
-                  />
-                                   
-                </div>
-
-                <div className="w-full flex justify-end gap-2">
-              
-                  <button onClick={() => setOpen(false)} type="button" className="ghost-btn">
-                    Cancel
-                  </button>
-                </div>
-               
-              </div>
-
-              
-            </DialogContent>
-          </Dialog> */}
-
+        
          
 
           <Dialog open={exportOpen} onOpenChange={setExportOpen}>
