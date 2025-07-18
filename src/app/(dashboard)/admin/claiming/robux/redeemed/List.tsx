@@ -66,7 +66,7 @@ export default function List() {
 
        const reset = () => {
           setItemFilter('')
-          setStatus('')
+          setStatus('claimed')
           setSearch('')
           setRarity('')
         }

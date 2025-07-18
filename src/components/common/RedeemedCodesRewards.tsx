@@ -73,6 +73,7 @@ export default function RedeemedCodesRewards() {
         const [redeem, setRedeem] = useState(false)
         const [code, setCode] = useState('')
         const [type, setType] = useState('')
+        const [rewardtype, setRewardType] = useState('robux')
         const [checked, setChecked] = useState('invalid')
         const [username, setUsername] = useState('')
         const [email, setEmail] = useState('')
@@ -116,7 +117,7 @@ export default function RedeemedCodesRewards() {
         };
     
         const redeemCodeRewards = () => {
-            redeemCode({code: code, email: email, robloxid: username, picture: image, guardian: gurdian, contact: Number(contact), address: address},{
+            redeemCode({code: code, email: email, robloxid: username, picture: image, guardian: gurdian, contact: Number(contact), address: address, type: rewardtype},{
                 onSuccess: (response) => {
                   toast.success(`Code redeemed successfully`);
                   setType(response.data.codetype)
@@ -170,7 +171,7 @@ export default function RedeemedCodesRewards() {
                   <h2 className=' text-white uppercase text-xl lg:text-2xl font-bitbold '>Claim Your Rewards!</h2>
 
 
-                  <Tabs defaultValue="robux" className="w-full mt-8 font-brevia">
+                  <Tabs value={rewardtype} onValueChange={setRewardType} className="w-full mt-8 font-brevia">
                     <TabsList>
                       <TabsTrigger value="robux">Robux</TabsTrigger>
                       <TabsTrigger value="ticket">Ticket</TabsTrigger>
