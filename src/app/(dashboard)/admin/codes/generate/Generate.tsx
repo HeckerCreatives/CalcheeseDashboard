@@ -861,11 +861,11 @@ export default function Generate() {
         </TableBody>
     </Table>
 
-      {/* {data?.data.length !== 0 && (
+      {data?.data.length !== 0 && (
               <PaginitionComponent currentPage={currentPage} total={totalpage} onPageChange={handlePageChange }/>
-            )} */}
+            )}
 
-        <div className="flex items-center justify-center w-full mt-6">
+        {/* <div className="flex items-center justify-center w-full mt-6">
 
             <div className=' flex items-center gap-2 text-xs p-2 rounded-full'>
                 <button onClick={() => {setLastid(data?.lastcodeid || ''), setCurrentpage(currentPage - 1)}}  disabled={currentPage === 0} className=' bg-orange-500 py-2 px-2 flex items-center justify-center gap-2 rounded-sm text-white'><ChevronLeft size={15}/></button>
@@ -874,7 +874,7 @@ export default function Generate() {
             </div>
             
         
-        </div>
+        </div> */}
     </div>
     
   
