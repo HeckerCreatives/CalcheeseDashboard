@@ -10,7 +10,7 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import { Download, Eye, Folder, ListFilter, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Eye, Folder, ListFilter, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
 import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList, useUpdateCodes } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
@@ -75,9 +75,10 @@ export default function Generate() {
     const [editFormOpen, setEditFormOpen] = useState(false);
 
     const rarityFilter = rarity === 'all' ? "" : rarity
+    const [lastid, setLastid] = useState('')
 
 
-    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarityFilter, itemfilter, status,search, false)
+    const {data, isLoading, refetch} = useGetCodesList(currentPage, Number(pagination), type,rarityFilter, itemfilter, status,search, manufacturer, false, lastid)
     const {mutate: exportCodeslist, isPending} = useExportCodeslist()
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
@@ -103,12 +104,14 @@ export default function Generate() {
       const handleGo = () => {
         const page = inputPage || 1
         setInputPage(page) 
+        setLastid(data?.lastcodeid || '')
 
         if(inputPage > 0){
         setCurrentpage(page - 1)
         }
       }
 
+     
 
 
     const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,19 +154,14 @@ export default function Generate() {
           if (data.file !== undefined) setExportFile(data.file)
           setIsDownload(data.file)
 
+         
+
         })
 
-      //   newSocket.on('export-complete', (data) => {
-      //    if (data.file !== undefined) setExportFile(data.file)
-      //  })
-
-    
         return () => {
           newSocket.disconnect()
         }
-      }, [])
-
-    
+      }, [setProgress, setStatus])
 
     
 
@@ -244,6 +242,16 @@ export default function Generate() {
             setSelectedCodes([])
             setSelectedCodeData([])
            },[data])
+
+          //  useEffect(() => {
+          //   if(data){
+          //   setLastid(data.lastcodeid)
+          //   }
+          //  },[])
+
+           console.log(lastid,data?.lastcodeid)
+
+          
 
 
            
@@ -725,6 +733,7 @@ export default function Generate() {
             />
           </TableHead>
             <TableHead className="">Code</TableHead>
+            <TableHead className="">Manufacturer</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Rarity</TableHead>
             <TableHead>Item Name</TableHead>
@@ -753,6 +762,7 @@ export default function Generate() {
                     />
                   </TableCell>
                     <TableCell>{item.code}</TableCell>
+                    <TableCell>{item.manufacturer}</TableCell>
                     <TableCell className=' uppercase'>{item.type}</TableCell>
                     <TableCell className=' uppercase'>{item.items[0]?.rarity}</TableCell>
                     <TableCell>
@@ -851,9 +861,20 @@ export default function Generate() {
         </TableBody>
     </Table>
 
-      {data?.data.length !== 0 && (
+      {/* {data?.data.length !== 0 && (
               <PaginitionComponent currentPage={currentPage} total={totalpage} onPageChange={handlePageChange }/>
-            )}
+            )} */}
+
+        <div className="flex items-center justify-center w-full mt-6">
+
+            <div className=' flex items-center gap-2 text-xs p-2 rounded-full'>
+                <button onClick={() => {setLastid(data?.lastcodeid || ''), setCurrentpage(currentPage - 1)}}  disabled={currentPage === 0} className=' bg-orange-500 py-2 px-2 flex items-center justify-center gap-2 rounded-sm text-white'><ChevronLeft size={15}/></button>
+                <p className=' flex items-center justify-center gap-6 text-xs py-2 px-4 rounded-full'>{currentPage + 1} / {totalpage}</p>
+                <button onClick={() => {setLastid(data?.lastcodeid || ''), setCurrentpage(currentPage + 1)}} disabled={currentPage + 1 === totalpage} className='bg-orange-500 py-2 px-2 flex items-center justify-center gap-2 rounded-sm text-white'><ChevronRight size={15}/></button>
+            </div>
+            
+        
+        </div>
     </div>
     
   

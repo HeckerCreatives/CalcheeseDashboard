@@ -17,7 +17,7 @@ import { ArrowUp, Scan } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AssignCodes, assignCodesvalidations, createCodesvalidations } from '@/validations/schema'
-import { useAssignCodes, useGenerateCodeslist } from '@/apis/codes'
+import { useAssignCodes, useGenerateCodeslist, useGetCodesList } from '@/apis/codes'
 import { useGetItemsList } from '@/apis/items'
 import MultiSelect from '../common/Multiselect'
 import { io } from 'socket.io-client'
@@ -68,6 +68,8 @@ export default function AssignCodesForm({
   const [open, setOpen] = useState(false)
   const [socket, setSocket] = useState<any>(null)
   const [formattedValue, setFormattedValue] = useState('')
+    const { refetch} = useGetCodesList(0, 10, '','', '', '','', '', false)
+  
 
   const MAX_VALUE = 100_000_000
 
@@ -75,9 +77,14 @@ export default function AssignCodesForm({
       const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
       setSocket(newSocket)
   
-      newSocket.on('generate-progress', (data) => {
+      newSocket.on('generate-items-progress', (data) => {
         if (data.percentage !== undefined) setProgress(data.percentage)
         if (data.status) setStatus(data.status)
+
+        if(data.percentage === 100) refetch()
+
+         console.log(data)
+
       })
   
       return () => {
@@ -118,7 +125,7 @@ export default function AssignCodesForm({
 
   toast.promise(mutation, {
     loading: `Assigning codes...`,
-    success: 'Codes assigned successfully!',
+    success: 'Generating codes...',
     error: 'Failed to assign codes',
   })
 }
@@ -133,7 +140,6 @@ export default function AssignCodesForm({
     }
   }, [open])
 
-  console.log(errors)
 
 
 
@@ -233,7 +239,10 @@ export default function AssignCodesForm({
 
             
 
-            <Button type="submit" className="mt-4">Submit</Button>
+            <Button disabled={isPending}>
+                          {isPending && <Loader type="loader" />}
+                          Generate
+                        </Button>
 
 
               {progress !== null && (

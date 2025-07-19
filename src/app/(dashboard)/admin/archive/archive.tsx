@@ -60,7 +60,7 @@ export default function Archived() {
     const [editFormOpen, setEditFormOpen] = useState(false);
 
 
-    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search, true)
+    const {data, isLoading} = useGetCodesList(currentPage, Number(pagination), type,rarity, itemfilter, status,search,'', true)
     const {data: codes} = useGetDashboardCount()
     const {mutate: deleteCodes, isPending: deletePending} = useDeleteCodes()
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);

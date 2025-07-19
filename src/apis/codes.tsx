@@ -42,6 +42,7 @@ export interface Code {
   items: Item[];
   expiration: string; 
   type: string;
+  manufacturer: string
   isUsed: boolean;
   archived: boolean
   robuxcode: {
@@ -67,6 +68,7 @@ export interface Code {
     usedCodesCount: number 
     unusedCodesCount: number
     expiredCodesCount: number
+    lastcodeid: string
   }
 
 
@@ -92,27 +94,47 @@ export const useGetChests = () => {
   };
 
 
-export const getCodesList = async (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string, archive?: boolean):Promise<CodeResponse> => { 
+// export const getCodesList = async (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string,manufacturer?:string, archive?: boolean):Promise<CodeResponse> => { 
+//     const response = await axiosInstance.get(
+//       "/code/getcodes",
+//       {params:{page, limit, type, rarity,item, status, search, archive, manufacturer}}
+//     );
+//     return response.data
+//   };
+  
+  
+// export const useGetCodesList = (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string,manufacturer?:string, archive?: boolean) => {
+
+//   const debouncedQuery = useDebounce(search, 500);
+//     return useQuery({
+//       queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery,manufacturer, archive ],
+//       queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery, manufacturer, archive, ),
+//       enabled: debouncedQuery !== undefined,
+     
+//     });
+// };
+
+
+export const getCodesList = async (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string,manufacturer?:string, archive?: boolean, lastid?: string):Promise<CodeResponse> => { 
     const response = await axiosInstance.get(
       "/code/getcodes",
-      {params:{page, limit, type, rarity,item, status, search, archive}}
+      {params:{page, limit, type, rarity,item, status, search, archive, manufacturer, lastid}}
     );
     return response.data
   };
   
   
-export const useGetCodesList = (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string, archive?: boolean) => {
+export const useGetCodesList = (page: number, limit: number, type: string, rarity: string, item: string, status: string, search: string,manufacturer?:string, archive?: boolean, lastid?: string) => {
 
   const debouncedQuery = useDebounce(search, 500);
     return useQuery({
-      queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery, archive ],
-      queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery, archive),
+      queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery,manufacturer, archive, lastid ],
+      queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery, manufacturer, archive, lastid ),
       enabled: debouncedQuery !== undefined,
-      staleTime: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
+     
     });
 };
+
 
 
 export const generateCodeslist = async (chest: string, expiration: string,codeamount: number, type: string, items: string[],socketid: string, length: any, rarity: string) => { 

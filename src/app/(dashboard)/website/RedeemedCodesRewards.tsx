@@ -91,7 +91,7 @@ export default function RedeemedCodesRewards() {
         };
     
         const redeemCodeRewards = () => {
-            redeemCode({code: code, email: email, robloxid: username, picture: image, guardian: gurdian, contact: Number(contact), address: address},{
+            redeemCode({code: code, email: email, robloxid: username, picture: image, guardian: gurdian, contact: Number(contact), address: address, type:''},{
                 onSuccess: (response) => {
                   toast.success(`Code redeemed successfully`);
                   setType(response.data.codetype)
