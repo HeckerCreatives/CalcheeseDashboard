@@ -1,5 +1,5 @@
 'use client'
-import { useGetDashboardCount } from "@/apis/dashboard"
+import { useGetDashboardAnalytics, useGetDashboardCount } from "@/apis/dashboard"
 import { LineChartDashboard } from "@/components/charts/line-chart"
 import { SalesChart } from "@/components/charts/sales-charts"
 import { TrendChart } from "@/components/charts/trend-charts"
@@ -20,11 +20,17 @@ import { ClaimedCodesChart } from "@/components/charts/Claimed-Codes-Chart"
 import { ClaimingAnalytics } from "@/components/charts/ClaimingAnalytics-BarChart"
 import { TimeframeClaimChart } from "@/components/charts/TimeframeClaimChart"
 import { TotalCodesPieChart } from "@/components/charts/TotalCodes-PieChart"
+import { RewardAnalyticsChart } from "./RewardAnallytics"
+
+
 
 
 export default function page() {
   const {data, isLoading} = useGetDashboardCount()
   const [chartTimeframe , setChartTimeframe] = useState('daily')
+  const {data: analytics} = useGetDashboardAnalytics('daily')
+
+  console.log(analytics)
   
 
   return (
@@ -38,15 +44,18 @@ export default function page() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-1 bg-yellow-50">
+
+        <RewardAnalyticsChart />
+
+        {/* <Card className="lg:col-span-1 bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-semibold text-orange-500 font-bitbold">Code Redemption Overview</CardTitle>
           </CardHeader>
           <CardContent>
-            {/* <TrendChart/> */}
-            <ClaimingAnalytics/>
+           
+            <RewardAnalyticsChart data={[]}/>
             </CardContent>
-        </Card>
+        </Card> */}
 
         <Card className="bg-yellow-50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">

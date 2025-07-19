@@ -55,6 +55,26 @@ export interface GetCodeRedemptionResponse {
 }
 
 
+type ClaimStatus = {
+  claimed: number
+  pending: number
+  rejected: number
+  total: number
+}
+
+export interface ClaimSummaryResponse {
+  message: string
+  data: {
+    robux: ClaimStatus
+    ticket: ClaimStatus
+    exclusive: ClaimStatus
+    chest: ClaimStatus
+    ingame: ClaimStatus
+  }
+}
+
+
+
 
 
 
@@ -154,6 +174,29 @@ export const useGetCodeRedemption = () => {
   return useQuery({
     queryKey: ["coderedemption", ],
     queryFn: () => getCodeRedemption(),
+    
+    // staleTime: 5 * 60 * 1000,
+    // refetchOnMount: false, 
+    // refetchOnWindowFocus: false,
+    
+  });
+  };
+
+
+
+  export const getDashboardAnalytics = async (charttype: string): Promise<ClaimSummaryResponse> => { 
+  const response = await axiosInstance.get(
+    "/dashboard/getredeemcodeanalyticsstatustypes", {params:{charttype}},
+  );
+  return response.data
+  
+};
+
+
+export const useGetDashboardAnalytics =( charttype: string) => {
+  return useQuery({
+    queryKey: ["analyticscount", charttype ],
+    queryFn: () => getDashboardAnalytics(charttype),
     
     // staleTime: 5 * 60 * 1000,
     // refetchOnMount: false, 
