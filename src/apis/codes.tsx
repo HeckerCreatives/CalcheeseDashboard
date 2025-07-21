@@ -142,20 +142,23 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
 };
 
 
-export const getCodesCount = async (type: string, rarity: string, item: string, status: string,manufacturer?:string):Promise<CountData> => { 
+export const getCodesCount = async (type: string, rarity: string, item: string, status: string,manufacturer?:string, socketid?: string):Promise<CountData> => { 
     const response = await axiosInstance.get(
       "/code/getcodescount",
-      {params:{type, rarity,item, status, manufacturer}}
+      {params:{type, rarity,item, status, manufacturer, socketid}}
     );
     return response.data
   };
   
   
-export const useGetCodesCount = (type: string, rarity: string, item: string, status: string,manufacturer?:string,) => {
+export const useGetCodesCount = (type: string, rarity: string, item: string, status: string,manufacturer?:string,socketid?: string) => {
 
     return useQuery({
-      queryKey: ["codeslist",type, rarity,item, status, manufacturer ],
-      queryFn: () => getCodesCount(type, rarity,item, status, manufacturer),
+      queryKey: ["codeslist",type, rarity,item, status, manufacturer, socketid ],
+      queryFn: () => getCodesCount(type, rarity,item, status, manufacturer, socketid),
+      //  staleTime: 5 * 60 * 1000,
+      //  refetchOnMount: false, 
+      //  refetchOnWindowFocus: false,
      
     });
 };

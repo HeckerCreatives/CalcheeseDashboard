@@ -65,6 +65,7 @@ export default function Generate() {
     const [currentPage, setCurrentpage] = useState(0)
     const [pagination, setPagination] = useState('10')
     const [totalpage, setTotalpage] = useState(0)
+    const [totalDocs, setTotalDocs] = useState(0)
     const [search, setSearch] = useState('')
     const [type, setType]= useState('')
     const [manufacturer, setManufacturer]= useState('')
@@ -94,13 +95,13 @@ export default function Generate() {
     const [socket, setSocket] = useState<any>(null)
     const [progress, setProgress] = useState<number | null>(null)
     const [exportstatus, setExportStatus] = useState('')
+    const [countstatus, setCountStatus] = useState('')
     const [exportfile, setExportFile] = useState('')
     const [exportOpen, setExportOpen] = useState(false)
     const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
     const {mutate: resetCode, isPending: resetPending} = useResetCode()
     const {mutate: updateCodes, isPending: archivePending} = useUpdateCodes()
       const [inputPage, setInputPage] = useState(1)
-      const {data: dataCount, isLoading: countLoading} = useGetCodesCount(type, rarityFilter, itemfilter, status, manufacturer)
 
       const handleGo = () => {
         const page = inputPage || 1
@@ -163,6 +164,27 @@ export default function Generate() {
           newSocket.disconnect()
         }
       }, [setProgress, setStatus])
+
+        useEffect(() => {
+        const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
+        setSocket(newSocket)
+  
+
+         newSocket.on('generate-progress', (data) => {
+          console.log(data)
+          if (data.percentage !== undefined) setProgress(data.percentage)
+          if (data.status) setCountStatus(data.status)
+          if (data.percentage === 100)  setTotalDocs(data.totalcodes)
+        })
+
+        return () => {
+          newSocket.disconnect()
+        }
+      }, [progress, countstatus])
+
+
+      const {data: dataCount, isLoading: countLoading} = useGetCodesCount(type, rarityFilter, itemfilter, status, manufacturer, socket?.id)
+
 
     
 
@@ -250,7 +272,6 @@ export default function Generate() {
           //   }
           //  },[])
 
-           console.log(dataCount)
 
           
 
@@ -634,7 +655,7 @@ export default function Generate() {
         <div className=' flex items-center justify-between gap-4 mt-6 text-xs'>
 
           <div className=' flex items-center gap-4'>
-             <p>Total Number of Codes: {countLoading ? 'Loading...' : dataCount?.data.toLocaleString()}</p>
+             <p>Total Number of Codes: {countstatus === 'Complete' ?  totalDocs?.toLocaleString() : 'Loading...' }</p>
             {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
 
             {codeGenProgress !== null && (
