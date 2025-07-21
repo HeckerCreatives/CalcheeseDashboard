@@ -634,7 +634,7 @@ export default function Generate() {
         <div className=' flex items-center justify-between gap-4 mt-6 text-xs'>
 
           <div className=' flex items-center gap-4'>
-             <p>Total Number of Codes: {countLoading ? 'Loading...' : dataCount?.data}</p>
+             <p>Total Number of Codes: {countLoading ? 'Loading...' : dataCount?.data.toLocaleString()}</p>
             {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
 
             {codeGenProgress !== null && (
