@@ -80,7 +80,7 @@ const labelMap: Record<RawClaimKey, ClaimType> = {
 }
 
 export const RewardAnalyticsChart = () => {
-  const [view, setView] = useState("overall")
+  const [view, setView] = useState("daily")
   const [statusFilter, setStatusFilter] = useState<StatusType>("claimed")
   const { data: analytics } = useGetDashboardAnalytics(view)
 

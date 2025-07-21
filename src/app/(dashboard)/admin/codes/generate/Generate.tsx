@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { ChevronLeft, ChevronRight, Download, Eye, Folder, ListFilter, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
-import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesList, useUpdateCodes } from '@/apis/codes'
+import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesCount, useGetCodesList, useUpdateCodes } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
 import PaginitionComponent from '@/components/common/Pagination'
 import {
@@ -100,6 +100,7 @@ export default function Generate() {
     const {mutate: resetCode, isPending: resetPending} = useResetCode()
     const {mutate: updateCodes, isPending: archivePending} = useUpdateCodes()
       const [inputPage, setInputPage] = useState(1)
+      const {data: dataCount, isLoading: countLoading} = useGetCodesCount(type, rarityFilter, itemfilter, status, manufacturer)
 
       const handleGo = () => {
         const page = inputPage || 1
@@ -249,7 +250,7 @@ export default function Generate() {
           //   }
           //  },[])
 
-           console.log(lastid,data?.lastcodeid)
+           console.log(dataCount)
 
           
 
@@ -633,7 +634,7 @@ export default function Generate() {
         <div className=' flex items-center justify-between gap-4 mt-6 text-xs'>
 
           <div className=' flex items-center gap-4'>
-             <p>Total Number of Codes: {data?.totalDocs.toLocaleString()}</p>
+             <p>Total Number of Codes: {countLoading ? 'Loading...' : dataCount?.data}</p>
             {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
 
             {codeGenProgress !== null && (

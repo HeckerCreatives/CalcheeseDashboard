@@ -72,6 +72,12 @@ export interface Code {
   }
 
 
+  interface CountData {
+    message: string
+    data: any
+  }
+
+
   
 
 
@@ -131,6 +137,25 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
       queryKey: ["codeslist",page, limit, type, rarity,item, status, debouncedQuery,manufacturer, archive, lastid ],
       queryFn: () => getCodesList(page, limit, type, rarity,item, status, debouncedQuery, manufacturer, archive, lastid ),
       enabled: debouncedQuery !== undefined,
+     
+    });
+};
+
+
+export const getCodesCount = async (type: string, rarity: string, item: string, status: string,manufacturer?:string):Promise<CountData> => { 
+    const response = await axiosInstance.get(
+      "/code/getcodescount",
+      {params:{type, rarity,item, status, manufacturer}}
+    );
+    return response.data
+  };
+  
+  
+export const useGetCodesCount = (type: string, rarity: string, item: string, status: string,manufacturer?:string,) => {
+
+    return useQuery({
+      queryKey: ["codeslist",type, rarity,item, status, manufacturer ],
+      queryFn: () => getCodesCount(type, rarity,item, status, manufacturer),
      
     });
 };
