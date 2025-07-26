@@ -51,6 +51,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import AssignCodesForm from '@/components/forms/AssignCode'
+import CodeReports from '@/components/forms/CodeReports'
 
 const manufacturers = [
     { name: 'HBYX', type: "hbyx", index: 7562500, lte: '6855837ebdd1ec953592809f', gt: null },
@@ -318,6 +319,7 @@ export default function Generate() {
               setProgress={setCodeGenProgress}
               setStatus={setCodeGenStatus}
             />
+
 
         </div>
 
@@ -646,6 +648,9 @@ export default function Generate() {
             </div>
           </DialogContent>
         </Dialog> */}
+
+            <CodeReports id={''} status={''} code={''} name={''}/>
+
 
 
          

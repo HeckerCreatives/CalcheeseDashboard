@@ -78,6 +78,24 @@ export interface Code {
   }
 
 
+  export interface ItemAnalytics {
+  itemname: string;
+  itemtype: string;
+  itemrarity: string;
+  totalcodes: number;
+  claimed: number;
+  unclaimed: number;
+  approved: number;
+  rejected: number;
+}
+
+export interface CodeAnalyticsResponse {
+  message: string;
+  manufacturer: string;
+  totalcodes: number;
+  itemsanalytics: ItemAnalytics[];
+}
+
   
 
 
@@ -142,26 +160,43 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
 };
 
 
-export const getCodesCount = async (type: string, rarity: string, item: string, status: string,manufacturer?:string, socketid?: string):Promise<CountData> => { 
-    const response = await axiosInstance.get(
-      "/code/getcodescount",
-      {params:{type, rarity,item, status, manufacturer, socketid}}
-    );
-    return response.data
-  };
+ export const getCodesCountOverall = async (manufacturer?:string):Promise<CodeAnalyticsResponse> => { 
+     const response = await axiosInstance.get(
+       "/code/getoverallcounts",
+       {params:{manufacturer}}
+     );
+     return response.data
+   };
   
   
-export const useGetCodesCount = (type: string, rarity: string, item: string, status: string,manufacturer?:string,socketid?: string) => {
+ export const useGetCodesCountOverall = (manufacturer?:string) => {
+     return useQuery({
+       queryKey: ["codeslist",manufacturer ],
+       queryFn: () => getCodesCountOverall(manufacturer),
+       enabled: !!manufacturer
+ 
+  
+     });
+ };
 
-    return useQuery({
-      queryKey: ["codeslist",type, rarity,item, status, manufacturer, socketid ],
-      queryFn: () => getCodesCount(type, rarity,item, status, manufacturer, socketid),
-      //  staleTime: 5 * 60 * 1000,
-      //  refetchOnMount: false, 
-      //  refetchOnWindowFocus: false,
-     
-    });
-};
+ export const getCodesCount = async (type: string, rarity: string, item: string, status: string,manufacturer?:string, socketid?: string):Promise<CodeAnalyticsResponse> => { 
+     const response = await axiosInstance.get(
+       "/code/getcodescount",
+       {params:{type, rarity,item, status, manufacturer, socketid}}
+     );
+     return response.data
+   };
+
+
+ export const useGetCodesCount = (type: string, rarity: string, item: string, status: string,manufacturer?:string,socketid?: string) => {
+     return useQuery({
+       queryKey: ["codeslist",type, rarity,item, status, manufacturer, socketid ],
+       queryFn: () => getCodesCount(type, rarity,item, status, manufacturer, socketid),
+       enabled: !!manufacturer
+  
+     });
+ };
+
 
 
 
