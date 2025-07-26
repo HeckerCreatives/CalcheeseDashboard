@@ -173,7 +173,7 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
      return useQuery({
        queryKey: ["codeslist",manufacturer, socketid ],
        queryFn: () => getCodesCountOverall(manufacturer, socketid),
-       enabled: !!socketid
+       enabled: !!socketid && !!manufacturer
      });
  };
 

@@ -110,12 +110,10 @@ export default function CodeReports(prop: Props) {
            newSocket.on('code-analytics-progress', (data: Socket) => {
             console.log(data)
             if (data.status) setStatus(data.status)
-            if (data.status) setCountloading(data.status === 'starting')
-            if (data.status) setCountloading(data.status === 'complete' && false)
+            if (data.status) setCountloading(data.status === 'starting' ? true : false)
             if (data.message) setMessage(data.message)
-                if(data.manufacturer) setCodeAnalytics(data)
-                
-  
+            if(data.manufacturer) setCodeAnalytics(data)
+            
           })
 
           return () => {
@@ -124,6 +122,8 @@ export default function CodeReports(prop: Props) {
         }, [setStatus, setMessage])
 
     const { data: temp } = useGetCodesCountOverall(manufacturer,socket?.id)
+
+    console.log(temp, countLoading)
 
     
 
