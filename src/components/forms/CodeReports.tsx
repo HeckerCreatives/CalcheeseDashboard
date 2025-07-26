@@ -52,6 +52,7 @@ interface Socket {
     message: string
 totalcodes: number
 itemsanalytics: ItemAnalytics[]
+percentage: number
 
 }
 
@@ -110,7 +111,8 @@ export default function CodeReports(prop: Props) {
            newSocket.on('code-analytics-progress', (data: Socket) => {
             console.log(data)
             if (data.status) setStatus(data.status)
-            if (data.status) setCountloading(data.status === 'starting' ? true : false)
+            if (data.status) setCountloading(data.status === 'starting')
+                if(data.percentage) setCountloading(data.percentage === 100 && false)
             if (data.message) setMessage(data.message)
             if(data.manufacturer) setCodeAnalytics(data)
             
