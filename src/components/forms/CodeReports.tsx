@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { CheckCircle, Clock, FileCheck, Package, Printer, ThumbsUp, X, Filter, BarChart3, Target } from "lucide-react"
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useApproveClaim, useGetCodesCount, useGetCodesCountOverall } from "@/apis/codes"
+import { CodeAnalyticsResponse, useApproveClaim, useGetCodesCount, useGetCodesCountOverall } from "@/apis/codes"
 import { useDeleteTicket } from "@/apis/tickets"
 import { Button } from "../ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Loader from "../common/Loader"
 import { Input } from "../ui/input"
+import { io } from "socket.io-client"
 
 interface Props {
   id: string
@@ -43,6 +44,15 @@ interface CodeAnalyticsData {
   manufacturer: string
   totalcodes: number
   itemsanalytics: ItemAnalytics[]
+}
+
+interface Socket {
+    status: string,
+    manufacturer:string
+    message: string
+totalcodes: number
+itemsanalytics: ItemAnalytics[]
+
 }
 
 const manufacturers = [
@@ -85,8 +95,37 @@ export default function CodeReports(prop: Props) {
   const [typeFilter, setTypeFilter] = useState("all")
   const [rarityFilter, setRarityFilter] = useState("all")
   const [search, setSearch] = useState('')
+    const [socket, setSocket] = useState<any>(null)
+    const [status, setStatus] = useState('')
+    const [message, setMessage] = useState('')
+    const [countLoading, setCountloading] = useState(false)
+    const [codeAnalytics, setCodeAnalytics] = useState<CodeAnalyticsResponse>()
 
-  const { data: codeAnalytics, isLoading: countLoading } = useGetCodesCountOverall(manufacturer)
+  
+
+    useEffect(() => {
+          const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
+          setSocket(newSocket)
+
+           newSocket.on('code-analytics-progress', (data: Socket) => {
+            console.log(data)
+            if (data.status) setStatus(data.status)
+            if (data.status) setCountloading(data.status === 'starting')
+            if (data.status) setCountloading(data.status === 'complete' && false)
+            if (data.message) setMessage(data.message)
+                if(data.manufacturer) setCodeAnalytics(data)
+                
+  
+          })
+
+          return () => {
+            newSocket.disconnect()
+          }
+        }, [setStatus, setMessage])
+
+    const { data: temp } = useGetCodesCountOverall(manufacturer,socket?.id)
+
+    
 
   // Filter the analytics data based on selected filters
   const filteredData = useMemo(() => {
@@ -308,7 +347,7 @@ export default function CodeReports(prop: Props) {
                   </Badge>
                   {codeAnalytics && !countLoading && (
                     <Badge className="bg-orange-100 text-orange-800 px-3 py-1">
-                      {codeAnalytics.totalcodes.toLocaleString()} Total Codes
+                      {codeAnalytics.totalcodes?.toLocaleString()} Total Codes
                     </Badge>
                   )}
                   {countLoading && (

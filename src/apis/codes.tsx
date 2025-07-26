@@ -160,22 +160,20 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
 };
 
 
- export const getCodesCountOverall = async (manufacturer?:string):Promise<CodeAnalyticsResponse> => { 
+ export const getCodesCountOverall = async (manufacturer:string, socketid: string):Promise<CodeAnalyticsResponse> => { 
      const response = await axiosInstance.get(
        "/code/getoverallcounts",
-       {params:{manufacturer}}
+       {params:{manufacturer, socketid}}
      );
      return response.data
    };
   
   
- export const useGetCodesCountOverall = (manufacturer?:string) => {
+ export const useGetCodesCountOverall = (manufacturer:string, socketid: string) => {
      return useQuery({
-       queryKey: ["codeslist",manufacturer ],
-       queryFn: () => getCodesCountOverall(manufacturer),
-       enabled: !!manufacturer
- 
-  
+       queryKey: ["codeslist",manufacturer, socketid ],
+       queryFn: () => getCodesCountOverall(manufacturer, socketid),
+       enabled: !!socketid
      });
  };
 

@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { ChevronLeft, ChevronRight, Download, Eye, Folder, ListFilter, Pen, RefreshCcw, Scan, Search, Trash } from 'lucide-react'
 import GenerateCodesForm from '@/components/forms/GenerateCodesForm'
-import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesCount, useGetCodesList, useUpdateCodes } from '@/apis/codes'
+import { getCodesList, useDeleteCodes, useExportCodeslist, useGetCodesCount, useGetCodesCountOverall, useGetCodesList, useUpdateCodes } from '@/apis/codes'
 import Loader from '@/components/common/Loader'
 import PaginitionComponent from '@/components/common/Pagination'
 import {
@@ -60,13 +60,18 @@ const manufacturers = [
     { name: 'AMX 48g', type: "amx", index: 42341913, lte: '685ce0ac6808bd1490a2cf1f', gt: '6855a659bdd1ec9535eab284' }
 ];
   
+
+interface Socket {
+    status: string,
+    manufacturer:string
+    message: string
+}
   
   
 export default function Generate() {
     const [currentPage, setCurrentpage] = useState(0)
     const [pagination, setPagination] = useState('10')
     const [totalpage, setTotalpage] = useState(0)
-    const [totalDocs, setTotalDocs] = useState(0)
     const [search, setSearch] = useState('')
     const [type, setType]= useState('')
     const [manufacturer, setManufacturer]= useState('')
@@ -96,13 +101,13 @@ export default function Generate() {
     const [socket, setSocket] = useState<any>(null)
     const [progress, setProgress] = useState<number | null>(null)
     const [exportstatus, setExportStatus] = useState('')
-    const [countstatus, setCountStatus] = useState('')
     const [exportfile, setExportFile] = useState('')
     const [exportOpen, setExportOpen] = useState(false)
     const {isDownload, setIsDownload, clearIsDownload} = useIsDownloadedStore()
     const {mutate: resetCode, isPending: resetPending} = useResetCode()
     const {mutate: updateCodes, isPending: archivePending} = useUpdateCodes()
       const [inputPage, setInputPage] = useState(1)
+      const {data: dataCount, isLoading: countLoading} = useGetCodesCount(type, rarityFilter, itemfilter, status, manufacturer)
 
       const handleGo = () => {
         const page = inputPage || 1
@@ -166,26 +171,10 @@ export default function Generate() {
         }
       }, [setProgress, setStatus])
 
-        useEffect(() => {
-        const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
-        setSocket(newSocket)
-  
-
-         newSocket.on('generate-progress', (data) => {
-          console.log(data)
-          if (data.percentage !== undefined) setProgress(data.percentage)
-          if (data.status) setCountStatus(data.status)
-          if (data.percentage === 100)  setTotalDocs(data.totalcodes)
-        })
-
-        return () => {
-          newSocket.disconnect()
-        }
-      }, [progress, countstatus])
 
 
-      const {data: dataCount, isLoading: countLoading} = useGetCodesCount(type, rarityFilter, itemfilter, status, manufacturer, socket?.id)
-
+          
+      
 
     
 
@@ -273,6 +262,7 @@ export default function Generate() {
           //   }
           //  },[])
 
+           console.log(dataCount)
 
           
 
@@ -319,7 +309,6 @@ export default function Generate() {
               setProgress={setCodeGenProgress}
               setStatus={setCodeGenStatus}
             />
-
 
         </div>
 
@@ -610,6 +599,8 @@ export default function Generate() {
                     </DialogContent>
                   </Dialog>
 
+                  <CodeReports id={''} status={''} code={''} name={''}/>
+
 
 {/* 
          <Dialog open={open} onOpenChange={setOpen}>
@@ -649,9 +640,6 @@ export default function Generate() {
           </DialogContent>
         </Dialog> */}
 
-            <CodeReports id={''} status={''} code={''} name={''}/>
-
-
 
          
 
@@ -660,7 +648,7 @@ export default function Generate() {
         <div className=' flex items-center justify-between gap-4 mt-6 text-xs'>
 
           <div className=' flex items-center gap-4'>
-             <p>Total Number of Codes: {countstatus === 'Complete' ?  totalDocs?.toLocaleString() : 'Loading...' }</p>
+             <p>Total Number of Codes: {countLoading ? 'Loading...' : data?.totalDocs.toLocaleString()}</p>
             {/* <p>Expired Codes: {data?.expiredCodesCount.toLocaleString()}</p> */}
 
             {codeGenProgress !== null && (
@@ -903,7 +891,7 @@ export default function Generate() {
         
         </div> */}
     </div>
-    
+  
   
   )
 }
