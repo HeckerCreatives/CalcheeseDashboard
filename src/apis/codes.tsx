@@ -160,22 +160,27 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
 };
 
 
- export const getCodesCountOverall = async (manufacturer:string, socketid: string):Promise<CodeAnalyticsResponse> => { 
+ export const getCodesCountOverall = async (manufacturer:string, signal?: AbortSignal
+ ):Promise<CodeAnalyticsResponse> => { 
      const response = await axiosInstance.get(
        "/code/getoverallcounts",
-       {params:{manufacturer, socketid}}
+       {params:{manufacturer},signal}
+        
      );
      return response.data
    };
   
   
- export const useGetCodesCountOverall = (manufacturer:string, socketid: string) => {
-     return useQuery({
-       queryKey: [manufacturer, socketid ],
-       queryFn: () => getCodesCountOverall(manufacturer, socketid),
-       enabled: !!socketid && !!manufacturer
-     });
- };
+export const useGetCodesCountOverall = (manufacturer: string) => {
+  return useQuery({
+    queryKey: ['overallAnalytics', manufacturer],
+    queryFn: ({ signal }) => getCodesCountOverall(manufacturer, signal),
+    enabled: !!manufacturer,
+    staleTime: 5 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+};
 
  export const getCodesCount = async (type: string, rarity: string, item: string, status: string,manufacturer?:string, socketid?: string):Promise<CodeAnalyticsResponse> => { 
      const response = await axiosInstance.get(

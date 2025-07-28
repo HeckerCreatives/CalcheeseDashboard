@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo, useEffect, useRef } from "react"
-import { CheckCircle, Clock, FileCheck, Package, Printer, ThumbsUp, X, Filter, BarChart3 } from "lucide-react"
+import { CheckCircle, Clock, FileCheck, Package, Printer, ThumbsUp, X, Filter, BarChart3, RefreshCcw } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,8 @@ import { Input } from "../ui/input"
 import useAnalyticStatePopup from "@/hooks/codeanalytics"
 import { getSocket } from "@/utils/socketClient"
 import toast from "react-hot-toast"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
 
 interface Props {
   id: string
@@ -90,74 +92,23 @@ const getTypeColor = (type: string) => {
 }
 
 export default function CodeReports(prop: Props) {
-  const { mutate: deleteTicket, isPending } = useDeleteTicket()
   const [open, setOpen] = useState(false)
-  const { mutate: approveClaim } = useApproveClaim()
   const [manufacturer, setManufacturer] = useState("")
   const [typeFilter, setTypeFilter] = useState("all")
   const [rarityFilter, setRarityFilter] = useState("all")
   const [search, setSearch] = useState("")
   const socketRef = useRef<any>(null)
-  const [status, setStatus] = useState("")
-  const [message, setMessage] = useState("")
-  const [countLoading, setCountloading] = useState(false)
-  const [codeAnalytics, setCodeAnalytics] = useState<CodeAnalyticsResponse>()
-  const { state, setState, clearState } = useAnalyticStatePopup()
-  const isInitialized = useRef(false)
+  // const [countLoading, setCountloading] = useState(false)
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (open && !isInitialized.current) {
-      const socket = getSocket()
-      socketRef.current = socket
-      isInitialized.current = true
 
-      socket.off("code-analytics-progress")
 
-      socket.on("code-analytics-progress", (data: Socket) => {
-        console.log("Socket data received:", data)
 
-        if (data.status) setStatus(data.status)
-        if (data.status) setCountloading(data.status === "starting")
-        if (data.percentage === 100) {
-          setCountloading(false)
-          setState(false)
-        }
-        if (data.message) setMessage(data.message)
-        if (data.manufacturer) setCodeAnalytics(data)
-      })
-    }
-
-    if (!open && isInitialized.current) {
-      if (socketRef.current) {
-        socketRef.current.off("code-analytics-progress")
-      }
-      // Reset state when dialog closes
-      setManufacturer("")
-      setTypeFilter("all")
-      setRarityFilter("all")
-      setSearch("")
-      setStatus("")
-      setMessage("")
-      setCountloading(false)
-      setCodeAnalytics(undefined)
-      isInitialized.current = false
-    }
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.off("code-analytics-progress")
-      }
-    }
-  }, [open, setState])
-
-  const { data: temp, refetch } = useGetCodesCountOverall(manufacturer, socketRef.current?.id)
+  const { data: codeAnalytics, refetch, isLoading: countLoading } = useGetCodesCountOverall(manufacturer)
   const {mutate: cancelAnalytics, isPending: cancelLoad} = useCancelAnalytics()
 
-  useEffect(() => {
-    setCountloading(temp?.message === 'success')
-  },[temp])
 
-  console.log(countLoading, socketRef.current?.id)
+  console.log(codeAnalytics)
 
   const filteredData = useMemo(() => {
     if (!codeAnalytics?.itemsanalytics) return []
@@ -280,18 +231,12 @@ export default function CodeReports(prop: Props) {
   ]
 
   const handleCancel = () => {
-    cancelAnalytics(
-       {
-         socketid: socketRef.current?.id
-       },
-       {
-         onSuccess: () => {
-          toast.error('Operation cancelled.')
-         setManufacturer('')
-         },
-         
-       }
-     )
+   queryClient.cancelQueries({ queryKey: ['overallAnalytics']})
+  }
+
+  const handleClose = () => {
+    setOpen(!open)
+    queryClient.cancelQueries({ queryKey: ['overallAnalytics']})
   }
 
   const handleManualFetch = async () => {
@@ -304,7 +249,7 @@ export default function CodeReports(prop: Props) {
 
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger className="cursor-pointer p-2 text-sm bg-orange-500 text-white flex items-center gap-1 rounded-sm hover:bg-orange-600 transition-colors">
         <Printer size={15} />
         Reports
@@ -386,16 +331,12 @@ export default function CodeReports(prop: Props) {
                     Clear Filters
                   </Button>
                 </div>
-                {/* <div className="flex items-end">
-                  <Button onClick={handleManualFetch} className="w-full bg-orange-500 text-white">
-                    Go
+                <div className="flex items-end">
+                  <Button disabled={countLoading} onClick={() => refetch()} className="w-full bg-orange-500 text-white">
+                   <RefreshCcw size={15}/> Fetch Data
                   </Button>
                 </div>
-                <div className="flex items-end">
-                  <Button onClick={handleCancel} className="w-full bg-red-600 text-white">
-                    Cancel
-                  </Button>
-                </div> */}
+                
               </div>
               {manufacturer && (
                 <div className="mt-4 flex items-center gap-2 flex-wrap">
