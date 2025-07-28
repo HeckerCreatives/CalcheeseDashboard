@@ -171,7 +171,7 @@ export const useGetCodesList = (page: number, limit: number, type: string, rarit
   
  export const useGetCodesCountOverall = (manufacturer:string, socketid: string) => {
      return useQuery({
-       queryKey: ["codeslist",manufacturer, socketid ],
+       queryKey: [manufacturer, socketid ],
        queryFn: () => getCodesCountOverall(manufacturer, socketid),
        enabled: !!socketid && !!manufacturer
      });
@@ -354,6 +354,28 @@ export const useAssignCodes = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["codeslist"] });
              queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
+          }
+    
+    });
+};
+
+export const cancelAnalytics = async (socketid: string) => { 
+    const response = await axiosInstance.post("/code/cancelanalytics", { socketid});
+    return response.data;
+};
+  
+export const useCancelAnalytics = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: ({socketid}: {socketid: string}) =>
+        cancelAnalytics( socketid),
+        onError: (error) => {
+            handleApiError(error);
+        },
+        onSuccess: () => {
+            // queryClient.invalidateQueries({ queryKey: ["codeslist"] });
+            //  queryClient.invalidateQueries({ queryKey: ["analyticscount"] });
           }
     
     });

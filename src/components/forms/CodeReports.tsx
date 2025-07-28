@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
-import { CheckCircle, Clock, FileCheck, Package, Printer, ThumbsUp, X, Filter, BarChart3, Target } from "lucide-react"
+import { useState, useMemo, useEffect, useRef } from "react"
+import { CheckCircle, Clock, FileCheck, Package, Printer, ThumbsUp, X, Filter, BarChart3 } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CodeAnalyticsResponse, useApproveClaim, useGetCodesCount, useGetCodesCountOverall } from "@/apis/codes"
+import { type CodeAnalyticsResponse, useApproveClaim, useCancelAnalytics, useGetCodesCountOverall } from "@/apis/codes"
 import { useDeleteTicket } from "@/apis/tickets"
 import { Button } from "../ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -19,7 +19,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Loader from "../common/Loader"
 import { Input } from "../ui/input"
-import { io } from "socket.io-client"
+import useAnalyticStatePopup from "@/hooks/codeanalytics"
+import { getSocket } from "@/utils/socketClient"
+import toast from "react-hot-toast"
 
 interface Props {
   id: string
@@ -47,13 +49,12 @@ interface CodeAnalyticsData {
 }
 
 interface Socket {
-    status: string,
-    manufacturer:string
-    message: string
-totalcodes: number
-itemsanalytics: ItemAnalytics[]
-percentage: number
-
+  status: string
+  manufacturer: string
+  message: string
+  totalcodes: number
+  itemsanalytics: ItemAnalytics[]
+  percentage: number
 }
 
 const manufacturers = [
@@ -95,44 +96,71 @@ export default function CodeReports(prop: Props) {
   const [manufacturer, setManufacturer] = useState("")
   const [typeFilter, setTypeFilter] = useState("all")
   const [rarityFilter, setRarityFilter] = useState("all")
-  const [search, setSearch] = useState('')
-    const [socket, setSocket] = useState<any>(null)
-    const [status, setStatus] = useState('')
-    const [message, setMessage] = useState('')
-    const [countLoading, setCountloading] = useState(false)
-    const [codeAnalytics, setCodeAnalytics] = useState<CodeAnalyticsResponse>()
+  const [search, setSearch] = useState("")
+  const socketRef = useRef<any>(null)
+  const [status, setStatus] = useState("")
+  const [message, setMessage] = useState("")
+  const [countLoading, setCountloading] = useState(false)
+  const [codeAnalytics, setCodeAnalytics] = useState<CodeAnalyticsResponse>()
+  const { state, setState, clearState } = useAnalyticStatePopup()
+  const isInitialized = useRef(false)
 
-  
+  useEffect(() => {
+    if (open && !isInitialized.current) {
+      const socket = getSocket()
+      socketRef.current = socket
+      isInitialized.current = true
 
-    useEffect(() => {
-          const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
-          setSocket(newSocket)
+      socket.off("code-analytics-progress")
 
-           newSocket.on('code-analytics-progress', (data: Socket) => {
-            console.log(data)
-            if (data.status) setStatus(data.status)
-            if (data.status) setCountloading(data.status === 'starting')
-                if(data.percentage) setCountloading(data.percentage === 100 && false)
-            if (data.message) setMessage(data.message)
-            if(data.manufacturer) setCodeAnalytics(data)
-            
-          })
+      socket.on("code-analytics-progress", (data: Socket) => {
+        console.log("Socket data received:", data)
 
-          return () => {
-            newSocket.disconnect()
-          }
-        }, [setStatus, setMessage])
+        if (data.status) setStatus(data.status)
+        if (data.status) setCountloading(data.status === "starting")
+        if (data.percentage === 100) {
+          setCountloading(false)
+          setState(false)
+        }
+        if (data.message) setMessage(data.message)
+        if (data.manufacturer) setCodeAnalytics(data)
+      })
+    }
 
-    const { data: temp } = useGetCodesCountOverall(manufacturer,socket?.id)
+    if (!open && isInitialized.current) {
+      if (socketRef.current) {
+        socketRef.current.off("code-analytics-progress")
+      }
+      // Reset state when dialog closes
+      setManufacturer("")
+      setTypeFilter("all")
+      setRarityFilter("all")
+      setSearch("")
+      setStatus("")
+      setMessage("")
+      setCountloading(false)
+      setCodeAnalytics(undefined)
+      isInitialized.current = false
+    }
 
-    console.log(temp, countLoading)
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.off("code-analytics-progress")
+      }
+    }
+  }, [open, setState])
 
-    
+  const { data: temp, refetch } = useGetCodesCountOverall(manufacturer, socketRef.current?.id)
+  const {mutate: cancelAnalytics, isPending: cancelLoad} = useCancelAnalytics()
 
-  // Filter the analytics data based on selected filters
+  useEffect(() => {
+    setCountloading(temp?.message === 'success')
+  },[temp])
+
+  console.log(countLoading, socketRef.current?.id)
+
   const filteredData = useMemo(() => {
     if (!codeAnalytics?.itemsanalytics) return []
-
     return codeAnalytics.itemsanalytics.filter((item: ItemAnalytics) => {
       const typeMatch = typeFilter === "all" || item.itemtype === typeFilter
       const rarityMatch = rarityFilter === "all" || item.itemrarity === rarityFilter
@@ -152,7 +180,6 @@ export default function CodeReports(prop: Props) {
         rejected: 0,
       }
     }
-
     return filteredData.reduce(
       (acc, item) => ({
         totalcodes: acc.totalcodes + item.totalcodes,
@@ -252,6 +279,30 @@ export default function CodeReports(prop: Props) {
     },
   ]
 
+  const handleCancel = () => {
+    cancelAnalytics(
+       {
+         socketid: socketRef.current?.id
+       },
+       {
+         onSuccess: () => {
+          toast.error('Operation cancelled.')
+         setManufacturer('')
+         },
+         
+       }
+     )
+  }
+
+  const handleManualFetch = async () => {
+   if (socketRef.current) {
+      const socket = getSocket()
+      socketRef.current = socket
+      refetch()
+    }
+  }
+
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="cursor-pointer p-2 text-sm bg-orange-500 text-white flex items-center gap-1 rounded-sm hover:bg-orange-600 transition-colors">
@@ -266,7 +317,6 @@ export default function CodeReports(prop: Props) {
           </DialogTitle>
           <DialogDescription>Comprehensive analytics and reporting for codes</DialogDescription>
         </DialogHeader>
-
         <div className="space-y-6 mt-2">
           {/* Filters Section */}
           <Card className="bg-white shadow-sm border-0">
@@ -280,7 +330,7 @@ export default function CodeReports(prop: Props) {
               <div className="flex items-end flex-wrap gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">Manufacturer</label>
-                  <Select value={manufacturer} onValueChange={setManufacturer}>
+                  <Select disabled={countLoading} value={manufacturer} onValueChange={setManufacturer}>
                     <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select Manufacturer" />
                     </SelectTrigger>
@@ -293,7 +343,6 @@ export default function CodeReports(prop: Props) {
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">Item Type</label>
                   <Select value={typeFilter} onValueChange={setTypeFilter} disabled={!manufacturer || countLoading}>
@@ -309,7 +358,6 @@ export default function CodeReports(prop: Props) {
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">Rarity</label>
                   <Select value={rarityFilter} onValueChange={setRarityFilter} disabled={!manufacturer || countLoading}>
@@ -325,7 +373,6 @@ export default function CodeReports(prop: Props) {
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div className="flex items-end">
                   <Button
                     onClick={() => {
@@ -339,8 +386,17 @@ export default function CodeReports(prop: Props) {
                     Clear Filters
                   </Button>
                 </div>
+                {/* <div className="flex items-end">
+                  <Button onClick={handleManualFetch} className="w-full bg-orange-500 text-white">
+                    Go
+                  </Button>
+                </div>
+                <div className="flex items-end">
+                  <Button onClick={handleCancel} className="w-full bg-red-600 text-white">
+                    Cancel
+                  </Button>
+                </div> */}
               </div>
-
               {manufacturer && (
                 <div className="mt-4 flex items-center gap-2 flex-wrap">
                   <span className="text-sm text-gray-600">Selected:</span>
@@ -371,6 +427,13 @@ export default function CodeReports(prop: Props) {
                 <p className="text-gray-500">
                   Fetching data for {manufacturers.find((item) => item.type === manufacturer)?.name}...
                 </p>
+
+                <div className=" mt-4">
+                  <Button onClick={handleCancel} className=" bg-red-600 text-white w-fit">
+                    {cancelLoad && <Loader type="loader" />}
+                    Cancel
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -477,19 +540,21 @@ export default function CodeReports(prop: Props) {
 
               {/* Detailed Items Table */}
               <Card className="bg-white shadow-sm border-0">
-                <CardHeader >
-                         <CardTitle className="text-lg flex items-center gap-2">
-                            <Package className="h-4 w-4 text-orange-600" />
-                            Item Details
-                        </CardTitle>
-                        <div className="text-sm text-gray-500">
-                            Showing {filteredData.length} items
-                            {(typeFilter !== "all" || rarityFilter !== "all") && " (filtered)"}
-                        </div>
-
-                        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className=" max-w-[250px]"/>
-
-                   
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Package className="h-4 w-4 text-orange-600" />
+                    Item Details
+                  </CardTitle>
+                  <div className="text-sm text-gray-500">
+                    Showing {filteredData.length} items
+                    {(typeFilter !== "all" || rarityFilter !== "all") && " (filtered)"}
+                  </div>
+                  <Input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search..."
+                    className="max-w-[250px]"
+                  />
                 </CardHeader>
                 <CardContent>
                   <div className="overflow-x-auto max-h-[300px]">
