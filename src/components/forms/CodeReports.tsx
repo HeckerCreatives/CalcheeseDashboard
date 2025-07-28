@@ -424,7 +424,9 @@ export default function CodeReports(prop: Props) {
               <CardContent className="py-12 text-center">
                 <Loader type={"loader"} />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2 mt-4">Loading Analytics</h3>
-                <p className="text-gray-500">
+                <p className="text-gray-500 flex items-center justify-center gap-2">
+                    {countLoading && <Loader type="loader-secondary" />}
+
                   Fetching data for {manufacturers.find((item) => item.type === manufacturer)?.name}...
                 </p>
 
