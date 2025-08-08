@@ -83,17 +83,17 @@ export default function List() {
     };
 
     
-              const deleteMultipleData = () => {
-                 deleteMultipleItem(
-                        { ids: selectedIds },
-                        {
-                          onSuccess: () => {
-                            toast.success('Codes deleted successfully!');
-                           setOpen(false)
-                          },
-                        }
-                  );
-               }
+    const deleteMultipleData = () => {
+       deleteMultipleItem(
+              { ids: selectedIds },
+              {
+                onSuccess: () => {
+                  toast.success('Codes deleted successfully!');
+                 setOpen(false)
+                },
+              }
+        );
+     }
 
 
 
@@ -111,7 +111,9 @@ export default function List() {
 
   useEffect(() => {
     setRarity('')
-  },[tab])
+    setCurrentpage(0)
+
+  },[tab, rarity])
 
 
 
