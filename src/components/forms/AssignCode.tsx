@@ -63,7 +63,7 @@ export default function AssignCodesForm({
   const selectedRarity = watch('rarity')
   const [rarity, setRarity] = useState('')
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([])
-  const { data } = useGetItemsList(0, 100, selectedType, selectedRarity)
+  const { data } = useGetItemsList(0, 9999, selectedType, selectedRarity)
   const { mutate: assignCodes, isPending } = useAssignCodes()
   const [open, setOpen] = useState(false)
   const [socket, setSocket] = useState<any>(null)
