@@ -112,8 +112,11 @@ export default function List() {
   useEffect(() => {
     setRarity('')
     setCurrentpage(0)
+  },[tab])
 
-  },[tab, rarity])
+  useEffect(() => {
+    setCurrentpage(0)
+  },[rarity])
 
 
 
